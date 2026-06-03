@@ -273,24 +273,23 @@
     </div>
 
     <script>
-        function updateDatabaseStatus() {
-            const statusContainer = document.getElementById('db-status-container');
-            if (!statusContainer) return;
+        function updateDatabaseStatus(statusType) {
+    const statusContainer = document.getElementById('db-status-container');
+    if (!statusContainer) return;
 
-            statusContainer.innerHTML = '';
+       statusContainer.innerHTML = '';
 
-            // สร้างป้ายสีเขียวเชื่อมต่อคลาวด์โดยตรง ไม่ติดโหมดออฟไลน์อีกต่อไป
-            const badge = document.createElement('span');
-            badge.className = 'badge badge-status-completed';
-            badge.style.display = 'inline-flex';
-            badge.style.alignItems = 'center';
-            badge.style.gap = '6px';
-            badge.style.padding = '8px 14px';
-            badge.style.fontSize = '0.85rem';
-            badge.innerHTML = `<i class="fa-solid fa-cloud" style="color: #10b981;"></i> Cloudflare DB Connected`;
-            
-            statusContainer.appendChild(badge);
-        }
+       const badge = document.createElement('span');
+    badge.className = 'badge badge-status-completed';
+    badge.style.display = 'inline-flex';
+    badge.style.alignItems = 'center';
+    badge.style.gap = '6px';
+    badge.style.padding = '8px 14px';
+    badge.style.fontSize = '0.85rem';
+    badge.innerHTML = `<i class="fa-solid fa-cloud" style="color: #10b981;"></i> Cloudflare DB Connected`;
+    
+    statusContainer.appendChild(badge);
+}
 
         // สั่งให้ฟังก์ชันทำงานทันทีที่หน้าเว็บโหลดเสร็จ
         window.addEventListener('DOMContentLoaded', updateDatabaseStatus);
