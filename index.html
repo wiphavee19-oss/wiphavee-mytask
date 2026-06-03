@@ -273,8 +273,8 @@
     </div>
 
     <script>
-       <script>
-        // ฟังก์ชันอัปเดตสถานะปุ่มสีเขียวที่มุมบนขวา
+      <script>
+        // ฟังก์ชันอัปเดตสถานะปุ่มสีเขียว (จำลองให้ว่าระบบพร้อมใช้งานในเครื่อง)
         function updateDatabaseStatus() {
             const statusContainer = document.getElementById('db-status-container');
             if (!statusContainer) return;
@@ -286,34 +286,15 @@
             badge.style.gap = '6px';
             badge.style.padding = '8px 14px';
             badge.style.fontSize = '0.85rem';
-            badge.innerHTML = `<i class="fa-solid fa-cloud" style="color: #10b981;"></i> Cloudflare DB Connected`;
+            badge.innerHTML = `<i class="fa-solid fa-check-circle" style="color: #10b981;"></i> ระบบพร้อมใช้งาน`;
             statusContainer.appendChild(badge);
         }
 
-        // --- เพิ่มระบบดึงข้อมูลและแสดงผลงาน ---
-        let tasks = [];
+        // ดึงข้อมูลงานที่เคยเซฟไว้ในเครื่อง (ถ้าไม่มีให้เป็นกล่องว่าง)
+        let tasks = JSON.parse(localStorage.getItem('my_tasks')) || [];
 
-        // ฟังก์ชันดึงข้อมูลงานจาก Cloudflare (ระบบหลังบ้าน)
-        async function fetchTasks() {
-            const mainContainer = document.querySelector('main');
-            try {
-                // เรียกข้อมูลจาก API หลังบ้านของ Cloudflare Pages Functions
-                const response = await fetch('/api/tasks');
-                if (response.ok) {
-                    tasks = await response.json();
-                    renderTasks();
-                } else {
-                    showInputForm(); // ถ้ายังไม่มีข้อมูล ให้เปิดฟอร์มกรอกงานใหม่
-                }
-            } catch (error) {
-                console.error("Fetch error:", error);
-                // แซงหน้าแสดงฟอร์มเพื่อให้ใช้งานแบบ Local/Mockup ได้ก่อนถ้า API ยังไม่พร้อม
-                showInputForm();
-            }
-        }
-
-        // ฟังก์ชันวาดหน้าตาช่องกรอกข้อมูล และรายการงานขึ้นหน้าจอ
-        function showInputForm() {
+        // ฟังก์ชันเริ่มต้นสร้างหน้าจอช่องกรอกข้อมูล
+        function initApp() {
             const mainContainer = document.querySelector('main');
             if (!mainContainer) return;
 
@@ -321,75 +302,80 @@
                 <div style="max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                         <input type="text" id="task-input" placeholder="พิมพ์งานที่ต้องทำที่นี่..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
-                        <button id="add-task-btn" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">+ เพิ่มงาน</button>
+                        <button id="add-task-btn" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">+ เพิ่มงาน</button>
                     </div>
                     <ul id="task-list" style="list-style: none; padding: 0; margin: 0;"></ul>
                 </div>
             `;
 
+            // ผูกเหตุการณ์กดปุ่มเพิ่มงาน
             document.getElementById('add-task-btn').addEventListener('click', addTask);
+            // ผูกเหตุการณ์กดปุ่ม Enter ในช่องอินพุต
+            document.getElementById('task-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTask();
+            });
+
             renderTasks();
         }
 
-        // ฟังก์ชันวาดรายการงานที่มีทั้งหมดลงในลิสต์
+        // ฟังก์ชันวาดรายการงานขึ้นหน้าจอ
         function renderTasks() {
             const taskList = document.getElementById('task-list');
             if (!taskList) return;
 
             if (tasks.length === 0) {
-                taskList.innerHTML = `<li style="text-align: center; color: #9ca3af; padding: 20px;">ยังไม่มีรายการงานในขณะนี้.. ลองเพิ่มงานดูสิ!</li>`;
+                taskList.innerHTML = `<li style="text-align: center; color: #9ca3af; padding: 20px; font-size: 0.95rem;">ยังไม่มีรายการงานในขณะนี้.. ลองพิมพ์เพิ่มงานด้านบนดูสิ!</li>`;
                 return;
             }
 
             taskList.innerHTML = tasks.map((task, index) => `
-                <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f3f4f6;">
-                    <span style="${task.completed ? 'text-decoration: line-through; color: #9ca3af;' : ''}">${task.text}</span>
-                    <button onclick="deleteTask(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer;"><i class="fa-solid fa-trash"></i> ลบ</button>
+                <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f3f4f6; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;" onclick="toggleTask(${index})">
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} style="cursor: pointer;">
+                        <span style="${task.completed ? 'text-decoration: line-through; color: #9ca3af;' : 'color: #1f2937;'} font-size: 1rem;">${task.text}</span>
+                    </div>
+                    <button onclick="deleteTask(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.95rem;"><i class="fa-solid fa-trash"></i> ลบ</button>
                 </li>
             `).join('');
         }
 
-        // ฟังก์ชันเพิ่มงานใหม่
-        async function addTask() {
+        // ฟังก์ชันเพิ่มงานใหม่และเซฟลงเครื่อง
+        function addTask() {
             const input = document.getElementById('task-input');
             if (!input || !input.value.trim()) return;
 
             const newTask = { text: input.value.trim(), completed: false };
             tasks.push(newTask);
+            saveToStorage();
             renderTasks();
             input.value = '';
+            input.focus();
+        }
 
-            // ส่งข้อมูลไปเซฟที่ Cloudflare หลังบ้าน
-            try {
-                await fetch('/api/tasks', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(tasks)
-                });
-            } catch (e) { console.error("Save error:", e); }
+        // ฟังก์ชันสลับสถานะ ทำเสร็จ / ยังไม่เสร็จ
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            saveToStorage();
+            renderTasks();
         }
 
         // ฟังก์ชันลบงาน
-        async function deleteTask(index) {
+        function deleteTask(index) {
             tasks.splice(index, 1);
+            saveToStorage();
             renderTasks();
+        }
 
-            // ส่งข้อมูลอัปเดตไปเซฟที่ Cloudflare หลังบ้าน
-            try {
-                await fetch('/api/tasks', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(tasks)
-                });
-            } catch (e) { console.error("Save error:", e); }
+        // ฟังก์ชันสำหรับบันทึกข้อมูลลงหน่วยความจำของบราวเซอร์
+        function saveToStorage() {
+            localStorage.setItem('my_tasks', JSON.stringify(tasks));
         }
 
         // รันระบบเมื่อหน้าเว็บโหลดเสร็จ
         window.addEventListener('DOMContentLoaded', () => {
             updateDatabaseStatus();
-            fetchTasks();
+            initApp();
         });
     </script>
 </body>
-</html>
 </html>
