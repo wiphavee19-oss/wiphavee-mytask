@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Task - จัดการงานส่วนตัวและแจ้งเตือนครบกำหนด</title>
-    <!-- Google Fonts for premium typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for clean iconography -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -289,15 +287,10 @@
             border-radius: 8px;
             padding: 12px 20px;
             margin-bottom: 20px;
-            display: flex;
+            display: none;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-        }
-
-        .alert-banner.warning-only {
-            background: rgba(245, 158, 11, 0.15);
-            border-left: 4px solid var(--warning);
         }
 
         .alert-banner-content {
@@ -420,6 +413,7 @@
             padding: 24px;
             box-shadow: var(--shadow-md);
             backdrop-filter: blur(10px);
+            margin-bottom: 20px;
         }
 
         .dashboard-card h3 {
@@ -450,7 +444,7 @@
         .progress-ring-container {
             width: 70px;
             height: 70px;
-            background: conic-gradient(var(--primary-color) var(--percentage, 0%), rgba(255, 255, 255, 0.08) 0);
+            background: conic-gradient(var(--primary-color) 0%, rgba(255, 255, 255, 0.08) 0);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -459,7 +453,7 @@
         }
 
         .light-theme .progress-ring-container {
-            background: conic-gradient(var(--primary-color) var(--percentage, 0%), rgba(0, 0, 0, 0.08) 0);
+            background: conic-gradient(var(--primary-color) 0%, rgba(0, 0, 0, 0.08) 0);
         }
 
         .progress-ring-container::before {
@@ -530,6 +524,7 @@
 
         .bar-inner {
             height: 100%;
+            width: 0%;
             border-radius: 4px;
         }
 
@@ -538,306 +533,10 @@
         .color-learning { background-color: var(--info); }
         .color-other { background-color: var(--text-muted); }
 
-        /* EISENHOWER MATRIX */
-        .matrix-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        @media (min-width: 640px) {
-            .matrix-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .matrix-quadrant {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 15px;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .quadrant-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .quadrant-badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
-            color: white;
-        }
-
-        .badge-ui { background-color: var(--danger); }
-        .badge-inu { background-color: var(--warning); }
-        .badge-uni { background-color: var(--info); }
-        .badge-nuni { background-color: var(--text-muted); }
-
-        .quadrant-count {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .quadrant-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            overflow-y: auto;
-            max-height: 140px;
-        }
-
-        .matrix-mini-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid;
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .light-theme .matrix-mini-card {
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .mini-card-title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 80%;
-        }
-
-        .mini-card-date {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        /* TABLE VIEW styling */
-        .table-card {
-            margin-bottom: 24px;
-        }
-
-        .table-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .table-filters {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 12px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .search-box input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px 12px 8px 36px;
-            color: var(--text-color);
-            font-size: 0.9rem;
-            width: 220px;
-            outline: none;
-        }
-
-        .light-theme .search-box input {
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        .table-filter-select {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px 12px;
-            color: var(--text-color);
-            font-size: 0.9rem;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .light-theme .table-filter-select {
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .premium-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .premium-table th {
-            padding: 12px 16px;
-            border-bottom: 2px solid var(--border-color);
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .premium-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: middle;
-        }
-
-        .premium-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.01);
-        }
-
-        .light-theme .premium-table tr:hover {
-            background-color: rgba(0, 0, 0, 0.01);
-        }
-
-        /* BADGES FOR ROBUST UI */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 6px;
-            white-space: nowrap;
-        }
-
-        .badge-status-todo { background: rgba(6, 182, 212, 0.15); color: var(--info); }
-        .badge-status-in_progress { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-        .badge-status-review { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
-        .badge-status-completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-
-        .badge-priority { border: 1px solid; }
-        .badge-priority-high { border-color: var(--danger); color: var(--danger); background: rgba(239, 68, 68, 0.05); }
-        .badge-priority-medium { border-color: var(--warning); color: var(--warning); background: rgba(245, 158, 11, 0.05); }
-        .badge-priority-low { border-color: var(--success); color: var(--success); background: rgba(16, 185, 129, 0.05); }
-
-        .badge-category-work { background-color: rgba(79, 70, 229, 0.15); color: #818cf8; }
-        .badge-category-personal { background-color: rgba(16, 185, 129, 0.15); color: #34d399; }
-        .badge-category-learning { background-color: rgba(6, 182, 212, 0.15); color: #22d3ee; }
-        .badge-category-other { background-color: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
-
-        /* ACTION BUTTONS IN TABLE */
-        .action-row-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .action-btn {
-            background: transparent;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .action-btn:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: var(--text-color);
-        }
-
         /* KANBAN BOARD SYSTEM */
-        .member-view-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .kanban-filters {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .filter-btn-group {
-            display: flex;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px;
-            border-radius: 8px;
-            gap: 4px;
-        }
-
-        .light-theme .filter-btn-group {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .filter-btn.active {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .dot-ui { background-color: var(--danger); }
-        .dot-inu { background-color: var(--warning); }
-        .dot-uni { background-color: var(--info); }
-        .dot-nuni { background-color: var(--text-muted); }
-
         .kanban-board {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             align-items: start;
         }
@@ -847,7 +546,7 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 16px;
-            min-height: 400px;
+            min-height: 500px;
             display: flex;
             flex-direction: column;
         }
@@ -902,7 +601,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            min-height: 150px;
+            min-height: 200px;
         }
 
         /* TASK CARD UI (Drag & Drop) */
@@ -955,6 +654,7 @@
             align-items: center;
             font-size: 0.75rem;
             color: var(--text-muted);
+            margin-top: 10px;
         }
 
         .task-card-deadline {
@@ -964,12 +664,24 @@
             font-weight: 500;
         }
 
-        .task-card-deadline.danger {
-            color: var(--danger);
+        .task-card-deadline.danger { color: var(--danger); }
+        .task-card-deadline.warning { color: var(--warning); }
+
+        .task-card-actions {
+            display: flex;
+            gap: 5px;
         }
 
-        .task-card-deadline.warning {
-            color: var(--warning);
+        .task-btn-delete {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .task-btn-delete:hover {
+            color: var(--danger);
         }
 
         /* MODAL WINDOW SYSTEM */
@@ -1095,21 +807,13 @@
         .modal-footer {
             margin-top: 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .footer-right-buttons {
-            display: flex;
+            justify-content: flex-end;
             gap: 10px;
         }
     </style>
 </head>
 <body class="dark-theme">
     <div class="app-container">
-        <!-- HEADER -->
         <header class="app-header">
             <div class="header-logo">
                 <div class="logo-icon"><i class="fa-solid fa-square-check"></i></div>
@@ -1119,7 +823,6 @@
                 </div>
             </div>
             
-            <!-- Tab Navigation -->
             <nav class="app-navigation">
                 <button class="nav-tab active" data-tab="dashboard-view">
                     <i class="fa-solid fa-chart-pie"></i> Overview
@@ -1129,23 +832,19 @@
                 </button>
             </nav>
             
-            <!-- Header Actions -->
             <div class="header-actions">
-                <!-- NOTIFICATION BELL SYSTEM -->
                 <div class="notification-bell-container">
                     <button id="notif-bell-btn" class="btn btn-icon" title="การแจ้งเตือนงาน">
                         <i class="fa-solid fa-bell"></i>
                         <span id="notif-badge" class="badge-count">0</span>
                     </button>
-                    <!-- Notification Dropdown Menu -->
                     <div id="notif-dropdown" class="notification-dropdown">
                         <div class="notif-header">
                             <h4><i class="fa-solid fa-bell"></i> รายการแจ้งเตือนด่วน</h4>
                             <span id="notif-summary" class="badge badge-status-todo">0 แจ้งเตือน</span>
                         </div>
                         <div id="notif-list" class="notif-list">
-                            <!-- Populated dynamically via JS -->
-                        </div>
+                            </div>
                     </div>
                 </div>
 
@@ -1158,428 +857,21 @@
             </div>
         </header>
 
-        <!-- MAIN CONTENT AREA -->
-        <main class="app-main-content">
-            
-            <!-- URGENT NOTIFICATION BANNER (Displays only when there are urgent/overdue tasks) -->
-            <div id="urgent-alert-banner" class="alert-banner" style="display: none;">
-                <div class="alert-banner-content">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div class="alert-banner-text">
-                        <h4 id="alert-banner-title">ตรวจพบงานที่เลยกำหนดส่ง!</h4>
-                        <p id="alert-banner-desc">มีงานบางรายการเลยกำหนดหรือใกล้ครบกำหนดในเร็วๆ นี้ กรุณาตรวจสอบ</p>
-                    </div>
+        <div id="alert-banner" class="alert-banner">
+            <div class="alert-banner-content">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div class="alert-banner-text">
+                    <h4>พบงานเกินกำหนดหรือใกล้ถึงกำหนด!</h4>
+                    <p id="alert-banner-desc">ตรวจสอบรายละเอียดได้ที่กระดานงานหรือแถบแจ้งเตือน</p>
                 </div>
-                <button id="alert-banner-action" class="btn btn-secondary" style="font-size: 0.8rem; padding: 4px 12px;">
-                    ดูรายละเอียด
-                </button>
             </div>
-
-            <!-- DASHBOARD VIEW -->
-            <section id="dashboard-view" class="view-section active">
-                <div class="view-header">
-                    <h2><i class="fa-solid fa-chart-line"></i> ภาพรวมงาน</h2>
-                    <p class="view-subtitle">สถานะงาน และการจัดการตามลำดับความสำคัญ</p>
-                </div>
-
-                <!-- Stats Counters Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card total-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-list-check"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-total">0</span>
-                            <span class="stat-label">งานทั้งหมด</span>
-                        </div>
-                    </div>
-                    <div class="stat-card pending-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-spinner"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-pending">0</span>
-                            <span class="stat-label">กำลังดำเนินการ</span>
-                        </div>
-                    </div>
-                    <div class="stat-card completed-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-completed">0</span>
-                            <span class="stat-label">เสร็จสิ้นแล้ว</span>
-                        </div>
-                    </div>
-                    <div class="stat-card overdue-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-overdue">0</span>
-                            <span class="stat-label">เลยกำหนดส่ง</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Grid for Charts and Eisenhower Matrix -->
-                <div class="dashboard-grid">
-                    <!-- Left: Productivity & Category Distribution -->
-                    <div class="dashboard-card category-card">
-                        <h3><i class="fa-solid fa-chart-simple"></i> งานแยกตามหมวดหมู่</h3>
-                        <p class="card-desc">จำนวนงานที่กำลังทำอยู่ในแต่ละหมวดหมู่</p>
-                        
-                        <!-- Mini Productivity Circle -->
-                        <div class="productivity-wrapper">
-                            <div class="progress-ring-container" id="progress-ring-el">
-                                <div class="progress-ring-text">
-                                    <span id="completion-percentage">0%</span>
-                                    <span class="text-xs">งานที่เสร็จ</span>
-                                </div>
-                            </div>
-                            <div class="progress-summary-details">
-                                <p><strong>สถิติการปิดงานของคุณ:</strong></p>
-                                <span id="progress-summary-text">คุณจัดการงานเสร็จสิ้นไปแล้ว 0 งาน</span>
-                            </div>
-                        </div>
-
-                        <div class="category-chart-container" id="category-chart">
-                            <!-- Populated dynamically via JS -->
-                        </div>
-                    </div>
-
-                    <!-- Right: Eisenhower Matrix -->
-                    <div class="dashboard-card matrix-card">
-                        <h3><i class="fa-solid fa-table-cells-large"></i> วิเคราะห์ความเร่งด่วนและสำคัญ (Eisenhower Matrix)</h3>
-                        <p class="card-desc">ลำดับความสำคัญของงานคุณ</p>
-                        <div class="matrix-grid">
-                            <!-- Urgent & Important -->
-                            <div class="matrix-quadrant urgent-important">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-ui">ด่วน & สำคัญ</span>
-                                    <span class="quadrant-count" id="count-ui">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-ui">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-                            
-                            <!-- Important & Not Urgent -->
-                            <div class="matrix-quadrant important-not-urgent">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-inu">ไม่ด่วน & สำคัญ</span>
-                                    <span class="quadrant-count" id="count-inu">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-inu">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-
-                            <!-- Urgent & Not Important -->
-                            <div class="matrix-quadrant urgent-not-important">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-uni">ด่วน & ไม่สำคัญ</span>
-                                    <span class="quadrant-count" id="count-uni">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-uni">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-
-                            <!-- Neither -->
-                            <div class="matrix-quadrant not-urgent-not-important">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-nuni">ไม่ด่วน & ไม่สำคัญ</span>
-                                    <span class="quadrant-count" id="count-nuni">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-nuni">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bottom: All Tasks Table -->
-                <div class="dashboard-card table-card">
-                    <div class="table-card-header">
-                        <h3><i class="fa-solid fa-list"></i> รายการงานทั้งหมดของคุณ (All Tasks)</h3>
-                        <div class="table-filters">
-                            <div class="search-box">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" id="task-search" placeholder="ค้นหาชื่องาน หรือรายละเอียด...">
-                            </div>
-                            <select id="filter-category" class="table-filter-select">
-                                <option value="all">ทุกหมวดหมู่</option>
-                                <option value="work">งาน (Work)</option>
-                                <option value="personal">ส่วนตัว (Personal)</option>
-                                <option value="learning">เรียนรู้ (Learning)</option>
-                                <option value="other">อื่นๆ (Other)</option>
-                            </select>
-                            <select id="filter-status" class="table-filter-select">
-                                <option value="all">ทุกสถานะ</option>
-                                <option value="todo">ต้องทำ</option>
-                                <option value="in_progress">กำลังทำ</option>
-                                <option value="review">รอตรวจทาน</option>
-                                <option value="completed">เสร็จสิ้น</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="premium-table">
-                            <thead>
-                                <tr>
-                                    <th>ชื่องาน</th>
-                                    <th>หมวดหมู่</th>
-                                    <th>วันที่มอบหมาย</th>
-                                    <th>วันครบกำหนด</th>
-                                    <th>ระดับความสำคัญ</th>
-                                    <th>สถานะ</th>
-                                    <th>การจัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leader-task-table-body">
-                                <!-- Populated dynamically via JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- KANBAN VIEW -->
-            <section id="kanban-view" class="view-section">
-                <div class="view-header member-view-header">
-                    <div>
-                        <h2><i class="fa-solid fa-chalkboard-user"></i> บอร์ดงานของคุณ</h2>
-                        <p class="view-subtitle">ลากและวางงานเพื่อเปลี่ยนสถานะ หรือคลิกเพื่อดูรายละเอียดและแก้ไข</p>
-                    </div>
-                    <div class="kanban-filters">
-                        <span class="filter-label"><i class="fa-solid fa-filter"></i> ตัวกรองความสำคัญ:</span>
-                        <div class="filter-btn-group">
-                            <button class="filter-btn active" data-matrix="all">ทั้งหมด</button>
-                            <button class="filter-btn" data-matrix="ui"><span class="dot dot-ui"></span>ด่วน & สำคัญ</button>
-                            <button class="filter-btn" data-matrix="inu"><span class="dot dot-inu"></span>ไม่ด่วน & สำคัญ</button>
-                            <button class="filter-btn" data-matrix="uni"><span class="dot dot-uni"></span>ด่วน & ไม่สำคัญ</button>
-                            <button class="filter-btn" data-matrix="nuni"><span class="dot dot-nuni"></span>ไม่ด่วน & ไม่สำคัญ</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kanban Board Grid -->
-                <div class="kanban-board">
-                    <!-- Column: To Do -->
-                    <div class="kanban-column" data-status="todo">
-                        <div class="column-header col-todo">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>ต้องทำ (To Do)</h3>
-                            </div>
-                            <span class="card-count" id="count-col-todo">0</span>
-                        </div>
-                        <div class="kanban-cards-container" id="cards-todo">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Column: In Progress -->
-                    <div class="kanban-column" data-status="in_progress">
-                        <div class="column-header col-inprogress">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>กำลังทำ (In Progress)</h3>
-                            </div>
-                            <span class="card-count" id="count-col-inprogress">0</span>
-                        </div>
-                        <div class="kanban-cards-container" id="cards-in_progress">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Review -->
-                    <div class="kanban-column" data-status="review">
-                        <div class="column-header col-review">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>รอตรวจทาน (Review)</h3>
-                            </div>
-                            <span class="card-count" id="count-col-review">0</span>
-                        </div>
-                        <div class="kanban-cards-container" id="cards-review">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Completed -->
-                    <div class="kanban-column" data-status="completed">
-                        <div class="column-header col-completed">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>เสร็จสิ้น (Completed)</h3>
-                            </div>
-                            <span class="card-count" id="count-col-completed">0</span>
-                        </div>
-                        <div class="kanban-cards-container" id="cards-completed">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-    </div>
-
-    <!-- MODAL: TASK CREATION & EDITING -->
-    <div id="task-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title-text"><i class="fa-solid fa-circle-info"></i> รายละเอียดงาน</h2>
-                <button class="close-btn" id="close-task-modal">&times;</button>
-            </div>
-            <form id="task-form">
-                <input type="hidden" id="task-id">
-                
-                <div class="form-group">
-                    <label for="task-title-input">ชื่องาน <span class="required">*</span></label>
-                    <input type="text" id="task-title-input" required placeholder="เช่น อ่านหนังสือวิทยาศาสตร์ข้อมูล, ซื้อของเข้าบ้าน...">
-                </div>
-
-                <div class="form-group">
-                    <label for="task-desc-input">รายละเอียดงาน</label>
-                    <textarea id="task-desc-input" rows="4" placeholder="กรอกรายละเอียดและขั้นตอนการทำงานของคุณ..."></textarea>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-category-input">หมวดหมู่ <span class="required">*</span></label>
-                        <select id="task-category-input" required>
-                            <option value="work">งาน (Work)</option>
-                            <option value="personal">ส่วนตัว (Personal)</option>
-                            <option value="learning">เรียนรู้ (Learning)</option>
-                            <option value="other">อื่นๆ (Other)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="task-deadline-input">วันครบกำหนดส่ง (Deadline) <span class="required">*</span></label>
-                        <input type="date" id="task-deadline-input" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-urgency-select">ความเร่งด่วน <span class="required">*</span></label>
-                        <select id="task-urgency-select" required>
-                            <option value="urgent">ด่วน</option>
-                            <option value="not_urgent">ไม่ด่วน</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="task-importance-select">ความสำคัญ <span class="required">*</span></label>
-                        <select id="task-importance-select" required>
-                            <option value="important">สำคัญ</option>
-                            <option value="not_important">ไม่สำคัญ</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="task-status-select">สถานะของงาน <span class="required">*</span></label>
-                    <select id="task-status-select" required>
-                        <option value="todo">ต้องทำ (To Do)</option>
-                        <option value="in_progress">กำลังทำ (In Progress)</option>
-                        <option value="review">รอตรวจทาน (Review)</option>
-                        <option value="completed">เสร็จสิ้น (Completed)</option>
-                    </select>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="delete-task-btn" style="display: none;">
-                        <i class="fa-solid fa-trash-can"></i> ลบงานนี้
-                    </button>
-                    <div class="footer-right-buttons">
-                        <button type="button" class="btn btn-secondary" id="cancel-task-btn">ยกเลิก</button>
-                        <button type="submit" class="btn btn-primary" id="save-task-btn">บันทึกข้อมูล</button>
-                    </div>
-                </div>
-            </form>
         </div>
-    </div>
 
-    <!-- MAIN JAVASCRIPT LOGIC -->
-    <script>
-        <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        <main id="dashboard-view" class="view-section active">
+            <div class="view-header">
+                <h2>ภาพรวมแดชบอร์ด</h2>
+                <p class="view-subtitle">วิเคราะห์ข้อมูลประสิทธิภาพและการทำภารกิจส่วนตัว</p>
+            </div>
 
-        // ตั้งค่าการเชื่อมต่อคลาวด์ Firebase ของคุณ
-        const firebaseConfig = {
-            apiKey: "AIzaSyC4YX2mYgptRc8KLWfvMGr1zYyuWSkRj4",
-            authDomain: "my-task-app-e6cc3.firebaseapp.com",
-            databaseURL: "https://my-task-app-e6cc3-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "my-task-app-e6cc3",
-            storageBucket: "my-task-app-e6cc3.appspot.com",
-            messagingSenderId: "686196651721",
-            appId: "1:686196651721:web:55050aa5adb1dcea117f18",
-            measurementId: "G-676WBQZ3N7"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const tasksRef = ref(db, 'tasks');
-
-        // ตัวแปรเก็บข้อมูลงานในระบบ
-        let tasks = [];
-
-        // 1. ระบบคอยดักจับและซิงค์ข้อมูลจากคลาวด์แบบ Real-time
-        onValue(tasksRef, (snapshot) => {
-            const data = snapshot.val();
-            tasks = data ? Object.values(data) : [];
-            
-            // เรียกฟังก์ชันอัปเดตตัวเลขบนแดชบอร์ดของคุณ (อิงตามฟังก์ชันเดิมที่มีในโค้ดคุณ)
-            if (typeof updateDashboard === "function") {
-                updateDashboard();
-            } else {
-                calculateAndRenderDashboard();
-            }
-        });
-
-        // 2. ผูกการทำงานเข้ากับปุ่ม "+ เพิ่มงานใหม่" สีม่วงของคุณ
-        document.addEventListener('DOMContentLoaded', () => {
-            // มองหาปุ่มเพิ่มงานสีม่วงของคุณ (เช็กดูว่าในโค้ดเดิมใช้ ID หรือ Class อะไร)
-            const addBtn = document.getElementById('add-task-btn') || document.querySelector('button[style*="background: rgb(109, 40, 217)"]') || document.querySelector('button:contains("+ เพิ่มงานใหม่")');
-            
-            if (addBtn) {
-                addBtn.addEventListener('click', () => {
-                    // เปิดหน้าต่าง Modal กรอกข้อมูลงาน (ตามกลไกเดิมของเว็บคุณ)
-                    // หรือถ้าไม่มี ให้เปิดหน้าต่างกรอกข้อความด่วนตรงนี้เลย
-                    const taskText = prompt("กรอกชื่องานที่คุณต้องการเพิ่ม:");
-                    if (taskText && taskText.trim()) {
-                        addNewTaskToCloud(taskText.trim());
-                    }
-                });
-            }
-        });
-
-        // ฟังก์ชันส่งงานใหม่ไปเซฟบนคลาวด์
-        function addNewTaskToCloud(text) {
-            const newTask = {
-                id: Date.now(),
-                text: text,
-                completed: false,
-                status: 'pending' // รองรับระบบตรวจสอบสถานะตามธีมแดชบอร์ด
-            };
-            tasks.push(newTask);
-            set(tasksRef, tasks); // อัปเดตขึ้นคลาวด์
-        }
-
-        // ฟังก์ชันคำนวณสถิติตัวเลขมาโชว์บนกล่องแดชบอร์ดเดิมของคุณ
-        function calculateAndRenderDashboard() {
-            const totalTasks = tasks.length;
-            const completedTasks = tasks.filter(t => t.completed || t.status === 'completed').length;
-            const pendingTasks = totalTasks - completedTasks;
-
-            // เอาตัวเลขไปวิ่งหยอดใส่กล่องแดชบอร์ดในหน้าจอของคุณอัตโนมัติ
-            const totalBox = document.querySelector('div:contains("งานทั้งหมด")')?.previousElementSibling;
-            const pendingBox = document.querySelector('div:contains("กำลังดำเนินการ")')?.previousElementSibling;
-            const completedBox = document.querySelector('div:contains("เสร็จสิ้นแล้ว")')?.previousElementSibling;
-
-            if (totalBox) totalBox.innerText = totalTasks;
-            if (pendingBox) pendingBox.innerText = pendingTasks;
-            if (completedBox) completedBox.innerText = completedTasks;
-        }
-    </script>
-</body>
-</html>
+            <div class="stats-grid">
+                <div class="stat-card total-
