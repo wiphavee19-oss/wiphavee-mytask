@@ -1504,26 +1504,24 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // ⚠️ สเต็ปสำคัญ: เอาค่าที่คุณเพิ่งก๊อปปี้มาจากหน้าจอ Firebase มาวางทับตรงนี้แทนที่ของผมได้เลยครับ
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            databaseURL: "YOUR_DATABASE_URL",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        // เริ่มเชื่อมต่อ Firebase
+          const firebaseConfig = {
+  apiKey: "AIzaSyC4YX2mYgptRc8KlLWfvMGr1zYyuWSkRj4",
+  authDomain: "my-task-app-e6cc3.firebaseapp.com",
+  databaseURL: "https://my-task-app-e6cc3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "my-task-app-e6cc3",
+  storageBucket: "my-task-app-e6cc3.firebasestorage.app",
+  messagingSenderId: "686196651721",
+  appId: "1:686196651721:web:55050aa5adb1dcea117f18",
+  measurementId: "G-676WBQZ3N7"
+};    
+        
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const tasksRef = ref(db, 'tasks');
 
         let tasks = [];
 
-        // ฟังก์ชันอัปเดตปุ่มสถานะมุมบนขวา
-        function updateDatabaseStatus() {
+                function updateDatabaseStatus() {
             const statusContainer = document.getElementById('db-status-container');
             if (!statusContainer) return;
             statusContainer.innerHTML = '';
@@ -1538,7 +1536,7 @@
             statusContainer.appendChild(badge);
         }
 
-        // ฟังก์ชันสร้างหน้าจอพิมพ์เพิ่มงาน
+        
         function initApp() {
             const mainContainer = document.querySelector('main');
             if (!mainContainer) return;
@@ -1558,16 +1556,14 @@
                 if (e.key === 'Enter') addTask();
             });
 
-            // ดึงข้อมูลและดักจับการเปลี่ยนแปลงแบบ Real-time ข้ามเครื่อง
-            onValue(tasksRef, (snapshot) => {
+                        onValue(tasksRef, (snapshot) => {
                 const data = snapshot.val();
                 tasks = data ? Object.values(data) : [];
                 renderTasks();
             });
         }
 
-        // ฟังก์ชันวาดรายการงานขึ้นหน้าจอ
-        function renderTasks() {
+               function renderTasks() {
             const taskList = document.getElementById('task-list');
             if (!taskList) return;
 
@@ -1586,7 +1582,7 @@
                 </li>
             `).join('');
 
-            // ผูกเหตุการณ์คลิก
+            
             tasks.forEach((task, index) => {
                 document.getElementById(`item-${index}`).addEventListener('click', () => toggleTask(index));
                 document.getElementById(`del-${index}`).addEventListener('click', (e) => {
