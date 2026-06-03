@@ -273,26 +273,123 @@
     </div>
 
     <script>
-        function updateDatabaseStatus(statusType) {
-    const statusContainer = document.getElementById('db-status-container');
-    if (!statusContainer) return;
+       <script>
+        // ฟังก์ชันอัปเดตสถานะปุ่มสีเขียวที่มุมบนขวา
+        function updateDatabaseStatus() {
+            const statusContainer = document.getElementById('db-status-container');
+            if (!statusContainer) return;
+            statusContainer.innerHTML = '';
+            const badge = document.createElement('span');
+            badge.className = 'badge badge-status-completed';
+            badge.style.display = 'inline-flex';
+            badge.style.alignItems = 'center';
+            badge.style.gap = '6px';
+            badge.style.padding = '8px 14px';
+            badge.style.fontSize = '0.85rem';
+            badge.innerHTML = `<i class="fa-solid fa-cloud" style="color: #10b981;"></i> Cloudflare DB Connected`;
+            statusContainer.appendChild(badge);
+        }
 
-       statusContainer.innerHTML = '';
+        // --- เพิ่มระบบดึงข้อมูลและแสดงผลงาน ---
+        let tasks = [];
 
-       const badge = document.createElement('span');
-    badge.className = 'badge badge-status-completed';
-    badge.style.display = 'inline-flex';
-    badge.style.alignItems = 'center';
-    badge.style.gap = '6px';
-    badge.style.padding = '8px 14px';
-    badge.style.fontSize = '0.85rem';
-    badge.innerHTML = `<i class="fa-solid fa-cloud" style="color: #10b981;"></i> Cloudflare DB Connected`;
-    
-    statusContainer.appendChild(badge);
-}
+        // ฟังก์ชันดึงข้อมูลงานจาก Cloudflare (ระบบหลังบ้าน)
+        async function fetchTasks() {
+            const mainContainer = document.querySelector('main');
+            try {
+                // เรียกข้อมูลจาก API หลังบ้านของ Cloudflare Pages Functions
+                const response = await fetch('/api/tasks');
+                if (response.ok) {
+                    tasks = await response.json();
+                    renderTasks();
+                } else {
+                    showInputForm(); // ถ้ายังไม่มีข้อมูล ให้เปิดฟอร์มกรอกงานใหม่
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                // แซงหน้าแสดงฟอร์มเพื่อให้ใช้งานแบบ Local/Mockup ได้ก่อนถ้า API ยังไม่พร้อม
+                showInputForm();
+            }
+        }
 
-        // สั่งให้ฟังก์ชันทำงานทันทีที่หน้าเว็บโหลดเสร็จ
-        window.addEventListener('DOMContentLoaded', updateDatabaseStatus);
+        // ฟังก์ชันวาดหน้าตาช่องกรอกข้อมูล และรายการงานขึ้นหน้าจอ
+        function showInputForm() {
+            const mainContainer = document.querySelector('main');
+            if (!mainContainer) return;
+
+            mainContainer.innerHTML = `
+                <div style="max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <input type="text" id="task-input" placeholder="พิมพ์งานที่ต้องทำที่นี่..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                        <button id="add-task-btn" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">+ เพิ่มงาน</button>
+                    </div>
+                    <ul id="task-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                </div>
+            `;
+
+            document.getElementById('add-task-btn').addEventListener('click', addTask);
+            renderTasks();
+        }
+
+        // ฟังก์ชันวาดรายการงานที่มีทั้งหมดลงในลิสต์
+        function renderTasks() {
+            const taskList = document.getElementById('task-list');
+            if (!taskList) return;
+
+            if (tasks.length === 0) {
+                taskList.innerHTML = `<li style="text-align: center; color: #9ca3af; padding: 20px;">ยังไม่มีรายการงานในขณะนี้.. ลองเพิ่มงานดูสิ!</li>`;
+                return;
+            }
+
+            taskList.innerHTML = tasks.map((task, index) => `
+                <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f3f4f6;">
+                    <span style="${task.completed ? 'text-decoration: line-through; color: #9ca3af;' : ''}">${task.text}</span>
+                    <button onclick="deleteTask(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer;"><i class="fa-solid fa-trash"></i> ลบ</button>
+                </li>
+            `).join('');
+        }
+
+        // ฟังก์ชันเพิ่มงานใหม่
+        async function addTask() {
+            const input = document.getElementById('task-input');
+            if (!input || !input.value.trim()) return;
+
+            const newTask = { text: input.value.trim(), completed: false };
+            tasks.push(newTask);
+            renderTasks();
+            input.value = '';
+
+            // ส่งข้อมูลไปเซฟที่ Cloudflare หลังบ้าน
+            try {
+                await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(tasks)
+                });
+            } catch (e) { console.error("Save error:", e); }
+        }
+
+        // ฟังก์ชันลบงาน
+        async function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+
+            // ส่งข้อมูลอัปเดตไปเซฟที่ Cloudflare หลังบ้าน
+            try {
+                await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(tasks)
+                });
+            } catch (e) { console.error("Save error:", e); }
+        }
+
+        // รันระบบเมื่อหน้าเว็บโหลดเสร็จ
+        window.addEventListener('DOMContentLoaded', () => {
+            updateDatabaseStatus();
+            fetchTasks();
+        });
     </script>
 </body>
+</html>
 </html>
