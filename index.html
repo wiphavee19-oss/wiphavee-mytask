@@ -10,7 +10,1347 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome for clean iconography -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+/* SoloTask Global CSS Design System - Modern Gray-Orange Theme */
+
+:root {
+    --font-primary: 'Inter', 'Sarabun', sans-serif;
+    --transition-speed: 0.25s;
+    
+    /* System Values */
+    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.2), 0 0 1px rgba(255, 255, 255, 0.05);
+    --card-shadow-hover: 0 15px 35px rgba(255, 122, 0, 0.05), 0 10px 40px rgba(0, 0, 0, 0.3);
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+}
+
+/* Default Dark Theme: Gray-Orange */
+.dark-theme {
+    --bg-primary: #121214;       /* Warm Charcoal Dark */
+    --bg-secondary: #1a1a1e;     /* Slate / Graphite Dark */
+    --bg-glass: rgba(26, 26, 30, 0.85);
+    --border-color: #27272c;
+    --border-focus: #ff7a00;     /* Neon Orange Focus */
+    --text-primary: #f5f5f7;
+    --text-secondary: #8e8e93;
+    
+    /* Accent Core */
+    --accent-color: #ff7a00;     /* Electric Orange */
+    --accent-hover: #e66e00;
+    --accent-light: rgba(255, 122, 0, 0.08);
+    --shadow-glow: rgba(255, 122, 0, 0.2);
+    
+    /* Priority Colors */
+    --color-ui: #ff453a;        /* Urgent & Important - Coral Red */
+    --color-ui-bg: rgba(255, 69, 58, 0.1);
+    --color-ui-border: rgba(255, 69, 58, 0.25);
+
+    --color-inu: #ff9f0a;       /* Important but Not Urgent - Warm Amber */
+    --color-inu-bg: rgba(255, 159, 10, 0.1);
+    --color-inu-border: rgba(255, 159, 10, 0.25);
+
+    --color-uni: #ff7a00;       /* Urgent but Not Important - Orange */
+    --color-uni-bg: rgba(255, 122, 0, 0.1);
+    --color-uni-border: rgba(255, 122, 0, 0.25);
+
+    --color-nuni: #64748b;      /* Neither - Gray/Slate */
+    --color-nuni-bg: rgba(100, 116, 139, 0.1);
+    --color-nuni-border: rgba(100, 116, 139, 0.25);
+
+    /* Category Badges */
+    --cat-work-bg: rgba(255, 159, 10, 0.15);
+    --cat-work-text: #ff9f0a;
+    --cat-personal-bg: rgba(255, 69, 58, 0.15);
+    --cat-personal-text: #ff453a;
+    --cat-learning-bg: rgba(10, 132, 255, 0.15);
+    --cat-learning-text: #0a84ff;
+    --cat-other-bg: rgba(142, 142, 147, 0.15);
+    --cat-other-text: #8e8e93;
+
+    /* Kanban Status Colors */
+    --color-todo: #8e8e93;
+    --color-todo-bg: rgba(142, 142, 147, 0.08);
+    --color-inprogress: #ff9f0a;
+    --color-inprogress-bg: rgba(255, 159, 10, 0.08);
+    --color-review: #bf5af2;
+    --color-review-bg: rgba(191, 90, 242, 0.08);
+    --color-completed: #30d158;
+    --color-completed-bg: rgba(48, 209, 88, 0.08);
+}
+
+/* Light Theme version */
+.light-theme {
+    --bg-primary: #f5f5f7;
+    --bg-secondary: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.85);
+    --border-color: #e5e5ea;
+    --border-focus: #ff7a00;
+    --text-primary: #1c1c1e;
+    --text-secondary: #8e8e93;
+    
+    --accent-color: #ff7a00;     /* Electric Orange */
+    --accent-hover: #e66e00;
+    --accent-light: #fff4eb;
+    --shadow-glow: rgba(255, 122, 0, 0.12);
+    
+    --color-ui: #ff3b30;
+    --color-ui-bg: rgba(255, 59, 48, 0.08);
+    --color-ui-border: rgba(255, 59, 48, 0.18);
+
+    --color-inu: #f59e0b;
+    --color-inu-bg: rgba(245, 158, 11, 0.08);
+    --color-inu-border: rgba(245, 158, 11, 0.18);
+
+    --color-uni: #ff7a00;
+    --color-uni-bg: rgba(255, 122, 0, 0.08);
+    --color-uni-border: rgba(255, 122, 0, 0.18);
+
+    --color-nuni: #8e8e93;
+    --color-nuni-bg: rgba(142, 142, 147, 0.08);
+    --color-nuni-border: rgba(142, 142, 147, 0.18);
+
+    /* Category Badges */
+    --cat-work-bg: #fff4eb;
+    --cat-work-text: #e66e00;
+    --cat-personal-bg: #ffebeb;
+    --cat-personal-text: #ff3b30;
+    --cat-learning-bg: #ebf5ff;
+    --cat-learning-text: #007aff;
+    --cat-other-bg: #f2f2f7;
+    --cat-other-text: #8e8e93;
+
+    --color-todo: #8e8e93;
+    --color-todo-bg: #f2f2f7;
+    --color-inprogress: #e66e00;
+    --color-inprogress-bg: #fff4eb;
+    --color-review: #af52de;
+    --color-review-bg: #faf0ff;
+    --color-completed: #34c759;
+    --color-completed-bg: #eafaf1;
+
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.08);
+    --card-shadow-hover: 0 12px 24px rgba(255, 122, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER STYLING */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 24px;
+    border: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 16px;
+    transition: all var(--transition-speed);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--border-radius-md);
+    background: linear-gradient(135deg, var(--accent-color), #ff5100);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(255, 122, 0, 0.4);
+}
+
+.logo-text h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+
+.logo-text p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-family: 'Sarabun', sans-serif;
+}
+
+/* TAB NAVIGATION SYSTEM */
+.app-navigation {
+    display: flex;
+    background-color: var(--bg-primary);
+    padding: 6px;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color);
+    gap: 4px;
+}
+
+.nav-tab {
+    background: transparent;
+    border: none;
+    padding: 8px 18px;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.nav-tab.active {
+    background-color: var(--bg-secondary);
+    color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* BUTTON CONTROLS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all var(--transition-speed) ease;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-color), #ff5100);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--shadow-glow);
+}
+
+.btn-secondary {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+}
+
+.btn-danger {
+    background-color: #ff3b30;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #e02e24;
+    box-shadow: 0 4px 10px rgba(255, 59, 48, 0.2);
+}
+
+.btn-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--border-radius-sm);
+    padding: 0;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.btn-icon:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+    border-color: var(--border-focus);
+}
+
+/* VIEW SWITCHER ANIMATION */
+.view-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.view-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.view-header {
+    margin-bottom: 24px;
+}
+
+.view-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+.view-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* STATS COUNTERS GRID */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--card-shadow);
+    transition: all var(--transition-speed) ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-focus);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.total-tasks .stat-icon { background-color: var(--accent-light); color: var(--accent-color); }
+.pending-tasks .stat-icon { background-color: var(--color-inprogress-bg); color: var(--color-inprogress); }
+.completed-tasks .stat-icon { background-color: var(--color-completed-bg); color: var(--color-completed); }
+.overdue-tasks .stat-icon { background-color: var(--color-ui-bg); color: var(--color-ui); }
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* DASHBOARD LAYOUT & CHARTS */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.dashboard-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    margin-top: 2px;
+}
+
+/* PRODUCTIVITY WHEEL */
+.productivity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--bg-primary);
+    padding: 16px;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.progress-ring-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* conic-gradient will be injected or updated via custom property --percentage in JS */
+    background: conic-gradient(var(--accent-color) var(--percentage, 0%), var(--border-color) 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 122, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.progress-ring-container::before {
+    content: '';
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+}
+
+.progress-ring-text {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.progress-ring-text span {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.progress-ring-text .text-xs {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.progress-summary-details p {
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.progress-summary-details span {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 4px;
+}
+
+/* CATEGORY CHART LIST */
+.category-chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.category-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 40px;
+    align-items: center;
+    gap: 12px;
+}
+
+.category-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.category-bar-wrapper {
+    height: 12px;
+    background-color: var(--bg-primary);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.category-bar-progress {
+    height: 100%;
+    border-radius: 6px;
+    width: 0;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Category Specific Colors */
+.bg-work { background-color: var(--cat-work-text); }
+.bg-personal { background-color: var(--cat-personal-text); }
+.bg-learning { background-color: var(--cat-learning-text); }
+.bg-other { background-color: var(--cat-other-text); }
+
+.category-count {
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+    color: var(--text-secondary);
+}
+
+/* EISENHOWER MATRIX GIRD */
+.matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+}
+
+@media (max-width: 580px) {
+    .matrix-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.matrix-quadrant {
+    border-radius: var(--border-radius-sm);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 170px;
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid transparent;
+}
+
+.urgent-important {
+    background-color: var(--color-ui-bg);
+    border-color: var(--color-ui-border);
+}
+.important-not-urgent {
+    background-color: var(--color-inu-bg);
+    border-color: var(--color-inu-border);
+}
+.urgent-not-important {
+    background-color: var(--color-uni-bg);
+    border-color: var(--color-uni-border);
+}
+.not-urgent-not-important {
+    background-color: var(--color-nuni-bg);
+    border-color: var(--color-nuni-border);
+}
+
+.quadrant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quadrant-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.badge-ui { background-color: rgba(255, 69, 58, 0.2); color: var(--color-ui); }
+.badge-inu { background-color: rgba(255, 159, 10, 0.2); color: var(--color-inu); }
+.badge-uni { background-color: rgba(255, 122, 0, 0.2); color: var(--color-uni); }
+.badge-nuni { background-color: var(--border-color); color: var(--text-secondary); }
+
+.quadrant-count {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.quadrant-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Miniature Tasks in Matrix */
+.matrix-mini-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s;
+}
+
+.matrix-mini-card:hover {
+    transform: translateX(2px);
+    border-color: var(--border-focus);
+}
+
+.matrix-mini-title {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-primary);
+}
+
+.matrix-mini-category {
+    font-size: 9px;
+    padding: 1px 5px;
+    background-color: var(--bg-primary);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* ALL TASKS TABLE */
+.table-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.table-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+    gap: 8px;
+    min-width: 250px;
+}
+
+.search-box i {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    width: 100%;
+}
+
+.table-filter-select {
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.premium-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.premium-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+}
+
+.premium-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.premium-table tr:hover td {
+    background-color: var(--bg-primary);
+}
+
+.table-task-title {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.table-task-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Category badges */
+.badge-category {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-cat-work { background-color: var(--cat-work-bg); color: var(--cat-work-text); }
+.badge-cat-personal { background-color: var(--cat-personal-bg); color: var(--cat-personal-text); }
+.badge-cat-learning { background-color: var(--cat-learning-bg); color: var(--cat-learning-text); }
+.badge-cat-other { background-color: var(--cat-other-bg); color: var(--cat-other-text); }
+
+/* Status Badges */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-status::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.badge-todo { background-color: var(--color-todo-bg); color: var(--color-todo); }
+.badge-todo::before { background-color: var(--color-todo); }
+
+.badge-inprogress { background-color: var(--color-inprogress-bg); color: var(--color-inprogress); }
+.badge-inprogress::before { background-color: var(--color-inprogress); }
+
+.badge-review { background-color: var(--color-review-bg); color: var(--color-review); }
+.badge-review::before { background-color: var(--color-review); }
+
+.badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed); }
+.badge-completed::before { background-color: var(--color-completed); }
+
+/* Priority Tags */
+.priority-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.priority-ui { background-color: var(--color-ui-bg); color: var(--color-ui); border: 1px solid var(--color-ui-border); }
+.priority-inu { background-color: var(--color-inu-bg); color: var(--color-inu); border: 1px solid var(--color-inu-border); }
+.priority-uni { background-color: var(--color-uni-bg); color: var(--color-uni); border: 1px solid var(--color-uni-border); }
+.priority-nuni { background-color: var(--color-nuni-bg); color: var(--text-secondary); border: 1px solid var(--color-nuni-border); }
+
+/* KANBAN BOARD SYSTEM */
+.member-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.kanban-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background-color: var(--bg-secondary);
+    padding: 8px 16px;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+
+.filter-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.filter-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-btn {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all var(--transition-speed);
+}
+
+.filter-btn:hover {
+    border-color: var(--border-focus);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--accent-color), #ff5100);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.filter-btn .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+.dot-ui { background-color: var(--color-ui); }
+.dot-inu { background-color: var(--color-inu); }
+.dot-uni { background-color: var(--color-uni); }
+.dot-nuni { background-color: var(--color-nuni); }
+
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: start;
+    min-height: 65vh;
+}
+
+@media (max-width: 1200px) {
+    .kanban-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .kanban-board {
+        grid-template-columns: 1fr;
+    }
+}
+
+.kanban-column {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
+    transition: border-color var(--transition-speed), background-color var(--transition-speed);
+}
+
+/* Kanban column Drag & Drop highlight */
+.kanban-column.drag-over {
+    border-color: var(--accent-color);
+    background-color: var(--accent-light);
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 12px;
+}
+
+.col-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.col-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.col-todo .col-status-dot { background-color: var(--color-todo); }
+.col-inprogress .col-status-dot { background-color: var(--color-inprogress); }
+.col-review .col-status-dot { background-color: var(--color-review); }
+.col-completed .col-status-dot { background-color: var(--color-completed); }
+
+.col-todo { border-bottom-color: var(--color-todo); }
+.col-inprogress { border-bottom-color: var(--color-inprogress); }
+.col-review { border-bottom-color: var(--color-review); }
+.col-completed { border-bottom-color: var(--color-completed); }
+
+.column-header h3 {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.card-count {
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.kanban-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    min-height: 250px;
+    padding: 2px;
+}
+
+/* Individual Kanban Card */
+.kanban-card {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, opacity 0.2s;
+    position: relative;
+    border-left-width: 4px;
+}
+
+.kanban-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    border-color: var(--border-focus);
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+}
+
+.kanban-card.dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+}
+
+/* Priority Card Border Left Indicator */
+.card-priority-ui { border-left-color: var(--color-ui); }
+.card-priority-inu { border-left-color: var(--color-inu); }
+.card-priority-uni { border-left-color: var(--color-uni); }
+.card-priority-nuni { border-left-color: var(--color-nuni); }
+
+.card-tag-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card-urgency-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-priority-ui { background-color: var(--color-ui-bg); color: var(--color-ui); }
+.badge-priority-inu { background-color: var(--color-inu-bg); color: var(--color-inu); }
+.badge-priority-uni { background-color: var(--color-uni-bg); color: var(--color-uni); }
+.badge-priority-nuni { background-color: var(--color-nuni-bg); color: var(--text-secondary); }
+
+.card-date {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.card-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.card-description {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 12px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    font-size: 11px;
+}
+
+.card-deadline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+.deadline-ok { color: var(--text-secondary); }
+.deadline-warning { color: var(--color-inprogress); font-weight: 600; }
+.deadline-danger { color: var(--color-ui); font-weight: 700; }
+
+.empty-col-message {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 12px;
+    padding: 30px 10px;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--bg-primary);
+}
+
+/* MODAL & DIALOG SYSTEM */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 12, 0.6);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 500px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.25s ease;
+    padding: 24px;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.glass-card {
+    background-color: var(--bg-glass);
+    backdrop-filter: blur(10px);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.15s;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
+/* FORMS STYLING */
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.required {
+    color: var(--color-ui);
+}
+
+input[type="text"],
+input[type="date"],
+textarea,
+select.premium-select {
+    padding: 10px 12px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+select.premium-select {
+    cursor: pointer;
+}
+
+input:focus,
+textarea:focus,
+select.premium-select:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--shadow-glow);
+}
+
+textarea {
+    resize: vertical;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    margin-top: 24px;
+}
+
+.footer-right-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+/* Utility Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* CLOUD SYNC STYLING */
+.sync-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.sync-status-badge.online {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+    border-color: rgba(46, 204, 113, 0.2);
+}
+
+.sync-status-badge.offline {
+    background-color: rgba(142, 142, 147, 0.1);
+    color: #8e8e93;
+    border-color: rgba(142, 142, 147, 0.2);
+}
+
+.sync-status-badge.syncing {
+    background-color: rgba(255, 122, 0, 0.1);
+    color: var(--accent-color);
+    border-color: rgba(255, 122, 0, 0.2);
+}
+
+.sync-status-badge.syncing i {
+    animation: fa-spin 1.5s linear infinite;
+}
+
+.sync-status-badge.error {
+    background-color: rgba(255, 69, 58, 0.1);
+    color: #ff453a;
+    border-color: rgba(255, 69, 58, 0.2);
+}
+
+input[type="url"],
+input[type="password"] {
+    padding: 10px 12px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+input[type="url"]:focus,
+input[type="password"]:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--shadow-glow);
+}
+
+.checkbox-container input[type="checkbox"] {
+    accent-color: var(--accent-color);
+}
+</style>
 </head>
 <body class="dark-theme">
     <div class="app-container">
@@ -421,6 +1761,1051 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+// SoloTask Application Script (Personal Task Manager)
+
+// --- MOCK SEED DATA ---
+const getDateOffset = (days) => {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    return date.toISOString().split('T')[0];
+};
+
+const DEFAULT_TASKS = [
+    {
+        id: "task-1",
+        title: "ปรับปรุงหน้า Portfolio ของตัวเอง",
+        description: "ปรับปรุงข้อมูลประวัติการทำงาน เพิ่มผลงานล่าสุด และตกแต่งธีมให้เป็นแบบโทนสีดำ-ส้มสไตล์โมเดิร์น",
+        category: "personal",
+        dateCreated: getDateOffset(-4),
+        deadline: getDateOffset(3),
+        status: "in_progress",
+        urgency: "not_urgent",
+        importance: "important"
+    },
+    {
+        id: "task-2",
+        title: "เรียนหลักสูตร Advanced JavaScript",
+        description: "เรียนรู้เรื่อง Closures, Prototypes, Asynchronous Pattern และการเพิ่มประสิทธิภาพโค้ดให้ครบ 4 บทเรียน",
+        category: "learning",
+        dateCreated: getDateOffset(-2),
+        deadline: getDateOffset(5),
+        status: "todo",
+        urgency: "not_urgent",
+        importance: "important"
+    },
+    {
+        id: "task-3",
+        title: "ซ่อมก๊อกน้ำและท่อน้ำในครัว",
+        description: "ซื้ออุปกรณ์เทปพันเกลียวท่อประปาและวาล์วน้ำชุดใหม่จากห้างมาเปลี่ยนตัวเก่าที่ชำรุด",
+        category: "other",
+        dateCreated: getDateOffset(-1),
+        deadline: getDateOffset(1),
+        status: "todo",
+        urgency: "urgent",
+        importance: "not_important"
+    },
+    {
+        id: "task-4",
+        title: "เคลียร์เอกสารภาษีรายได้ครึ่งปี",
+        description: "รวบรวมใบเสร็จรับเงิน ใบกำกับภาษี และเอกสารการลดหย่อนต่างๆ อัปโหลดเข้าระบบสรรพากร",
+        category: "work",
+        dateCreated: getDateOffset(-5),
+        deadline: getDateOffset(-1), // Overdue
+        status: "review",
+        urgency: "urgent",
+        importance: "important"
+    },
+    {
+        id: "task-5",
+        title: "ส่งมอบโค้ดงานลูกค้าโครงการ A",
+        description: "สรุปฟังก์ชันและอัปโหลด Source Code ขึ้นสู่ Production Server พร้อมแจ้งรายละเอียดระบบหลังบ้าน",
+        category: "work",
+        dateCreated: getDateOffset(0),
+        deadline: getDateOffset(2),
+        status: "todo",
+        urgency: "urgent",
+        importance: "important"
+    },
+    {
+        id: "task-6",
+        title: "ซื้อสินค้าและเสบียงของใช้ประจำสัปดาห์",
+        description: "สั่งวัตถุดิบทำอาหาร นมจืด ทิชชู่ น้ำยาถูพื้น และผลิตภัณฑ์ซักผ้าผ่านช่องทางออนไลน์",
+        category: "personal",
+        dateCreated: getDateOffset(-10),
+        deadline: getDateOffset(-4), // Completed in time
+        status: "completed",
+        urgency: "not_urgent",
+        importance: "not_important"
+    },
+    {
+        id: "task-7",
+        title: "สรุปงบรายรับรายจ่ายประจำเดือนนี้",
+        description: "ตรวจสอบยอดเงินโอนเข้า ยอดบัตรเครดิต และจัดสรรงบออมเงิน/ลงทุนประชำเดือนถัดไป",
+        category: "personal",
+        dateCreated: getDateOffset(-3),
+        deadline: getDateOffset(0), // Today
+        status: "review",
+        urgency: "urgent",
+        importance: "important"
+    }
+];
+
+// --- STATE MANAGEMENT ---
+let state = {
+    tasks: [],
+    activeTab: "dashboard-view", // "dashboard-view" | "kanban-view"
+    theme: "dark", // Default to Dark
+    kanbanFilter: "all", // "all", "ui", "inu", "uni", "nuni"
+    syncEnabled: false,
+    syncUrl: "",
+    syncKey: ""
+};
+
+// Load state from LocalStorage
+function loadState() {
+    const savedTasks = localStorage.getItem("solo_tasks");
+    const savedTab = localStorage.getItem("solo_active_tab");
+    const savedTheme = localStorage.getItem("solo_theme");
+    const savedFilter = localStorage.getItem("solo_matrix_filter");
+    const savedSyncEnabled = localStorage.getItem("solo_sync_enabled");
+    const savedSyncUrl = localStorage.getItem("solo_sync_url");
+    const savedSyncKey = localStorage.getItem("solo_sync_key");
+
+    state.tasks = savedTasks ? JSON.parse(savedTasks) : DEFAULT_TASKS;
+    state.activeTab = savedTab ? savedTab : "dashboard-view";
+    state.theme = savedTheme ? savedTheme : "dark"; // Default dark
+    state.kanbanFilter = savedFilter ? savedFilter : "all";
+    state.syncEnabled = savedSyncEnabled === "true";
+    state.syncUrl = savedSyncUrl ? savedSyncUrl : "";
+    state.syncKey = savedSyncKey ? savedSyncKey : "";
+}
+
+// Save state to LocalStorage
+function saveState() {
+    localStorage.setItem("solo_tasks", JSON.stringify(state.tasks));
+    localStorage.setItem("solo_active_tab", state.activeTab);
+    localStorage.setItem("solo_theme", state.theme);
+    localStorage.setItem("solo_matrix_filter", state.kanbanFilter);
+    localStorage.setItem("solo_sync_enabled", state.syncEnabled);
+    localStorage.setItem("solo_sync_url", state.syncUrl);
+    localStorage.setItem("solo_sync_key", state.syncKey);
+}
+
+// --- INITIALIZATION ---
+document.addEventListener("DOMContentLoaded", () => {
+    loadState();
+    setupTheme();
+    setupEventListeners();
+    renderActiveView();
+    
+    // Trigger initial sync if enabled
+    if (state.syncEnabled) {
+        syncWithCloud();
+    } else {
+        updateSyncBadge("offline");
+    }
+
+    // Auto sync on tab focus
+    window.addEventListener("focus", () => {
+        if (state.syncEnabled) {
+            syncWithCloud();
+        }
+    });
+
+    // Auto sync every 30 seconds
+    setInterval(() => {
+        if (state.syncEnabled && !isSyncing) {
+            syncWithCloud();
+        }
+    }, 30000);
+});
+
+// --- THEME MANAGEMENT ---
+function setupTheme() {
+    const body = document.body;
+    const themeBtn = document.getElementById("theme-toggle-btn");
+    
+    if (state.theme === "dark") {
+        body.classList.remove("light-theme");
+        body.classList.add("dark-theme");
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    } else {
+        body.classList.remove("dark-theme");
+        body.classList.add("light-theme");
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    }
+}
+
+function toggleTheme() {
+    state.theme = state.theme === "light" ? "dark" : "light";
+    saveState();
+    setupTheme();
+}
+
+// --- ACTIVE VIEW SWITCHING ---
+function renderActiveView() {
+    const dashboardView = document.getElementById("dashboard-view");
+    const kanbanView = document.getElementById("kanban-view");
+    const tabButtons = document.querySelectorAll(".nav-tab");
+    
+    // Toggle active classes on sections
+    if (state.activeTab === "dashboard-view") {
+        dashboardView.classList.add("active");
+        kanbanView.classList.remove("active");
+        renderDashboard();
+    } else {
+        dashboardView.classList.remove("active");
+        kanbanView.classList.add("active");
+        renderKanban();
+    }
+
+    // Toggle active classes on tab buttons
+    tabButtons.forEach(btn => {
+        if (btn.getAttribute("data-tab") === state.activeTab) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
+}
+
+// --- DASHBOARD LOGIC ---
+function renderDashboard() {
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    // 1. Calculate General Statistics
+    const totalTasks = state.tasks.length;
+    const completedTasks = state.tasks.filter(t => t.status === "completed").length;
+    const pendingTasks = state.tasks.filter(t => t.status !== "completed").length;
+    const overdueTasks = state.tasks.filter(t => t.status !== "completed" && t.deadline < todayStr).length;
+
+    document.getElementById("stats-total").textContent = totalTasks;
+    document.getElementById("stats-pending").textContent = pendingTasks;
+    document.getElementById("stats-completed").textContent = completedTasks;
+    document.getElementById("stats-overdue").textContent = overdueTasks;
+
+    // Warning highlight on overdue card
+    const overdueCard = document.querySelector(".overdue-tasks");
+    if (overdueTasks > 0) {
+        overdueCard.style.borderColor = "var(--color-ui)";
+        overdueCard.style.boxShadow = "0 0 10px rgba(255, 69, 58, 0.15)";
+    } else {
+        overdueCard.style.borderColor = "";
+        overdueCard.style.boxShadow = "";
+    }
+
+    // 2. Render Circular Progress Meter
+    const completionPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    const progressRing = document.querySelector(".progress-ring-container");
+    if (progressRing) {
+        progressRing.style.setProperty("--percentage", `${completionPct}%`);
+    }
+    document.getElementById("completion-percentage").textContent = `${completionPct}%`;
+    document.getElementById("progress-summary-text").textContent = `คุณจัดการงานเสร็จสิ้นไปแล้ว ${completedTasks} งาน จากทั้งหมด ${totalTasks} งาน`;
+
+    // 3. Render Category Chart
+    renderCategoryChart();
+
+    // 4. Render Eisenhower Matrix Quadrants
+    renderEisenhowerMatrix();
+
+    // 5. Render Tasks Table List
+    renderTasksTable();
+}
+
+function renderCategoryChart() {
+    const chartContainer = document.getElementById("category-chart");
+    chartContainer.innerHTML = "";
+
+    const categories = {
+        "work": { label: "งาน (Work)", activeCount: 0, class: "bg-work" },
+        "personal": { label: "ส่วนตัว (Personal)", activeCount: 0, class: "bg-personal" },
+        "learning": { label: "เรียนรู้ (Learning)", activeCount: 0, class: "bg-learning" },
+        "other": { label: "อื่นๆ (Other)", activeCount: 0, class: "bg-other" }
+    };
+
+    // Count pending/active tasks in each category
+    state.tasks.filter(t => t.status !== "completed").forEach(task => {
+        if (categories[task.category]) {
+            categories[task.category].activeCount++;
+        }
+    });
+
+    const maxActive = Math.max(...Object.values(categories).map(c => c.activeCount), 1);
+
+    Object.keys(categories).forEach(key => {
+        const cat = categories[key];
+        const pct = (cat.activeCount / maxActive) * 100;
+
+        const row = document.createElement("div");
+        row.className = "category-row fade-in";
+        row.innerHTML = `
+            <span class="category-label">${cat.label}</span>
+            <div class="category-bar-wrapper" title="งานที่ค้างอยู่: ${cat.activeCount} งาน">
+                <div class="category-bar-progress ${cat.class}" style="width: ${pct}%"></div>
+            </div>
+            <span class="category-count">${cat.activeCount} งาน</span>
+        `;
+        chartContainer.appendChild(row);
+    });
+}
+
+function renderEisenhowerMatrix() {
+    const quadrants = {
+        "ui": { countEl: "count-ui", listEl: "list-ui", tasks: [] }, // Urgent & Important
+        "inu": { countEl: "count-inu", listEl: "list-inu", tasks: [] }, // Important & Not Urgent
+        "uni": { countEl: "count-uni", listEl: "list-uni", tasks: [] }, // Urgent & Not Important
+        "nuni": { countEl: "count-nuni", listEl: "list-nuni", tasks: [] } // Neither
+    };
+
+    // Filter active tasks into matrix quadrants
+    state.tasks.filter(t => t.status !== "completed").forEach(task => {
+        if (task.urgency === "urgent" && task.importance === "important") {
+            quadrants.ui.tasks.push(task);
+        } else if (task.urgency === "not_urgent" && task.importance === "important") {
+            quadrants.inu.tasks.push(task);
+        } else if (task.urgency === "urgent" && task.importance === "not_important") {
+            quadrants.uni.tasks.push(task);
+        } else {
+            quadrants.nuni.tasks.push(task);
+        }
+    });
+
+    const getThaiCategory = (cat) => {
+        if (cat === "work") return "งาน";
+        if (cat === "personal") return "ส่วนตัว";
+        if (cat === "learning") return "เรียนรู้";
+        return "อื่นๆ";
+    };
+
+    // Populate UI
+    Object.keys(quadrants).forEach(key => {
+        const quad = quadrants[key];
+        document.getElementById(quad.countEl).textContent = `${quad.tasks.length} งาน`;
+        
+        const listContainer = document.getElementById(quad.listEl);
+        listContainer.innerHTML = "";
+        
+        if (quad.tasks.length === 0) {
+            listContainer.innerHTML = `<div style="font-size: 11px; color: var(--text-secondary); text-align: center; padding: 12px 0;">ไม่มีงานที่ค้างอยู่</div>`;
+            return;
+        }
+
+        const tasksToShow = quad.tasks.slice(0, 4);
+        tasksToShow.forEach(task => {
+            const card = document.createElement("div");
+            card.className = "matrix-mini-card fade-in";
+            card.innerHTML = `
+                <span class="matrix-mini-title" title="${task.title}">${task.title}</span>
+                <span class="matrix-mini-category">${getThaiCategory(task.category)}</span>
+            `;
+            card.addEventListener("click", () => openTaskModal(task.id));
+            listContainer.appendChild(card);
+        });
+
+        if (quad.tasks.length > 4) {
+            const moreLabel = document.createElement("div");
+            moreLabel.style.fontSize = "10px";
+            moreLabel.style.color = "var(--text-secondary)";
+            moreLabel.style.textAlign = "right";
+            moreLabel.style.paddingRight = "4px";
+            moreLabel.textContent = `และอีก ${quad.tasks.length - 4} งาน...`;
+            listContainer.appendChild(moreLabel);
+        }
+    });
+}
+
+function renderTasksTable() {
+    const tableBody = document.getElementById("leader-task-table-body");
+    const searchVal = document.getElementById("task-search").value.toLowerCase();
+    const filterCat = document.getElementById("filter-category").value;
+    const filterStatus = document.getElementById("filter-status").value;
+
+    tableBody.innerHTML = "";
+
+    // Apply filtering
+    let filteredTasks = state.tasks.filter(task => {
+        const matchesSearch = task.title.toLowerCase().includes(searchVal) || 
+                              task.description.toLowerCase().includes(searchVal);
+        const matchesCategory = filterCat === "all" || task.category === filterCat;
+        const matchesStatus = filterStatus === "all" || task.status === filterStatus;
+        return matchesSearch && matchesCategory && matchesStatus;
+    });
+
+    // Sort: Overdue first, priority score next, deadline next
+    filteredTasks.sort((a, b) => {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const aOverdue = a.status !== "completed" && a.deadline < todayStr;
+        const bOverdue = b.status !== "completed" && b.deadline < todayStr;
+        
+        if (aOverdue && !bOverdue) return -1;
+        if (!aOverdue && bOverdue) return 1;
+        
+        const getPriorityScore = (t) => {
+            if (t.urgency === "urgent" && t.importance === "important") return 4;
+            if (t.urgency === "not_urgent" && t.importance === "important") return 3;
+            if (t.urgency === "urgent" && t.importance === "not_important") return 2;
+            return 1;
+        };
+        
+        const scoreA = getPriorityScore(a);
+        const scoreB = getPriorityScore(b);
+        if (scoreB !== scoreA) return scoreB - scoreA;
+        
+        return a.deadline.localeCompare(b.deadline);
+    });
+
+    if (filteredTasks.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 40px 0;">
+                    ไม่พบรายการงานของคุณในขณะนี้
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    filteredTasks.forEach(task => {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const isOverdue = task.status !== "completed" && task.deadline < todayStr;
+        const isToday = task.status !== "completed" && task.deadline === todayStr;
+        
+        let deadlineClass = "deadline-ok";
+        let deadlineLabel = formatDate(task.deadline);
+        if (isOverdue) {
+            deadlineClass = "deadline-danger";
+            deadlineLabel += " (เลยกำหนด!)";
+        } else if (isToday) {
+            deadlineClass = "deadline-warning";
+            deadlineLabel += " (วันนี้!)";
+        }
+
+        // Get status badge HTML
+        let statusBadge = "";
+        if (task.status === "todo") statusBadge = `<span class="badge-status badge-todo">ต้องทำ</span>`;
+        else if (task.status === "in_progress") statusBadge = `<span class="badge-status badge-inprogress">กำลังทำ</span>`;
+        else if (task.status === "review") statusBadge = `<span class="badge-status badge-review">รอตรวจทาน</span>`;
+        else statusBadge = `<span class="badge-status badge-completed">เสร็จสิ้น</span>`;
+
+        // Get priority tag HTML
+        let priorityTag = "";
+        if (task.urgency === "urgent" && task.importance === "important") {
+            priorityTag = `<span class="priority-tag priority-ui">ด่วน & สำคัญ</span>`;
+        } else if (task.urgency === "not_urgent" && task.importance === "important") {
+            priorityTag = `<span class="priority-tag priority-inu">ไม่ด่วน & สำคัญ</span>`;
+        } else if (task.urgency === "urgent" && task.importance === "not_important") {
+            priorityTag = `<span class="priority-tag priority-uni">ด่วน & ไม่สำคัญ</span>`;
+        } else {
+            priorityTag = `<span class="priority-tag priority-nuni">ไม่ด่วน & ไม่สำคัญ</span>`;
+        }
+
+        // Get category badge HTML
+        let catBadge = "";
+        if (task.category === "work") catBadge = `<span class="badge-category badge-cat-work">งาน (Work)</span>`;
+        else if (task.category === "personal") catBadge = `<span class="badge-category badge-cat-personal">ส่วนตัว (Personal)</span>`;
+        else if (task.category === "learning") catBadge = `<span class="badge-category badge-cat-learning">เรียนรู้ (Learning)</span>`;
+        else catBadge = `<span class="badge-category badge-cat-other">อื่นๆ (Other)</span>`;
+
+        const tr = document.createElement("tr");
+        tr.className = "fade-in";
+        tr.innerHTML = `
+            <td>
+                <div class="table-task-title">${task.title}</div>
+                <div class="table-task-desc" title="${task.description}">${task.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</div>
+            </td>
+            <td>${catBadge}</td>
+            <td style="color: var(--text-secondary)">${formatDate(task.dateCreated)}</td>
+            <td><span class="${deadlineClass}"><i class="fa-regular fa-calendar"></i> ${deadlineLabel}</span></td>
+            <td>${priorityTag}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <button class="btn btn-secondary btn-icon edit-task-table-btn" data-id="${task.id}" title="แก้ไขงาน">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </td>
+        `;
+        
+        tr.querySelector(".edit-task-table-btn").addEventListener("click", () => openTaskModal(task.id));
+        tableBody.appendChild(tr);
+    });
+}
+
+// --- KANBAN BOARD LOGIC ---
+function renderKanban() {
+    const columns = {
+        "todo": document.getElementById("cards-todo"),
+        "in_progress": document.getElementById("cards-in_progress"),
+        "review": document.getElementById("cards-review"),
+        "completed": document.getElementById("cards-completed")
+    };
+
+    // Reset columns
+    Object.values(columns).forEach(col => col.innerHTML = "");
+
+    const counts = { todo: 0, in_progress: 0, review: 0, completed: 0 };
+
+    let filteredTasks = [...state.tasks];
+
+    // Apply matrix level filters inside Kanban View
+    if (state.kanbanFilter !== "all") {
+        filteredTasks = filteredTasks.filter(task => {
+            if (state.kanbanFilter === "ui") return task.urgency === "urgent" && task.importance === "important";
+            if (state.kanbanFilter === "inu") return task.urgency === "not_urgent" && task.importance === "important";
+            if (state.kanbanFilter === "uni") return task.urgency === "urgent" && task.importance === "not_important";
+            if (state.kanbanFilter === "nuni") return task.urgency === "not_urgent" && task.importance === "not_important";
+            return true;
+        });
+    }
+
+    filteredTasks.forEach(task => {
+        const card = createKanbanCard(task);
+        if (columns[task.status]) {
+            columns[task.status].appendChild(card);
+            counts[task.status]++;
+        }
+    });
+
+    // Update Kanban status count indicators
+    document.getElementById("count-col-todo").textContent = counts.todo;
+    document.getElementById("count-col-inprogress").textContent = counts.in_progress;
+    document.getElementById("count-col-review").textContent = counts.review;
+    document.getElementById("count-col-completed").textContent = counts.completed;
+
+    // Load empty messages if necessary
+    Object.keys(columns).forEach(status => {
+        if (counts[status] === 0) {
+            columns[status].innerHTML = `
+                <div class="empty-col-message">
+                    <i class="fa-solid fa-clipboard-list" style="font-size: 18px; display: block; margin-bottom: 6px; opacity: 0.5;"></i>
+                    ไม่มีรายการงานค้าง
+                </div>
+            `;
+        }
+    });
+
+    setupDragAndDrop();
+}
+
+function createKanbanCard(task) {
+    // 1. Identify Priority tag
+    let priorityClass = "card-priority-nuni";
+    let priorityBadgeClass = "badge-priority-nuni";
+    let priorityText = "ไม่ด่วน & ไม่สำคัญ";
+
+    if (task.urgency === "urgent" && task.importance === "important") {
+        priorityClass = "card-priority-ui";
+        priorityBadgeClass = "badge-priority-ui";
+        priorityText = "ด่วน & สำคัญ";
+    } else if (task.urgency === "not_urgent" && task.importance === "important") {
+        priorityClass = "card-priority-inu";
+        priorityBadgeClass = "badge-priority-inu";
+        priorityText = "ไม่ด่วน & สำคัญ";
+    } else if (task.urgency === "urgent" && task.importance === "not_important") {
+        priorityClass = "card-priority-uni";
+        priorityBadgeClass = "badge-priority-uni";
+        priorityText = "ด่วน & ไม่สำคัญ";
+    }
+
+    // 2. Identify Deadline status
+    const todayStr = new Date().toISOString().split('T')[0];
+    const isOverdue = task.status !== "completed" && task.deadline < todayStr;
+    const isToday = task.status !== "completed" && task.deadline === todayStr;
+    
+    let deadlineClass = "deadline-ok";
+    let deadlinePrefix = "";
+    if (isOverdue) {
+        deadlineClass = "deadline-danger";
+        deadlinePrefix = '<i class="fa-solid fa-triangle-exclamation"></i> เกินดิว: ';
+    } else if (isToday) {
+        deadlineClass = "deadline-warning";
+        deadlinePrefix = '<i class="fa-solid fa-clock"></i> ส่งวันนี้: ';
+    } else {
+        deadlinePrefix = '<i class="fa-regular fa-calendar-days"></i> กำหนดส่ง: ';
+    }
+
+    // 3. Get Category Class
+    let catClass = "badge-cat-other";
+    let catLabel = "อื่นๆ";
+    if (task.category === "work") { catClass = "badge-cat-work"; catLabel = "งาน"; }
+    else if (task.category === "personal") { catClass = "badge-cat-personal"; catLabel = "ส่วนตัว"; }
+    else if (task.category === "learning") { catClass = "badge-cat-learning"; catLabel = "เรียนรู้"; }
+
+    const card = document.createElement("div");
+    card.className = `kanban-card ${priorityClass} fade-in`;
+    card.setAttribute("draggable", "true");
+    card.setAttribute("data-id", task.id);
+    
+    card.innerHTML = `
+        <div class="card-tag-row">
+            <span class="card-urgency-badge ${priorityBadgeClass}">${priorityText}</span>
+            <span class="card-date">${formatDate(task.dateCreated)}</span>
+        </div>
+        <div class="card-title">${task.title}</div>
+        <div class="card-description">${task.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</div>
+        <div class="card-footer">
+            <span class="badge-category ${catClass}">${catLabel}</span>
+            <div class="card-deadline ${deadlineClass}">
+                ${deadlinePrefix}${formatDate(task.deadline)}
+            </div>
+        </div>
+    `;
+
+    card.addEventListener("click", () => {
+        if (card.classList.contains("dragging")) return;
+        openTaskModal(task.id);
+    });
+
+    return card;
+}
+
+// --- HTML5 DRAG & DROP LOGIC ---
+function setupDragAndDrop() {
+    const cards = document.querySelectorAll(".kanban-card");
+    const columns = document.querySelectorAll(".kanban-column");
+
+    cards.forEach(card => {
+        card.addEventListener("dragstart", (e) => {
+            card.classList.add("dragging");
+            e.dataTransfer.setData("text/plain", card.getAttribute("data-id"));
+            e.dataTransfer.effectAllowed = "move";
+        });
+
+        card.addEventListener("dragend", () => {
+            card.classList.remove("dragging");
+            columns.forEach(col => col.classList.remove("drag-over"));
+        });
+    });
+
+    columns.forEach(column => {
+        column.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+        });
+
+        column.addEventListener("dragenter", (e) => {
+            e.preventDefault();
+            column.classList.add("drag-over");
+        });
+
+        column.addEventListener("dragleave", () => {
+            column.classList.remove("drag-over");
+        });
+
+        column.addEventListener("drop", (e) => {
+            e.preventDefault();
+            column.classList.remove("drag-over");
+            
+            const taskId = e.dataTransfer.getData("text/plain");
+            const newStatus = column.getAttribute("data-status");
+            
+            if (taskId && newStatus) {
+                updateTaskStatus(taskId, newStatus);
+            }
+        });
+    });
+}
+
+function updateTaskStatus(taskId, newStatus) {
+    const idx = state.tasks.findIndex(t => t.id === taskId);
+    if (idx !== -1) {
+        if (state.tasks[idx].status !== newStatus) {
+            state.tasks[idx].status = newStatus;
+            state.tasks[idx].lastUpdated = new Date().toISOString();
+            saveState();
+            
+            // Re-render
+            if (state.activeTab === "dashboard-view") {
+                renderDashboard();
+            } else {
+                renderKanban();
+            }
+
+            // Push to cloud if sync enabled
+            if (state.syncEnabled) {
+                pushTasksToCloud().then(() => updateSyncBadge("online"));
+            }
+
+            // Visual feedback flash
+            const col = document.querySelector(`.kanban-column[data-status="${newStatus}"]`);
+            if (col) {
+                col.style.transition = "box-shadow 0.15s ease";
+                col.style.boxShadow = "0 0 15px var(--accent-color)";
+                setTimeout(() => col.style.boxShadow = "", 300);
+            }
+        }
+    }
+}
+
+// --- TASK CRUD SYSTEM & MODALS ---
+function openTaskModal(taskId = null) {
+    const modal = document.getElementById("task-modal");
+    const form = document.getElementById("task-form");
+    const deleteBtn = document.getElementById("delete-task-btn");
+    const modalTitleText = document.getElementById("modal-title-text");
+
+    form.reset();
+    document.getElementById("task-id").value = "";
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    document.getElementById("task-deadline-input").value = todayStr;
+    document.getElementById("task-urgency-select").value = "not_urgent";
+    document.getElementById("task-importance-select").value = "important";
+    document.getElementById("task-category-input").value = "work";
+    document.getElementById("task-status-select").value = "todo";
+
+    if (taskId) {
+        // Edit mode
+        const task = state.tasks.find(t => t.id === taskId);
+        if (task) {
+            modalTitleText.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> แก้ไขข้อมูลงาน`;
+            document.getElementById("task-id").value = task.id;
+            document.getElementById("task-title-input").value = task.title;
+            document.getElementById("task-desc-input").value = task.description;
+            document.getElementById("task-category-input").value = task.category;
+            document.getElementById("task-deadline-input").value = task.deadline;
+            document.getElementById("task-urgency-select").value = task.urgency;
+            document.getElementById("task-importance-select").value = task.importance;
+            document.getElementById("task-status-select").value = task.status;
+            
+            deleteBtn.style.display = "inline-flex";
+            deleteBtn.onclick = () => deleteTask(task.id);
+        }
+    } else {
+        // Create mode
+        modalTitleText.innerHTML = `<i class="fa-solid fa-circle-plus"></i> เพิ่มงานใหม่`;
+        deleteBtn.style.display = "none";
+    }
+
+    modal.classList.add("active");
+}
+
+function closeTaskModal() {
+    document.getElementById("task-modal").classList.remove("active");
+}
+
+function saveTask(e) {
+    e.preventDefault();
+    
+    const taskId = document.getElementById("task-id").value;
+    const title = document.getElementById("task-title-input").value.trim();
+    const description = document.getElementById("task-desc-input").value.trim();
+    const category = document.getElementById("task-category-input").value;
+    const deadline = document.getElementById("task-deadline-input").value;
+    const urgency = document.getElementById("task-urgency-select").value;
+    const importance = document.getElementById("task-importance-select").value;
+    const status = document.getElementById("task-status-select").value;
+
+    if (!title || !category || !deadline) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+        return;
+    }
+
+    if (taskId) {
+        // Update task
+        const idx = state.tasks.findIndex(t => t.id === taskId);
+        if (idx !== -1) {
+            state.tasks[idx] = {
+                ...state.tasks[idx],
+                title,
+                description,
+                category,
+                deadline,
+                urgency,
+                importance,
+                status,
+                lastUpdated: new Date().toISOString()
+            };
+        }
+    } else {
+        // Create task
+        const newTask = {
+            id: `task-${Date.now()}`,
+            title,
+            description,
+            category,
+            dateCreated: new Date().toISOString().split('T')[0],
+            deadline,
+            urgency,
+            importance,
+            status,
+            lastUpdated: new Date().toISOString()
+        };
+        state.tasks.push(newTask);
+    }
+
+    saveState();
+    closeTaskModal();
+    renderActiveView();
+
+    // Push to cloud if sync enabled
+    if (state.syncEnabled) {
+        pushTasksToCloud().then(() => updateSyncBadge("online"));
+    }
+}
+
+function deleteTask(taskId) {
+    if (confirm("คุณแน่ใจว่าต้องการลบงานนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถกู้คืนได้")) {
+        state.tasks = state.tasks.filter(t => t.id !== taskId);
+        saveState();
+        closeTaskModal();
+        renderActiveView();
+
+        // Push to cloud if sync enabled
+        if (state.syncEnabled) {
+            pushTasksToCloud().then(() => updateSyncBadge("online"));
+        }
+    }
+}
+
+// --- EVENT LISTENERS ---
+function setupEventListeners() {
+    // Navigation tab switching
+    const navTabs = document.querySelectorAll(".nav-tab");
+    navTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            state.activeTab = tab.getAttribute("data-tab");
+            saveState();
+            renderActiveView();
+        });
+    });
+
+    // Theme Toggle
+    document.getElementById("theme-toggle-btn").addEventListener("click", toggleTheme);
+
+    // Sync Toggle
+    document.getElementById("sync-toggle-btn").addEventListener("click", openSyncModal);
+    document.getElementById("close-sync-modal").addEventListener("click", closeSyncModal);
+    document.getElementById("cancel-sync-btn").addEventListener("click", closeSyncModal);
+    document.getElementById("sync-enable-checkbox").addEventListener("change", handleSyncToggle);
+    document.getElementById("sync-form").addEventListener("submit", saveSyncSettings);
+    
+    // Manual sync click on status badge
+    document.getElementById("sync-status-badge").addEventListener("click", () => {
+        if (state.syncEnabled) syncWithCloud();
+    });
+
+    // Modal buttons
+    document.getElementById("add-task-btn").addEventListener("click", () => openTaskModal());
+    document.getElementById("close-task-modal").addEventListener("click", closeTaskModal);
+    document.getElementById("cancel-task-btn").addEventListener("click", closeTaskModal);
+    
+    // Form Submission
+    document.getElementById("task-form").addEventListener("submit", saveTask);
+
+    // Live filtering for dashboard list table
+    document.getElementById("task-search").addEventListener("input", renderTasksTable);
+    document.getElementById("filter-category").addEventListener("change", renderTasksTable);
+    document.getElementById("filter-status").addEventListener("change", renderTasksTable);
+
+    // Kanban priority matrix filter
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            state.kanbanFilter = btn.getAttribute("data-matrix");
+            renderKanban();
+        });
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener("click", (e) => {
+        const taskModal = document.getElementById("task-modal");
+        const syncModal = document.getElementById("sync-modal");
+        if (e.target === taskModal) closeTaskModal();
+        if (e.target === syncModal) closeSyncModal();
+    });
+}
+
+// --- SYNC MODAL MANAGEMENT ---
+function openSyncModal() {
+    const modal = document.getElementById("sync-modal");
+    const checkbox = document.getElementById("sync-enable-checkbox");
+    const fields = document.getElementById("sync-fields");
+    const urlInput = document.getElementById("sync-url-input");
+    const keyInput = document.getElementById("sync-key-input");
+
+    checkbox.checked = state.syncEnabled;
+    urlInput.value = state.syncUrl || "";
+    keyInput.value = state.syncKey || "";
+
+    if (state.syncEnabled) {
+        fields.style.display = "flex";
+    } else {
+        fields.style.display = "none";
+    }
+
+    modal.classList.add("active");
+}
+
+// Global exposure for debugging or inline triggers
+window.openSyncModal = openSyncModal;
+
+function closeSyncModal() {
+    document.getElementById("sync-modal").classList.remove("active");
+}
+
+function handleSyncToggle() {
+    const checkbox = document.getElementById("sync-enable-checkbox");
+    const fields = document.getElementById("sync-fields");
+    if (checkbox.checked) {
+        fields.style.display = "flex";
+    } else {
+        fields.style.display = "none";
+    }
+}
+
+async function saveSyncSettings(e) {
+    e.preventDefault();
+    
+    const checkbox = document.getElementById("sync-enable-checkbox");
+    const urlInput = document.getElementById("sync-url-input");
+    const keyInput = document.getElementById("sync-key-input");
+
+    state.syncEnabled = checkbox.checked;
+    state.syncUrl = urlInput.value.trim();
+    state.syncKey = keyInput.value.trim();
+
+    if (state.syncEnabled && (!state.syncUrl || !state.syncKey)) {
+        alert("กรุณากรอกข้อมูล URL และ Sync Key ให้ครบถ้วน!");
+        return;
+    }
+
+    saveState();
+    closeSyncModal();
+
+    if (state.syncEnabled) {
+        await syncWithCloud();
+    } else {
+        updateSyncBadge("offline");
+    }
+}
+
+// --- CLOUD SYNC LOGIC ---
+let isSyncing = false;
+
+async function syncWithCloud() {
+    if (!state.syncEnabled || !state.syncUrl || isSyncing) {
+        if (!state.syncEnabled) updateSyncBadge("offline");
+        return;
+    }
+
+    isSyncing = true;
+    updateSyncBadge("syncing");
+
+    try {
+        const response = await fetch(state.syncUrl, {
+            method: "GET",
+            headers: {
+                "X-Sync-Key": state.syncKey
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(response.status === 401 ? "Unauthorized" : "Sync Failed");
+        }
+
+        const cloudTasks = await response.json();
+        if (Array.isArray(cloudTasks)) {
+            const merged = mergeTasks(state.tasks, cloudTasks);
+            state.tasks = merged;
+            
+            // Save locally
+            localStorage.setItem("solo_tasks", JSON.stringify(state.tasks));
+            
+            // Push merged back to cloud to align
+            await pushTasksToCloud();
+            
+            updateSyncBadge("online");
+            renderActiveView();
+        } else {
+            throw new Error("Invalid format");
+        }
+    } catch (err) {
+        console.error("Sync Error:", err);
+        updateSyncBadge("error");
+    } finally {
+        isSyncing = false;
+    }
+}
+
+async function pushTasksToCloud() {
+    if (!state.syncEnabled || !state.syncUrl) return;
+    
+    try {
+        const response = await fetch(state.syncUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Sync-Key": state.syncKey
+            },
+            body: JSON.stringify(state.tasks)
+        });
+        
+        if (!response.ok) {
+            throw new Error("Failed to push to cloud");
+        }
+    } catch (err) {
+        console.error("Cloud push failed:", err);
+        updateSyncBadge("error");
+    }
+}
+
+function mergeTasks(localTasks, cloudTasks) {
+    const merged = {};
+    
+    // Process local tasks
+    localTasks.forEach(t => {
+        merged[t.id] = t;
+    });
+    
+    // Process cloud tasks, override if newer
+    cloudTasks.forEach(ct => {
+        const local = merged[ct.id];
+        if (!local) {
+            merged[ct.id] = ct;
+        } else {
+            const localTime = new Date(local.lastUpdated || local.dateCreated || 0).getTime();
+            const cloudTime = new Date(ct.lastUpdated || ct.dateCreated || 0).getTime();
+            if (cloudTime > localTime) {
+                merged[ct.id] = ct;
+            }
+        }
+    });
+    
+    return Object.values(merged);
+}
+
+function updateSyncBadge(status) {
+    const badge = document.getElementById("sync-status-badge");
+    if (!badge) return;
+    
+    badge.className = `sync-status-badge ${status}`;
+    
+    if (status === "online") {
+        badge.innerHTML = '<i class="fa-solid fa-cloud"></i> ซิงค์แล้ว';
+        badge.title = "ข้อมูลซิงค์ตรงกับคลาวด์แล้ว คลิกเพื่อซิงค์ใหม่";
+    } else if (status === "offline") {
+        badge.innerHTML = '<i class="fa-solid fa-cloud"></i> ออฟไลน์';
+        badge.title = "ระบบคลาวด์ไม่ได้เปิดใช้งาน (เซฟในเครื่องอย่างเดียว) คลิกเพื่อตั้งค่า";
+    } else if (status === "syncing") {
+        badge.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> กำลังซิงค์...';
+        badge.title = "กำลังซิงค์ข้อมูลกับคลาวด์...";
+    } else if (status === "error") {
+        badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ผิดพลาด';
+        badge.title = "ไม่สามารถเชื่อมต่อคลาวด์ได้ ตรวจสอบ URL หรือ Sync Key ของคุณ (คลิกเพื่อลองใหม่)";
+    }
+}
+
+// --- HELPERS ---
+function formatDate(dateString) {
+    if (!dateString) return "";
+    const parts = dateString.split("-");
+    if (parts.length !== 3) return dateString;
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+</script>
 </body>
 </html>
