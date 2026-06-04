@@ -1387,7 +1387,7 @@ input[type="password"]:focus {
                     </div>
                 </div>
                 <div class="stat-card pending-tasks">
-                    <div class="stat-icon"><i class="fa-solid : fa-clock-intellectual"></i></div>
+                    <div class="stat-icon"><i class="fa-solid : fa-solid fa-clock"></i></div>
                     <div>
                         <div class="stat-value" id="statPending">0</div>
                         <div class="stat-label">รอดำเนินการ</div>
@@ -2077,7 +2077,7 @@ function renderEisenhowerMatrixGrid() {
     });
 }
 
-// --- ระบบบริหารจัดแจงคัมบังบอร์ด (Kanban Board) ร่วมกับการลากวาง Drag & Drop ---
+// --- ระบบบริหารจัดแจงบอร์ด (Kanban Board) ร่วมกับการลากวาง Drag & Drop ---
 function filterKanbanMatrix(matrixType, btnElement) {
     currentFilterMatrix = matrixType;
     document.querySelectorAll(".kanban-filters .filter-btn").forEach(b => b.classList.remove("active"));
