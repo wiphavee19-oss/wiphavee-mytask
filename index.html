@@ -1353,7 +1353,7 @@ input[type="password"]:focus {
                 <div class="logo-icon"><i class="fa-solid : fa-layer-group"></i></div>
                 <div class="logo-text">
                     <h1>My Task</h1>
-                    <p>ระบบบริหารงานและจัดลำดับความสำคัญระดับพรีเมียม</p>
+                    <p>ระบบบริหารงาน</p>
                 </div>
             </div>
             
@@ -1375,7 +1375,7 @@ input[type="password"]:focus {
         <main id="dashboardView" class="view-section active">
             <div class="view-header">
                 <h2><i class="fa-solid : fa-gauge-high" style="color:var(--accent-color)"></i> ภาพรวมประสิทธิภาพการทำงาน</h2>
-                <p class="view-subtitle">วิเคราะห์ข้อมูลและลำดับความสำคัญตามกรอบไอเซนฮาวร์ (Eisenhower Matrix)</p>
+                <p class="view-subtitle">วิเคราะห์ข้อมูล (Eisenhower Matrix)</p>
             </div>
 
             <div class="stats-grid">
@@ -1404,21 +1404,21 @@ input[type="password"]:focus {
                     <div class="stat-icon"><i class="fa-solid : fa-triangle-exclamation"></i></div>
                     <div>
                         <div class="stat-value" id="statOverdue">0</div>
-                        <div class="stat-label">เกินกำหนดส่ง</div>
+                        <div class="stat-label">เลยกำหนดส่ง</div>
                     </div>
                 </div>
             </div>
 
             <div class="dashboard-grid">
                 <div class="dashboard-card">
-                    <h3><i class="fa-solid : fa-chart-line-up" style="color:#30d158"></i> สรุปความก้าวหน้าและการจำแนกประเภท</h3>
-                    <p class="card-desc">อัตราผลผลิตโดยรวมและสัดส่วนงานตามหมวดหมู่</p>
+                    <h3><i class="fa-solid : fa-chart-line-up" style="color:#30d158"></i>สรุปความคืบหน้าของงาน</h3>
+                    <p class="card-desc">สัดส่วนงานตามหมวดหมู่</p>
                     
                     <div class="productivity-wrapper">
                         <div class="progress-ring-container" id="productivityRing">
                             <div class="progress-ring-text">
                                 <span id="productivityPercent">0%</span>
-                                <div class="text-xs">ผลผลิต</div>
+                                <div class="text-xs">ภาพรวม</div>
                             </div>
                         </div>
                         <div class="progress-summary-details">
@@ -1452,34 +1452,34 @@ input[type="password"]:focus {
                 </div>
 
                 <div class="dashboard-card">
-                    <h3><i class="fa-solid : fa-grid-2" style="color:var(--accent-color)"></i> กรอบลำดับความสำคัญ (Eisenhower Matrix)</h3>
+                    <h3><i class="fa-solid : fa-grid-2" style="color:var(--accent-color)"></i>จัดลำดับความสำคัญ (Eisenhower Matrix)</h3>
                     <p class="card-desc">งานจะถูกจัดลงกล่องโดยอัตโนมัติตามระดับความสำคัญและความเร่งด่วน</p>
                     
                     <div class="matrix-grid">
                         <div class="matrix-quadrant urgent-important">
                             <div class="quadrant-header">
-                                <span class="quadrant-badge badge-ui">Q1: วิกฤต / ต้องทำทันที</span>
+                                <span class="quadrant-badge badge-ui">ด่วน & สำคัญ</span>
                                 <span class="quadrant-count" id="countQ1">0 งาน</span>
                             </div>
                             <div class="quadrant-content" id="quadrantQ1"></div>
                         </div>
                         <div class="matrix-quadrant important-not-urgent">
                             <div class="quadrant-header">
-                                <span class="quadrant-badge badge-inu">Q2: เป้าหมาย / วางแผน</span>
+                                <span class="quadrant-badge badge-inu">ด่วน & ไม่คัญ</span>
                                 <span class="quadrant-count" id="countQ2">0 งาน</span>
                             </div>
                             <div class="quadrant-content" id="quadrantQ2"></div>
                         </div>
                         <div class="matrix-quadrant urgent-not-important">
                             <div class="quadrant-header">
-                                <span class="quadrant-badge badge-uni">Q3: รบกวน / มอบหมาย</span>
+                                <span class="quadrant-badge badge-uni">ไม่ด่วน & สำคัญ</span>
                                 <span class="quadrant-count" id="countQ3">0 งาน</span>
                             </div>
                             <div class="quadrant-content" id="quadrantQ3"></div>
                         </div>
                         <div class="matrix-quadrant not-urgent-not-important">
                             <div class="quadrant-header">
-                                <span class="quadrant-badge badge-nuni">Q4: ไร้สาระ / ลดละเลิก</span>
+                                <span class="quadrant-badge badge-nuni">ไม่ด่วน & ไม่สำคัญ</span>
                                 <span class="quadrant-count" id="countQ4">0 งาน</span>
                             </div>
                             <div class="quadrant-content" id="quadrantQ4"></div>
@@ -1492,18 +1492,18 @@ input[type="password"]:focus {
         <section id="kanbanView" class="view-section">
             <div class="member-view-header">
                 <div class="view-header" style="margin-bottom:0">
-                    <h2><i class="fa-solid : fa-table-columns" style="color:var(--accent-color)"></i> บอร์ดบริหารสถานะงาน (Kanban)</h2>
-                    <p class="view-subtitle">ลากและวางการ์ดงานเพื่อเปลี่ยนสถานะได้อย่างอิสระและเรียลไทม์</p>
+                    <h2><i class="fa-solid : fa-table-columns" style="color:var(--accent-color)"></i> สถานะงาน </h2>
+                    <p class="view-subtitle">ลากและวางการ์ดงานเพื่อเปลี่ยนสถานะ</p>
                 </div>
                 
                 <div class="kanban-filters">
-                    <span class="filter-label"><i class="fa-solid : fa-filter"></i> กรองด่วนเมทริกซ์:</span>
+                    <span class="filter-label"><i class="fa-solid : fa-filter"></i> ตัวกรอง:</span>
                     <div class="filter-btn-group">
                         <button class="filter-btn active" onclick="filterKanbanMatrix('ALL', this)">ทั้งหมด</button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('UI', this)"><span class="dot dot-ui"></span> Q1</button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('INU', this)"><span class="dot dot-inu"></span> Q2</button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('UNI', this)"><span class="dot dot-uni"></span> Q3</button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('NUNI', this)"><span class="dot dot-nuni"></span> Q4</button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('UI', this)"><span class="dot dot-ui"></span> ด่วน & สำคัญ </button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('INU', this)"><span class="dot dot-inu"></span> ด่วน & ไม่คัญ </button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('UNI', this)"><span class="dot dot-uni"></span> ไม่ด่วน & สำคัญ </button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('NUNI', this)"><span class="dot dot-nuni"></span> ไม่ด่วน & ไม่สำคัญ </button>
                     </div>
                 </div>
             </div>
@@ -1513,7 +1513,7 @@ input[type="password"]:focus {
                     <div class="column-header col-todo">
                         <div class="col-title-container">
                             <span class="col-status-dot"></span>
-                            <h3>📅 รอมอบหมาย (To Do)</h3>
+                            <h3>📅 ต้องทำ (To Do)</h3>
                         </div>
                         <span class="card-count" id="countColTodo">0</span>
                     </div>
@@ -1560,7 +1560,7 @@ input[type="password"]:focus {
                 <div class="table-card-header">
                     <div class="view-header" style="margin-bottom:0">
                         <h2><i class="fa-solid : fa-table-list" style="color:var(--accent-color)"></i> รายการข้อมูลงานทั้งหมดบนฐานข้อมูล</h2>
-                        <p class="view-subtitle">ระบบค้นหา จัดเรียง และคัดกรองข้อมูลระดับสูงแบบ Multi-criteria</p>
+                        <p class="view-subtitle">ระบบค้นหา จัดเรียง และคัดกรองข้อมูล</p>
                     </div>
                     
                     <div class="table-filters">
@@ -1589,7 +1589,7 @@ input[type="password"]:focus {
                     <table class="premium-table">
                         <thead>
                             <tr>
-                                <th style="width: 40%">หัวข้อภารกิจและรายละเอียด</th>
+                                <th style="width: 40%">ภารกิจและรายละเอียด</th>
                                 <th style="width: 15%">หมวดหมู่</th>
                                 <th style="width: 15%">สถานะงาน</th>
                                 <th style="width: 15%">ความสำคัญ</th>
@@ -1650,7 +1650,7 @@ input[type="password"]:focus {
                     <div class="form-group" style="margin-bottom:0">
                         <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-bolt" style="color:#ff7a00"></i> ระดับความเร่งด่วน</label>
                         <select id="formTaskUrgent" class="premium-select" style="margin-top:4px">
-                            <option value="YES">🔥 เร่งด่วนสูง (Urgent)</option>
+                            <option value="YES">🔥 เร่งด่วน (Urgent)</option>
                             <option value="NO">⏳ รอได้ / ไม่เร่งด่วน (Not Urgent)</option>
                         </select>
                     </div>
