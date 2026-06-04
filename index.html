@@ -213,6 +213,7 @@ body {
     border-radius: var(--border-radius-md);
     border: 1px solid var(--border-color);
     gap: 4px;
+    flex-wrap: wrap;
 }
 
 .nav-tab {
@@ -229,6 +230,9 @@ body {
     align-items: center;
     gap: 8px;
     transition: all 0.2s ease;
+    flex: 1;                     
+    min-width: max-content;      
+    justify-content: center;
 }
 
 .nav-tab:hover {
