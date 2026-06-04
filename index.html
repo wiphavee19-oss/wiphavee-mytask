@@ -35,8 +35,14 @@
             </nav>
             
             <div class="header-actions">
+                <span id="sync-status-badge" class="sync-status-badge offline" title="สถานะการเชื่อมต่อซิงค์ข้อมูล">
+                    <i class="fa-solid fa-cloud"></i> ออฟไลน์
+                </span>
                 <button id="add-task-btn" class="btn btn-primary">
                     <i class="fa-solid fa-plus"></i> เพิ่มงานใหม่
+                </button>
+                <button id="sync-toggle-btn" class="btn btn-icon" title="ตั้งค่าการซิงค์ข้อมูล">
+                    <i class="fa-solid fa-arrows-rotate"></i>
                 </button>
                 <button id="theme-toggle-btn" class="btn btn-icon" title="เปลี่ยนธีม">
                     <i class="fa-solid fa-sun"></i>
@@ -365,6 +371,51 @@
                         <button type="button" class="btn btn-secondary" id="cancel-task-btn">ยกเลิก</button>
                         <button type="submit" class="btn btn-primary" id="save-task-btn">บันทึกข้อมูล</button>
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CLOUD SYNC SETTINGS -->
+    <div id="sync-modal" class="modal">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-cloud-arrow-up"></i> ตั้งค่าการซิงค์ข้อมูลหลายอุปกรณ์</h2>
+                <button class="close-btn" id="close-sync-modal">&times;</button>
+            </div>
+            <form id="sync-form">
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
+                    เชื่อมต่อฐานข้อมูลคลาวด์ของคุณผ่าน Cloudflare Workers หรือเซิร์ฟเวอร์ที่เข้ากันได้ เพื่อบันทึกและซิงค์งานทั้งหมดของคุณข้ามอุปกรณ์ได้แบบเรียลไทม์
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-container" style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
+                        <input type="checkbox" id="sync-enable-checkbox" style="width: 18px; height: 18px; cursor: pointer;">
+                        <span>เปิดใช้งานการซิงค์ข้อมูลผ่านคลาวด์ (Cloud Sync)</span>
+                    </label>
+                </div>
+
+                <div id="sync-fields" style="display: none; flex-direction: column; gap: 16px; margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="sync-url-input">Cloud API URL (Link API ของคุณ) <span class="required">*</span></label>
+                        <input type="url" id="sync-url-input" placeholder="เช่น https://mytask-api.username.workers.dev">
+                        <small style="color: var(--text-secondary); font-size: 11px; margin-top: 4px; display: block;">
+                            * ที่อยู่ของ Cloudflare Worker ที่คุณนำไปติดตั้ง
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sync-key-input">รหัสผ่านลับในการเข้าถึงข้อมูล (Sync Key) <span class="required">*</span></label>
+                        <input type="password" id="sync-key-input" placeholder="กรอกรหัสผ่านเพื่อความปลอดภัยของข้อมูล">
+                        <small style="color: var(--text-secondary); font-size: 11px; margin-top: 4px; display: block;">
+                            * รหัสที่ใช้เพื่อเข้ารหัสและยืนยันตัวตนกับฐานข้อมูล
+                        </small>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top: 24px;">
+                    <button type="button" class="btn btn-secondary" id="cancel-sync-btn">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary" id="save-sync-btn">บันทึกและเชื่อมต่อ</button>
                 </div>
             </form>
         </div>
