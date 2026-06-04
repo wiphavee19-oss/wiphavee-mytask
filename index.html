@@ -1352,15 +1352,15 @@ input[type="password"]:focus {
             <div class="header-logo">
                 <div class="logo-icon"><i class="fa-solid : fa-layer-group"></i></div>
                 <div class="logo-text">
-                    <h1>My Task Of WJ</h1>
-                    <p>การบริหารงานของวิภาวี</p>
+                    <h1>My Task : Wiphavee J.</h1>
+                    <p>I Love My Job</p>
                 </div>
             </div>
             
             <nav class="app-navigation">
-                <button class="nav-tab active" onclick="switchView('dashboard')"><i class="fa-solid : fa-chart-pie"></i> dashboard</button>
-                <button class="nav-tab" onclick="switchView('kanban')"><i class="fa-solid : fa-chalkboard-user"></i> board</button>
-                <button class="nav-tab" onclick="switchView('alltasks')"><i class="fa-solid : fa-list-check"></i> alltasks</button>
+                <button class="nav-tab active" onclick="switchView('Dashboard')"><i class="fa-solid : fa-chart-pie"></i> dashboard</button>
+                <button class="nav-tab" onclick="switchView('Board')"><i class="fa-solid : fa-chalkboard-user"></i> board</button>
+                <button class="nav-tab" onclick="switchView('All tasks')"><i class="fa-solid : fa-list-check"></i> alltasks</button>
             </nav>
 
             <div class="header-actions">
@@ -1589,7 +1589,7 @@ input[type="password"]:focus {
                     <table class="premium-table">
                         <thead>
                             <tr>
-                                <th style="width: 40%">ภารกิจและรายละเอียด</th>
+                                <th style="width: 40%">งานและรายละเอียด</th>
                                 <th style="width: 15%">หมวดหมู่</th>
                                 <th style="width: 15%">สถานะงาน</th>
                                 <th style="width: 15%">ความสำคัญ</th>
@@ -2114,7 +2114,7 @@ function renderKanbanBoardSystem() {
         // วิเคราะห์จัดระดับ Badge ความสำคัญด่วนเป็นสตริงข้อความ
         let priorityLabel = " ไม่ด่วน/ไม่สำคัญ";
         if(qCode === 'ui') priorityLabel = " เร่งด่วน";
-        else if(qCode === 'inu') priorityLabel = " งานสำคัญ";
+        else if(qCode === 'inu') priorityLabel = " สำคัญ";
         else if(qCode === 'uni') priorityLabel = " งานมอบหมายด่วน";
 
         // คัดแยกหมวดหมู่สีกริด
@@ -2226,7 +2226,7 @@ function renderAllTasksTable() {
         else if (task.category === 'PERSONAL') { catText = " ส่วนตัว"; catClass = "badge-cat-personal"; }
         else if (task.category === 'LEARNING') { catText = " เรียนรู้"; catClass = "badge-cat-learning"; }
 
-        let statusText = "To Do", statusClass = "badge-todo";
+        let statusText = "ต้องทำ", statusClass = "badge-todo";
         if (task.status === 'inprogress') { statusText = "กำลังทำ"; statusClass = "badge-inprogress"; }
         else if (task.status === 'review') { statusText = "รอตรวจ"; statusClass = "badge-review"; }
         else if (task.status === 'completed') { statusText = "เสร็จสิ้น"; statusClass = "badge-completed"; }
@@ -2253,4 +2253,5 @@ function renderAllTasksTable() {
     </script>
 </body>
 </html>
+
 
