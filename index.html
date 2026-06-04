@@ -1570,17 +1570,17 @@ input[type="password"]:focus {
                         </div>
                         <select class="table-filter-select" id="filterTableCategory" onchange="renderAllTasksTable()">
                             <option value="ALL">ทุกหมวดหมู่</option>
-                            <option value="WORK">💼 งานธุรกิจ / อาชีพ</option>
-                            <option value="PERSONAL">🏡 กิจกรรมส่วนตัว</option>
-                            <option value="LEARNING">🎓 การเรียนรู้ / พัฒนา</option>
-                            <option value="OTHER">✨ ภารกิจอื่นๆ</option>
+                            <option value="WORK">งาน (Work)</option>
+                            <option value="PERSONAL">ส่วนตัว (Personal)</option>
+                            <option value="LEARNING">เรียนรู้ (Learning)</option>
+                            <option value="OTHER">อื่นๆ (Other)</option>
                         </select>
                         <select class="table-filter-select" id="filterTableMatrix" onchange="renderAllTasksTable()">
-                            <option value="ALL">ทุกระดับความสำคัญ</option>
-                            <option value="UI">Q1: เร่งด่วน & สำคัญมาก</option>
-                            <option value="INU">Q2: ไม่เร่งด่วน แต่สำคัญ</option>
-                            <option value="UNI">Q3: เร่งด่วน แต่ไม่สำคัญ</option>
-                            <option value="NUNI">Q4: ไม่เร่งด่วน & ไม่สำคัญ</option>
+                            <option value="ALL">ระดับความสำคัญ</option>
+                            <option value="UI"> เร่งด่วน & สำคัญมาก</option>
+                            <option value="INU"> ไม่เร่งด่วน แต่สำคัญ</option>
+                            <option value="UNI"> เร่งด่วน แต่ไม่สำคัญ</option>
+                            <option value="NUNI"> ไม่เร่งด่วน & ไม่สำคัญ</option>
                         </select>
                     </div>
                 </div>
@@ -1627,10 +1627,10 @@ input[type="password"]:focus {
                     <div class="form-group">
                         <label>หมวดหมู่หลัก</label>
                         <select id="formTaskCategory" class="premium-select">
-                            <option value="WORK">💼 งานธุรกิจ / อาชีพ</option>
-                            <option value="PERSONAL">🏡 กิจกรรมส่วนตัว</option>
-                            <option value="LEARNING">🎓 การเรียนรู้ / พัฒนา</option>
-                            <option value="OTHER">✨ ภารกิจอื่นๆ</option>
+                            <option value="WORK">งาน (work)</option>
+                            <option value="PERSONAL">ส่วนตัว (personal)</option>
+                            <option value="LEARNING">เรียนรู้ (Learning)</option>
+                            <option value="OTHER">อื่นๆ (Other)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1643,15 +1643,15 @@ input[type="password"]:focus {
                     <div class="form-group" style="margin-bottom:0">
                         <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-circle-exclamation" style="color:#ff9f0a"></i> ระดับความสำคัญ</label>
                         <select id="formTaskImportant" class="premium-select" style="margin-top:4px">
-                            <option value="YES">🌟 สำคัญมาก (Important)</option>
-                            <option value="NO">⚪️ ทั่วไป / ไม่สำคัญ (Not Important)</option>
+                            <option value="YES">สำคัญมาก (Important)</option>
+                            <option value="NO">ไม่สำคัญ (Not Important)</option>
                         </select>
                     </div>
                     <div class="form-group" style="margin-bottom:0">
                         <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-bolt" style="color:#ff7a00"></i> ระดับความเร่งด่วน</label>
                         <select id="formTaskUrgent" class="premium-select" style="margin-top:4px">
-                            <option value="YES">🔥 เร่งด่วน (Urgent)</option>
-                            <option value="NO">⏳ รอได้ / ไม่เร่งด่วน (Not Urgent)</option>
+                            <option value="YES">เร่งด่วน (Urgent)</option>
+                            <option value="NO">ไม่เร่งด่วน (Not Urgent)</option>
                         </select>
                     </div>
                 </div>
@@ -1659,10 +1659,10 @@ input[type="password"]:focus {
                 <div class="form-group" style="margin-top:16px">
                     <label>สถานะขั้นตอนการทำงานปัจจุบัน</label>
                     <select id="formTaskStatus" class="premium-select">
-                        <option value="todo">📅 รอมอบหมาย (To Do)</option>
-                        <option value="inprogress">⚡️ กำลังดำเนินงาน (In Progress)</option>
-                        <option value="review">🔍 ตรวจสอบ/คัดกรอง (Review)</option>
-                        <option value="completed">✅ เสร็จสิ้นภารกิจ (Completed)</option>
+                        <option value="todo"> ต้องทำ (To Do)</option>
+                        <option value="inprogress"> กำลังดำเนินการ (In Progress)</option>
+                        <option value="review"> ตรวจสอบ (Review)</option>
+                        <option value="completed"> เสร็จสิ้น (Completed)</option>
                     </select>
                 </div>
 
@@ -2060,10 +2060,10 @@ function renderEisenhowerMatrixGrid() {
         miniCard.onclick = () => openEditTaskModal(task.id);
         
         let catEmojiName = "ภารกิจ";
-        if(task.category === 'WORK') catEmojiName = "💼 งาน";
-        else if(task.category === 'PERSONAL') catEmojiName = "🏡 ส่วนตัว";
-        else if(task.category === 'LEARNING') catEmojiName = "🎓 เรียน";
-        else catEmojiName = "✨ อื่นๆ";
+        if(task.category === 'WORK') catEmojiName = "งาน (work)";
+        else if(task.category === 'PERSONAL') catEmojiName = "ส่วนตัว (Personal)";
+        else if(task.category === 'LEARNING') catEmojiName = "เรียนรู้ (Learning)";
+        else catEmojiName = "ภารกิจ อื่นๆ (Other)";
 
         miniCard.innerHTML = `
             <div class="matrix-mini-title">${task.title}</div>
@@ -2112,17 +2112,17 @@ function renderKanbanBoardSystem() {
         };
 
         // วิเคราะห์จัดระดับ Badge ความสำคัญด่วนเป็นสตริงข้อความ
-        let priorityLabel = "Q4 ไม่ด่วน/ไม่สำคัญ";
-        if(qCode === 'ui') priorityLabel = "Q1 เร่งด่วนภารกิจ";
-        else if(qCode === 'inu') priorityLabel = "Q2 แผนการสำคัญ";
-        else if(qCode === 'uni') priorityLabel = "Q3 งานมอบหมายด่วน";
+        let priorityLabel = " ไม่ด่วน/ไม่สำคัญ";
+        if(qCode === 'ui') priorityLabel = " เร่งด่วนภารกิจ";
+        else if(qCode === 'inu') priorityLabel = " แผนการสำคัญ";
+        else if(qCode === 'uni') priorityLabel = " งานมอบหมายด่วน";
 
         // คัดแยกหมวดหมู่สีกริด
         let catText = "อื่นๆ";
         let catClass = "badge-cat-other";
-        if (task.category === 'WORK') { catText = "💼 งานอาชีพ"; catClass = "badge-cat-work"; }
-        else if (task.category === 'PERSONAL') { catText = "🏡 ส่วนตัว"; catClass = "badge-cat-personal"; }
-        else if (task.category === 'LEARNING') { catText = "🎓 การเรียนรู้"; catClass = "badge-cat-learning"; }
+        if (task.category === 'WORK') { catText = "งาน (work)"; catClass = "badge-cat-work"; }
+        else if (task.category === 'PERSONAL') { catText = "ส่วนตัว (Personal)"; catClass = "badge-cat-personal"; }
+        else if (task.category === 'LEARNING') { catText = "เรียนรู้ (Other)"; catClass = "badge-cat-learning"; }
 
         // คำนวณสีและการแจ้งเตือนเดดไลน์
         let deadlineHtml = "";
@@ -2222,9 +2222,9 @@ function renderAllTasksTable() {
         tr.onclick = () => openEditTaskModal(task.id);
 
         let catText = "อื่นๆ", catClass = "badge-cat-other";
-        if (task.category === 'WORK') { catText = "💼 งานอาชีพ"; catClass = "badge-cat-work"; }
-        else if (task.category === 'PERSONAL') { catText = "🏡 ส่วนตัว"; catClass = "badge-cat-personal"; }
-        else if (task.category === 'LEARNING') { catText = "🎓 การเรียนรู้"; catClass = "badge-cat-learning"; }
+        if (task.category === 'WORK') { catText = " งานอาชีพ"; catClass = "badge-cat-work"; }
+        else if (task.category === 'PERSONAL') { catText = " ส่วนตัว"; catClass = "badge-cat-personal"; }
+        else if (task.category === 'LEARNING') { catText = " เรียนรู้"; catClass = "badge-cat-learning"; }
 
         let statusText = "To Do", statusClass = "badge-todo";
         if (task.status === 'inprogress') { statusText = "กำลังทำ"; statusClass = "badge-inprogress"; }
@@ -2232,10 +2232,10 @@ function renderAllTasksTable() {
         else if (task.status === 'completed') { statusText = "เสร็จสิ้น"; statusClass = "badge-completed"; }
 
         const qCode = getMatrixQuadrantCode(task).toLowerCase();
-        let priorityText = "Q4 ไม่ด่วน/ไม่สำคัญ", priorityClass = "priority-nuni";
-        if (qCode === 'ui') { priorityText = "Q1 ด่วน & สำคัญ"; priorityClass = "priority-ui"; }
-        else if (qCode === 'inu') { priorityText = "Q2 สำคัญไม่เร่งด่วน"; priorityClass = "priority-inu"; }
-        else if (qCode === 'uni') { priorityText = "Q3 ด่วนแต่ไม่สำคัญ"; priorityClass = "priority-uni"; }
+        let priorityText = " ไม่ด่วน/ไม่สำคัญ", priorityClass = "priority-nuni";
+        if (qCode === 'ui') { priorityText = " ด่วน & สำคัญ"; priorityClass = "priority-ui"; }
+        else if (qCode === 'inu') { priorityText = " สำคัญไม่เร่งด่วน"; priorityClass = "priority-inu"; }
+        else if (qCode === 'uni') { priorityText = " ด่วนแต่ไม่สำคัญ"; priorityClass = "priority-uni"; }
 
         tr.innerHTML = `
             <td>
