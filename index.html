@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Task - จัดการงานส่วนตัว</title>
-    <!-- Google Fonts for premium typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for clean iconography -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
 /* SoloTask Global CSS Design System - Modern Gray-Orange Theme */
@@ -456,7 +454,6 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    /* conic-gradient will be injected or updated via custom property --percentage in JS */
     background: conic-gradient(var(--accent-color) var(--percentage, 0%), var(--border-color) 0);
     display: flex;
     align-items: center;
@@ -1346,1466 +1343,913 @@ input[type="password"]:focus {
     border-color: var(--border-focus);
     box-shadow: 0 0 0 3px var(--shadow-glow);
 }
-
-.checkbox-container input[type="checkbox"] {
-    accent-color: var(--accent-color);
-}
-</style>
+    </style>
 </head>
 <body class="dark-theme">
+
     <div class="app-container">
-        <!-- HEADER -->
         <header class="app-header">
             <div class="header-logo">
-                <div class="logo-icon"><i class="fa-solid fa-square-check"></i></div>
+                <div class="logo-icon"><i class="fa-solid : fa-layer-group"></i></div>
                 <div class="logo-text">
                     <h1>My Task</h1>
-                    <p>จัดการงานส่วนตัวง่ายๆ ในที่เดียว</p>
+                    <p>ระบบบริหารงานและจัดลำดับความสำคัญระดับพรีเมียม</p>
                 </div>
             </div>
             
-            <!-- Tab Navigation (Modern Switcher) -->
             <nav class="app-navigation">
-                <button class="nav-tab active" data-tab="dashboard-view">
-                    <i class="fa-solid fa-chart-pie"></i> Overview
-                </button>
-                <button class="nav-tab" data-tab="kanban-view">
-                    <i class="fa-solid fa-table-columns"></i> All Task
-                </button>
+                <button class="nav-tab active" onclick="switchView('dashboard')"><i class="fa-solid : fa-chart-pie"></i> แดชบอร์ด</button>
+                <button class="nav-tab" onclick="switchView('kanban')"><i class="fa-solid : fa-chalkboard-user"></i> คัมบังบอร์ด</button>
+                <button class="nav-tab" onclick="switchView('alltasks')"><i class="fa-solid : fa-list-check"></i> งานทั้งหมด</button>
             </nav>
-            
+
             <div class="header-actions">
-                <span id="sync-status-badge" class="sync-status-badge offline" title="สถานะการเชื่อมต่อซิงค์ข้อมูล">
-                    <i class="fa-solid fa-cloud"></i> ออฟไลน์
-                </span>
-                <button id="add-task-btn" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i> เพิ่มงานใหม่
-                </button>
-                <button id="sync-toggle-btn" class="btn btn-icon" title="ตั้งค่าการซิงค์ข้อมูล">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                </button>
-                <button id="theme-toggle-btn" class="btn btn-icon" title="เปลี่ยนธีม">
-                    <i class="fa-solid fa-sun"></i>
-                </button>
+                <div id="syncStatusIndicator" class="sync-status-badge offline" onclick="openModal('syncModal')">
+                    <i class="fa-solid : fa-cloud"></i> <span>เครื่องนี้ (Local)</span>
+                </div>
+                <button class="btn-icon" onclick="toggleTheme()" title="เปลี่ยนธีมสี"><i class="fa-solid : fa-moon" id="themeIcon"></i></button>
+                <button class="btn btn-primary" onclick="openAddTaskModal()"><i class="fa-solid : fa-plus"></i> เพิ่มงานใหม่</button>
             </div>
         </header>
 
-        <!-- MAIN CONTENT AREA -->
-        <main class="app-main-content">
-            
-            <!-- DASHBOARD VIEW -->
-            <section id="dashboard-view" class="view-section active">
-                <div class="view-header">
-                    <h2><i class="fa-solid fa-chart-line"></i> ภาพรวมงาน</h2>
-                    <p class="view-subtitle">สถานะงาน อัตราความสำเร็จ และการจัดการตามลำดับความสำคัญ</p>
-                </div>
+        <main id="dashboardView" class="view-section active">
+            <div class="view-header">
+                <h2><i class="fa-solid : fa-gauge-high" style="color:var(--accent-color)"></i> ภาพรวมประสิทธิภาพการทำงาน</h2>
+                <p class="view-subtitle">วิเคราะห์ข้อมูลและลำดับความสำคัญตามกรอบไอเซนฮาวร์ (Eisenhower Matrix)</p>
+            </div>
 
-                <!-- Stats Counters Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card total-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-list-check"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-total">0</span>
-                            <span class="stat-label">งานทั้งหมด</span>
-                        </div>
-                    </div>
-                    <div class="stat-card pending-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-spinner"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-pending">0</span>
-                            <span class="stat-label">กำลังดำเนินการ</span>
-                        </div>
-                    </div>
-                    <div class="stat-card completed-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-completed">0</span>
-                            <span class="stat-label">เสร็จสิ้นแล้ว</span>
-                        </div>
-                    </div>
-                    <div class="stat-card overdue-tasks">
-                        <div class="stat-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
-                        <div class="stat-details">
-                            <span class="stat-value" id="stats-overdue">0</span>
-                            <span class="stat-label">เลยกำหนดส่ง</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Grid for Charts and Eisenhower Matrix -->
-                <div class="dashboard-grid">
-                    <!-- Left: Productivity & Category Distribution -->
-                    <div class="dashboard-card category-card">
-                        <h3><i class="fa-solid fa-chart-simple"></i> งานแยกตามหมวดหมู่</h3>
-                        <p class="card-desc">จำนวนงานที่กำลังทำอยู่ในแต่ละหมวดหมู่</p>
-                        
-                        <!-- Mini Productivity Circle -->
-                        <div class="productivity-wrapper">
-                            <div class="progress-ring-container">
-                                <div class="progress-ring-text">
-                                    <span id="completion-percentage">0%</span>
-                                    <span class="text-xs">งานที่เสร็จ</span>
-                                </div>
-                            </div>
-                            <div class="progress-summary-details">
-                                <p><strong>สถิติการปิดงานของคุณ:</strong></p>
-                                <span id="progress-summary-text">คุณจัดการงานเสร็จสิ้นไปแล้ว 0 งาน</span>
-                            </div>
-                        </div>
-
-                        <div class="category-chart-container" id="category-chart">
-                            <!-- Populated dynamically via JS -->
-                        </div>
-                    </div>
-
-                    <!-- Right: Eisenhower Matrix -->
-                    <div class="dashboard-card matrix-card">
-                        <h3><i class="fa-solid fa-table-cells-large"></i> ตารางวิเคราะห์ความเร่งด่วนและสำคัญ (Eisenhower Matrix)</h3>
-                        <p class="card-desc">วางแผนจัดการลำดับความสำคัญของงานคุณ</p>
-                        <div class="matrix-grid">
-                            <!-- Urgent & Important -->
-                            <div class="matrix-quadrant urgent-important">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-ui">ด่วน & สำคัญ</span>
-                                    <span class="quadrant-count" id="count-ui">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-ui">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-                            
-                            <!-- Important & Not Urgent -->
-                            <div class="matrix-quadrant important-not-urgent">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-inu">ไม่ด่วน & สำคัญ</span>
-                                    <span class="quadrant-count" id="count-inu">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-inu">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-
-                            <!-- Urgent & Not Important -->
-                            <div class="matrix-quadrant urgent-not-important">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-uni">ด่วน & ไม่สำคัญ</span>
-                                    <span class="quadrant-count" id="count-uni">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-uni">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-
-                            <!-- Neither -->
-                            <div class="matrix-quadrant not-urgent-not-important">
-                                <div class="quadrant-header">
-                                    <span class="quadrant-badge badge-nuni">ไม่ด่วน & ไม่สำคัญ</span>
-                                    <span class="quadrant-count" id="count-nuni">0 งาน</span>
-                                </div>
-                                <div class="quadrant-content" id="list-nuni">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bottom: All Tasks Table -->
-                <div class="dashboard-card table-card">
-                    <div class="table-card-header">
-                        <h3><i class="fa-solid fa-list"></i> รายการงานทั้งหมดของคุณ (All Tasks)</h3>
-                        <div class="table-filters">
-                            <div class="search-box">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" id="task-search" placeholder="ค้นหาชื่องาน หรือรายละเอียด...">
-                            </div>
-                            <select id="filter-category" class="table-filter-select">
-                                <option value="all">ทุกหมวดหมู่</option>
-                                <option value="work">งาน (Work)</option>
-                                <option value="personal">ส่วนตัว (Personal)</option>
-                                <option value="learning">เรียนรู้ (Learning)</option>
-                                <option value="other">อื่นๆ (Other)</option>
-                            </select>
-                            <select id="filter-status" class="table-filter-select">
-                                <option value="all">ทุกสถานะ</option>
-                                <option value="todo">ต้องทำ</option>
-                                <option value="in_progress">กำลังทำ</option>
-                                <option value="review">รอตรวจทาน</option>
-                                <option value="completed">เสร็จสิ้น</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="premium-table">
-                            <thead>
-                                <tr>
-                                    <th>ชื่องาน</th>
-                                    <th>หมวดหมู่</th>
-                                    <th>วันที่มอบหมาย</th>
-                                    <th>วันครบกำหนด</th>
-                                    <th>ระดับความสำคัญ</th>
-                                    <th>สถานะ</th>
-                                    <th>การจัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leader-task-table-body">
-                                <!-- Populated dynamically via JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- KANBAN VIEW -->
-            <section id="kanban-view" class="view-section">
-                <div class="view-header member-view-header">
+            <div class="stats-grid">
+                <div class="stat-card total-tasks">
+                    <div class="stat-icon"><i class="fa-solid : fa-briefcase"></i></div>
                     <div>
-                        <h2><i class="fa-solid fa-chalkboard-user"></i> บอร์ดงานของคุณ</h2>
-                        <p class="view-subtitle">ลากและวางการ์ดงานเพื่อเปลี่ยนสถานะ หรือคลิกเพื่อดูรายละเอียดและแก้ไข</p>
+                        <div class="stat-value" id="statTotal">0</div>
+                        <div class="stat-label">งานทั้งหมด</div>
                     </div>
-                    <div class="kanban-filters">
-                        <span class="filter-label"><i class="fa-solid fa-filter"></i> ตัวกรองความสำคัญ:</span>
-                        <div class="filter-btn-group">
-                            <button class="filter-btn active" data-matrix="all">ทั้งหมด</button>
-                            <button class="filter-btn" data-matrix="ui"><span class="dot dot-ui"></span>ด่วน & สำคัญ</button>
-                            <button class="filter-btn" data-matrix="inu"><span class="dot dot-inu"></span>ไม่ด่วน & สำคัญ</button>
-                            <button class="filter-btn" data-matrix="uni"><span class="dot dot-uni"></span>ด่วน & ไม่สำคัญ</button>
-                            <button class="filter-btn" data-matrix="nuni"><span class="dot dot-nuni"></span>ไม่ด่วน & ไม่สำคัญ</button>
+                </div>
+                <div class="stat-card pending-tasks">
+                    <div class="stat-icon"><i class="fa-solid : fa-clock-intellectual"></i></div>
+                    <div>
+                        <div class="stat-value" id="statPending">0</div>
+                        <div class="stat-label">รอดำเนินการ</div>
+                    </div>
+                </div>
+                <div class="stat-card completed-tasks">
+                    <div class="stat-icon"><i class="fa-solid : fa-circle-check"></i></div>
+                    <div>
+                        <div class="stat-value" id="statCompleted">0</div>
+                        <div class="stat-label">เสร็จสิ้นแล้ว</div>
+                    </div>
+                </div>
+                <div class="stat-card overdue-tasks">
+                    <div class="stat-icon"><i class="fa-solid : fa-triangle-exclamation"></i></div>
+                    <div>
+                        <div class="stat-value" id="statOverdue">0</div>
+                        <div class="stat-label">เกินกำหนดส่ง</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fa-solid : fa-chart-line-up" style="color:#30d158"></i> สรุปความก้าวหน้าและการจำแนกประเภท</h3>
+                    <p class="card-desc">อัตราผลผลิตโดยรวมและสัดส่วนงานตามหมวดหมู่</p>
+                    
+                    <div class="productivity-wrapper">
+                        <div class="progress-ring-container" id="productivityRing">
+                            <div class="progress-ring-text">
+                                <span id="productivityPercent">0%</span>
+                                <div class="text-xs">ผลผลิต</div>
+                            </div>
+                        </div>
+                        <div class="progress-summary-details">
+                            <p id="productivityQuote">เริ่มต้นวันใหม่ด้วยการจัดลำดับงานที่สำคัญ!</p>
+                            <span id="productivitySubtext">เสร็จสิ้น 0 จากทั้งหมด 0 งานบนระบบ</span>
+                        </div>
+                    </div>
+
+                    <div class="category-chart-container">
+                        <div class="category-row">
+                            <div class="category-label">💼 งานธุรกิจ</div>
+                            <div class="category-bar-wrapper"><div id="barWork" class="category-bar-progress bg-work"></div></div>
+                            <div class="category-count" id="countWork">0</div>
+                        </div>
+                        <div class="category-row">
+                            <div class="category-label">🏡 ส่วนตัว</div>
+                            <div class="category-bar-wrapper"><div id="barPersonal" class="category-bar-progress bg-personal"></div></div>
+                            <div class="category-count" id="countPersonal">0</div>
+                        </div>
+                        <div class="category-row">
+                            <div class="category-label">🎓 การศึกษา</div>
+                            <div class="category-bar-wrapper"><div id="barLearning" class="category-bar-progress bg-learning"></div></div>
+                            <div class="category-count" id="countLearning">0</div>
+                        </div>
+                        <div class="category-row">
+                            <div class="category-label">✨ อื่นๆ</div>
+                            <div class="category-bar-wrapper"><div id="barOther" class="category-bar-progress bg-other"></div></div>
+                            <div class="category-count" id="countOther">0</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Kanban Board Grid -->
-                <div class="kanban-board">
-                    <!-- Column: To Do -->
-                    <div class="kanban-column" data-status="todo">
-                        <div class="column-header col-todo">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>ต้องทำ (To Do)</h3>
+                <div class="dashboard-card">
+                    <h3><i class="fa-solid : fa-grid-2" style="color:var(--accent-color)"></i> กรอบลำดับความสำคัญ (Eisenhower Matrix)</h3>
+                    <p class="card-desc">งานจะถูกจัดลงกล่องโดยอัตโนมัติตามระดับความสำคัญและความเร่งด่วน</p>
+                    
+                    <div class="matrix-grid">
+                        <div class="matrix-quadrant urgent-important">
+                            <div class="quadrant-header">
+                                <span class="quadrant-badge badge-ui">Q1: วิกฤต / ต้องทำทันที</span>
+                                <span class="quadrant-count" id="countQ1">0 งาน</span>
                             </div>
-                            <span class="card-count" id="count-col-todo">0</span>
+                            <div class="quadrant-content" id="quadrantQ1"></div>
                         </div>
-                        <div class="kanban-cards-container" id="cards-todo">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Column: In Progress -->
-                    <div class="kanban-column" data-status="in_progress">
-                        <div class="column-header col-inprogress">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>กำลังทำ (In Progress)</h3>
+                        <div class="matrix-quadrant important-not-urgent">
+                            <div class="quadrant-header">
+                                <span class="quadrant-badge badge-inu">Q2: เป้าหมาย / วางแผน</span>
+                                <span class="quadrant-count" id="countQ2">0 งาน</span>
                             </div>
-                            <span class="card-count" id="count-col-inprogress">0</span>
+                            <div class="quadrant-content" id="quadrantQ2"></div>
                         </div>
-                        <div class="kanban-cards-container" id="cards-in_progress">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Review -->
-                    <div class="kanban-column" data-status="review">
-                        <div class="column-header col-review">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>รอตรวจทาน (Review)</h3>
+                        <div class="matrix-quadrant urgent-not-important">
+                            <div class="quadrant-header">
+                                <span class="quadrant-badge badge-uni">Q3: รบกวน / มอบหมาย</span>
+                                <span class="quadrant-count" id="countQ3">0 งาน</span>
                             </div>
-                            <span class="card-count" id="count-col-review">0</span>
+                            <div class="quadrant-content" id="quadrantQ3"></div>
                         </div>
-                        <div class="kanban-cards-container" id="cards-review">
-                            <!-- Task cards dynamically loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Completed -->
-                    <div class="kanban-column" data-status="completed">
-                        <div class="column-header col-completed">
-                            <div class="col-title-container">
-                                <span class="col-status-dot"></span>
-                                <h3>เสร็จสิ้น (Completed)</h3>
+                        <div class="matrix-quadrant not-urgent-not-important">
+                            <div class="quadrant-header">
+                                <span class="quadrant-badge badge-nuni">Q4: ไร้สาระ / ลดละเลิก</span>
+                                <span class="quadrant-count" id="countQ4">0 งาน</span>
                             </div>
-                            <span class="card-count" id="count-col-completed">0</span>
-                        </div>
-                        <div class="kanban-cards-container" id="cards-completed">
-                            <!-- Task cards dynamically loaded here -->
+                            <div class="quadrant-content" id="quadrantQ4"></div>
                         </div>
                     </div>
                 </div>
-            </section>
-
+            </div>
         </main>
+
+        <section id="kanbanView" class="view-section">
+            <div class="member-view-header">
+                <div class="view-header" style="margin-bottom:0">
+                    <h2><i class="fa-solid : fa-table-columns" style="color:var(--accent-color)"></i> บอร์ดบริหารสถานะงาน (Kanban)</h2>
+                    <p class="view-subtitle">ลากและวางการ์ดงานเพื่อเปลี่ยนสถานะได้อย่างอิสระและเรียลไทม์</p>
+                </div>
+                
+                <div class="kanban-filters">
+                    <span class="filter-label"><i class="fa-solid : fa-filter"></i> กรองด่วนเมทริกซ์:</span>
+                    <div class="filter-btn-group">
+                        <button class="filter-btn active" onclick="filterKanbanMatrix('ALL', this)">ทั้งหมด</button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('UI', this)"><span class="dot dot-ui"></span> Q1</button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('INU', this)"><span class="dot dot-inu"></span> Q2</button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('UNI', this)"><span class="dot dot-uni"></span> Q3</button>
+                        <button class="filter-btn" onclick="filterKanbanMatrix('NUNI', this)"><span class="dot dot-nuni"></span> Q4</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kanban-board">
+                <div class="kanban-column" id="col-todo" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('todo')" ondrop="dropCard(event, 'todo')">
+                    <div class="column-header col-todo">
+                        <div class="col-title-container">
+                            <span class="col-status-dot"></span>
+                            <h3>📅 รอมอบหมาย (To Do)</h3>
+                        </div>
+                        <span class="card-count" id="countColTodo">0</span>
+                    </div>
+                    <div class="kanban-cards-container" id="cards-todo"></div>
+                </div>
+
+                <div class="kanban-column" id="col-inprogress" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('inprogress')" ondrop="dropCard(event, 'inprogress')">
+                    <div class="column-header col-inprogress">
+                        <div class="col-title-container">
+                            <span class="col-status-dot"></span>
+                            <h3>⚡️กำลังทำ (In Progress)</h3>
+                        </div>
+                        <span class="card-count" id="countColInprogress">0</span>
+                    </div>
+                    <div class="kanban-cards-container" id="cards-inprogress"></div>
+                </div>
+
+                <div class="kanban-column" id="col-review" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('review')" ondrop="dropCard(event, 'review')">
+                    <div class="column-header col-review">
+                        <div class="col-title-container">
+                            <span class="col-status-dot"></span>
+                            <h3>🔍 ตรวจสอบความถูกต้อง (Review)</h3>
+                        </div>
+                        <span class="card-count" id="countColReview">0</span>
+                    </div>
+                    <div class="kanban-cards-container" id="cards-review"></div>
+                </div>
+
+                <div class="kanban-column" id="col-completed" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('completed')" ondrop="dropCard(event, 'completed')">
+                    <div class="column-header col-completed">
+                        <div class="col-title-container">
+                            <span class="col-status-dot"></span>
+                            <h3>✅ เสร็จสมบูรณ์ (Completed)</h3>
+                        </div>
+                        <span class="card-count" id="countColCompleted">0</span>
+                    </div>
+                    <div class="kanban-cards-container" id="cards-completed"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="alltasksView" class="view-section">
+            <div class="dashboard-card" style="padding: 24px;">
+                <div class="table-card-header">
+                    <div class="view-header" style="margin-bottom:0">
+                        <h2><i class="fa-solid : fa-table-list" style="color:var(--accent-color)"></i> รายการข้อมูลงานทั้งหมดบนฐานข้อมูล</h2>
+                        <p class="view-subtitle">ระบบค้นหา จัดเรียง และคัดกรองข้อมูลระดับสูงแบบ Multi-criteria</p>
+                    </div>
+                    
+                    <div class="table-filters">
+                        <div class="search-box">
+                            <i class="fa-solid : fa-magnifying-glass"></i>
+                            <input type="text" id="tableSearchInput" placeholder="ค้นหาชื่องานหรือคำอธิบาย..." oninput="renderAllTasksTable()">
+                        </div>
+                        <select class="table-filter-select" id="filterTableCategory" onchange="renderAllTasksTable()">
+                            <option value="ALL">ทุกหมวดหมู่</option>
+                            <option value="WORK">💼 งานธุรกิจ / อาชีพ</option>
+                            <option value="PERSONAL">🏡 กิจกรรมส่วนตัว</option>
+                            <option value="LEARNING">🎓 การเรียนรู้ / พัฒนา</option>
+                            <option value="OTHER">✨ ภารกิจอื่นๆ</option>
+                        </select>
+                        <select class="table-filter-select" id="filterTableMatrix" onchange="renderAllTasksTable()">
+                            <option value="ALL">ทุกระดับความสำคัญ</option>
+                            <option value="UI">Q1: เร่งด่วน & สำคัญมาก</option>
+                            <option value="INU">Q2: ไม่เร่งด่วน แต่สำคัญ</option>
+                            <option value="UNI">Q3: เร่งด่วน แต่ไม่สำคัญ</option>
+                            <option value="NUNI">Q4: ไม่เร่งด่วน & ไม่สำคัญ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%">หัวข้อภารกิจและรายละเอียด</th>
+                                <th style="width: 15%">หมวดหมู่</th>
+                                <th style="width: 15%">สถานะงาน</th>
+                                <th style="width: 15%">ความสำคัญ</th>
+                                <th style="width: 15%">กำหนดส่ง</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allTasksTableBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- MODAL: TASK CREATION & EDITING -->
-    <div id="task-modal" class="modal">
-        <div class="modal-content glass-card">
+    <div id="taskModal" class="modal">
+        <div class="modal-content glass-card fade-in">
             <div class="modal-header">
-                <h2 id="modal-title-text"><i class="fa-solid fa-circle-info"></i> รายละเอียดงาน</h2>
-                <button class="close-btn" id="close-task-modal">&times;</button>
+                <h2 id="modalTaskTitle"><i class="fa-solid : fa-circle-plus" style="color:var(--accent-color)"></i> เพิ่มภารกิจใหม่เข้าระบบ</h2>
+                <button class="close-btn" onclick="closeModal('taskModal')">&times;</button>
             </div>
-            <form id="task-form">
-                <input type="hidden" id="task-id">
+            <form id="taskForm" onsubmit="saveTaskData(event)">
+                <input type="hidden" id="formTaskId">
                 
                 <div class="form-group">
-                    <label for="task-title-input">ชื่องาน <span class="required">*</span></label>
-                    <input type="text" id="task-title-input" required placeholder="เช่น อ่านหนังสือวิทยาศาสตร์ข้อมูล, ซื้อของเข้าบ้าน...">
+                    <label>หัวข้อภารกิจ <span class="required">*</span></label>
+                    <input type="text" id="formTaskTitle" required placeholder="เช่น ประชุมวางแผนไตรมาสที่ 3, ออกกำลังกาย...">
                 </div>
 
                 <div class="form-group">
-                    <label for="task-desc-input">รายละเอียดงาน</label>
-                    <textarea id="task-desc-input" rows="4" placeholder="กรอกรายละเอียดและขั้นตอนการทำงานของคุณ..."></textarea>
+                    <label>คำอธิบายประกอบการทำงาน</label>
+                    <textarea id="formTaskDesc" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม หรือสเปกงานที่ต้องการทำ..."></textarea>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="task-category-input">หมวดหมู่ <span class="required">*</span></label>
-                        <select id="task-category-input" required class="premium-select">
-                            <option value="work">งาน (Work)</option>
-                            <option value="personal">ส่วนตัว (Personal)</option>
-                            <option value="learning">เรียนรู้ (Learning)</option>
-                            <option value="other">อื่นๆ (Other)</option>
+                        <label>หมวดหมู่หลัก</label>
+                        <select id="formTaskCategory" class="premium-select">
+                            <option value="WORK">💼 งานธุรกิจ / อาชีพ</option>
+                            <option value="PERSONAL">🏡 กิจกรรมส่วนตัว</option>
+                            <option value="LEARNING">🎓 การเรียนรู้ / พัฒนา</option>
+                            <option value="OTHER">✨ ภารกิจอื่นๆ</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="task-deadline-input">วันครบกำหนดส่ง (Deadline) <span class="required">*</span></label>
-                        <input type="date" id="task-deadline-input" required>
+                        <label>วันสิ้นสุดกำหนดส่ง (Deadline)</label>
+                        <input type="date" id="formTaskDeadline">
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-urgency-select">ความเร่งด่วน <span class="required">*</span></label>
-                        <select id="task-urgency-select" required class="premium-select">
-                            <option value="urgent">ด่วน</option>
-                            <option value="not_urgent">ไม่ด่วน</option>
+                <div class="form-row" style="margin-top: 8px; background-color: var(--bg-primary); padding:12px; border-radius: var(--border-radius-sm); border:1px solid var(--border-color);">
+                    <div class="form-group" style="margin-bottom:0">
+                        <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-circle-exclamation" style="color:#ff9f0a"></i> ระดับความสำคัญ</label>
+                        <select id="formTaskImportant" class="premium-select" style="margin-top:4px">
+                            <option value="YES">🌟 สำคัญมาก (Important)</option>
+                            <option value="NO">⚪️ ทั่วไป / ไม่สำคัญ (Not Important)</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label for="task-importance-select">ความสำคัญ <span class="required">*</span></label>
-                        <select id="task-importance-select" required class="premium-select">
-                            <option value="important">สำคัญ</option>
-                            <option value="not_important">ไม่สำคัญ</option>
+                    <div class="form-group" style="margin-bottom:0">
+                        <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-bolt" style="color:#ff7a00"></i> ระดับความเร่งด่วน</label>
+                        <select id="formTaskUrgent" class="premium-select" style="margin-top:4px">
+                            <option value="YES">🔥 เร่งด่วนสูง (Urgent)</option>
+                            <option value="NO">⏳ รอได้ / ไม่เร่งด่วน (Not Urgent)</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="task-status-select">สถานะของงาน <span class="required">*</span></label>
-                    <select id="task-status-select" required class="premium-select">
-                        <option value="todo">ต้องทำ (To Do)</option>
-                        <option value="in_progress">กำลังทำ (In Progress)</option>
-                        <option value="review">รอตรวจทาน (Review)</option>
-                        <option value="completed">เสร็จสิ้น (Completed)</option>
+                <div class="form-group" style="margin-top:16px">
+                    <label>สถานะขั้นตอนการทำงานปัจจุบัน</label>
+                    <select id="formTaskStatus" class="premium-select">
+                        <option value="todo">📅 รอมอบหมาย (To Do)</option>
+                        <option value="inprogress">⚡️ กำลังดำเนินงาน (In Progress)</option>
+                        <option value="review">🔍 ตรวจสอบ/คัดกรอง (Review)</option>
+                        <option value="completed">✅ เสร็จสิ้นภารกิจ (Completed)</option>
                     </select>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="delete-task-btn" style="display: none;">
-                        <i class="fa-solid fa-trash-can"></i> ลบงานนี้
-                    </button>
+                    <button type="button" id="btnDeleteTask" class="btn btn-danger" style="display:none;" onclick="deleteCurrentTask()"><i class="fa-solid : fa-trash-can"></i> ลบภารกิจนี้</button>
+                    <div style="flex-grow:1"></div>
                     <div class="footer-right-buttons">
-                        <button type="button" class="btn btn-secondary" id="cancel-task-btn">ยกเลิก</button>
-                        <button type="submit" class="btn btn-primary" id="save-task-btn">บันทึกข้อมูล</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('taskModal')">ยกเลิก</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid : fa-floppy-disk"></i> บันทึกข้อมูล</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: CLOUD SYNC SETTINGS -->
-    <div id="sync-modal" class="modal">
-        <div class="modal-content glass-card">
+    <div id="syncModal" class="modal">
+        <div class="modal-content glass-card fade-in" style="max-width: 450px;">
             <div class="modal-header">
-                <h2><i class="fa-solid fa-cloud-arrow-up"></i> ตั้งค่าการซิงค์ข้อมูลหลายอุปกรณ์</h2>
-                <button class="close-btn" id="close-sync-modal">&times;</button>
+                <h2><i class="fa-solid : fa-cloud-arrow-up" style="color:var(--accent-color)"></i> ตั้งค่าซิงค์ข้อมูลผ่าน Firebase</h2>
+                <button class="close-btn" onclick="closeModal('syncModal')">&times;</button>
             </div>
-            <form id="sync-form">
-                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
-                    เชื่อมต่อฐานข้อมูลคลาวด์ของคุณผ่าน Cloudflare Workers หรือเซิร์ฟเวอร์ที่เข้ากันได้ เพื่อบันทึกและซิงค์งานทั้งหมดของคุณข้ามอุปกรณ์ได้แบบเรียลไทม์
-                </div>
-                
-                <div class="form-group">
-                    <label class="checkbox-container" style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
-                        <input type="checkbox" id="sync-enable-checkbox" style="width: 18px; height: 18px; cursor: pointer;">
-                        <span>เปิดใช้งานการซิงค์ข้อมูลผ่านคลาวด์ (Cloud Sync)</span>
-                    </label>
-                </div>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px; font-family:'Sarabun'">
+                เชื่อมต่อระบบเข้ากับ Firebase Realtime Database ของคุณเพื่อทำการสำรองข้อมูล และซิงค์งานทั้งหมดข้ามคอมพิวเตอร์ แท็บเล็ต หรือมือถือได้แบบเรียลไทม์
+            </p>
+            
+            <div class="form-group">
+                <label>ชื่อโฟลเดอร์ผู้ใช้งานในการซิงค์ (Sync User Key)</label>
+                <input type="text" id="syncUserKey" placeholder="ระบุชื่อสำหรับแยกข้อมูล เช่น user_wiphavee" style="margin-bottom: 4px;">
+                <span style="font-size:10px; color:var(--text-secondary)">* ใช้ชื่อเดียวกันในอุปกรณ์เครื่องอื่นเพื่อดึงข้อมูลงานชุดเดียวกันมาเปิดแก้ไข</span>
+            </div>
 
-                <div id="sync-fields" style="display: none; flex-direction: column; gap: 16px; margin-top: 10px;">
-                    <div class="form-group">
-                        <label for="sync-url-input">Cloud API URL (Link API ของคุณ) <span class="required">*</span></label>
-                        <input type="url" id="sync-url-input" placeholder="เช่น https://mytask-api.username.workers.dev">
-                        <small style="color: var(--text-secondary); font-size: 11px; margin-top: 4px; display: block;">
-                            * ที่อยู่ของ Cloudflare Worker ที่คุณนำไปติดตั้ง
-                        </small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sync-key-input">รหัสผ่านลับในการเข้าถึงข้อมูล (Sync Key) <span class="required">*</span></label>
-                        <input type="password" id="sync-key-input" placeholder="กรอกรหัสผ่านเพื่อความปลอดภัยของข้อมูล">
-                        <small style="color: var(--text-secondary); font-size: 11px; margin-top: 4px; display: block;">
-                            * รหัสที่ใช้เพื่อเข้ารหัสและยืนยันตัวตนกับฐานข้อมูล
-                        </small>
-                    </div>
+            <div class="modal-footer" style="margin-top:16px; padding-top:12px">
+                <button type="button" class="btn btn-danger" onclick="disconnectFirebaseCloud()"><i class="fa-solid : fa-link-slash"></i> ตัดการเชื่อมต่อ</button>
+                <div class="footer-right-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('syncModal')">ปิดหน้าต่าง</button>
+                    <button type="button" class="btn btn-primary" onclick="connectAndSyncFirebase()"><i class="fa-solid : fa-rotate"></i> บันทึกและซิงค์</button>
                 </div>
-
-                <div class="modal-footer" style="margin-top: 24px;">
-                    <button type="button" class="btn btn-secondary" id="cancel-sync-btn">ยกเลิก</button>
-                    <button type="submit" class="btn btn-primary" id="save-sync-btn">บันทึกและเชื่อมต่อ</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
     <script>
-// SoloTask Application Script (Personal Task Manager)
-
-// --- MOCK SEED DATA ---
-const getDateOffset = (days) => {
-    const date = new Date();
-    date.setDate(date.getDate() + days);
-    return date.toISOString().split('T')[0];
+// --- ส่วนของรหัสตั้งค่าสำหรับ FIREBASE CONFIGURATION ---
+// คัดลอกโค้ดโครงสร้างตั้งค่าจากโปรเจกต์ Firebase ของคุณมาวางทับส่วนนี้ได้เลยครับ
+const firebaseConfig = {
+    apiKey: "AIzaSyC4YX2mYgptRc8KlLWfvMGr1zYyuWSkRj4",
+  authDomain: "my-task-app-e6cc3.firebaseapp.com",
+  databaseURL: "https://my-task-app-e6cc3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "my-task-app-e6cc3",
+  storageBucket: "my-task-app-e6cc3.firebasestorage.app",
+  messagingSenderId: "686196651721",
+  appId: "1:686196651721:web:73c7ec34c6185d60117f18",
+  measurementId: "G-7PHER23QH1"
 };
+// ตรวจเช็กและทำการเริ่มระบบฐานข้อมูล Firebase
+let db = null;
+let isFirebaseInitialized = false;
 
-const DEFAULT_TASKS = [
-    {
-        id: "task-1",
-        title: "ปรับปรุงหน้า Portfolio ของตัวเอง",
-        description: "ปรับปรุงข้อมูลประวัติการทำงาน เพิ่มผลงานล่าสุด และตกแต่งธีมให้เป็นแบบโทนสีดำ-ส้มสไตล์โมเดิร์น",
-        category: "personal",
-        dateCreated: getDateOffset(-4),
-        deadline: getDateOffset(3),
-        status: "in_progress",
-        urgency: "not_urgent",
-        importance: "important"
-    },
-    {
-        id: "task-2",
-        title: "เรียนหลักสูตร Advanced JavaScript",
-        description: "เรียนรู้เรื่อง Closures, Prototypes, Asynchronous Pattern และการเพิ่มประสิทธิภาพโค้ดให้ครบ 4 บทเรียน",
-        category: "learning",
-        dateCreated: getDateOffset(-2),
-        deadline: getDateOffset(5),
-        status: "todo",
-        urgency: "not_urgent",
-        importance: "important"
-    },
-    {
-        id: "task-3",
-        title: "ซ่อมก๊อกน้ำและท่อน้ำในครัว",
-        description: "ซื้ออุปกรณ์เทปพันเกลียวท่อประปาและวาล์วน้ำชุดใหม่จากห้างมาเปลี่ยนตัวเก่าที่ชำรุด",
-        category: "other",
-        dateCreated: getDateOffset(-1),
-        deadline: getDateOffset(1),
-        status: "todo",
-        urgency: "urgent",
-        importance: "not_important"
-    },
-    {
-        id: "task-4",
-        title: "เคลียร์เอกสารภาษีรายได้ครึ่งปี",
-        description: "รวบรวมใบเสร็จรับเงิน ใบกำกับภาษี และเอกสารการลดหย่อนต่างๆ อัปโหลดเข้าระบบสรรพากร",
-        category: "work",
-        dateCreated: getDateOffset(-5),
-        deadline: getDateOffset(-1), // Overdue
-        status: "review",
-        urgency: "urgent",
-        importance: "important"
-    },
-    {
-        id: "task-5",
-        title: "ส่งมอบโค้ดงานลูกค้าโครงการ A",
-        description: "สรุปฟังก์ชันและอัปโหลด Source Code ขึ้นสู่ Production Server พร้อมแจ้งรายละเอียดระบบหลังบ้าน",
-        category: "work",
-        dateCreated: getDateOffset(0),
-        deadline: getDateOffset(2),
-        status: "todo",
-        urgency: "urgent",
-        importance: "important"
-    },
-    {
-        id: "task-6",
-        title: "ซื้อสินค้าและเสบียงของใช้ประจำสัปดาห์",
-        description: "สั่งวัตถุดิบทำอาหาร นมจืด ทิชชู่ น้ำยาถูพื้น และผลิตภัณฑ์ซักผ้าผ่านช่องทางออนไลน์",
-        category: "personal",
-        dateCreated: getDateOffset(-10),
-        deadline: getDateOffset(-4), // Completed in time
-        status: "completed",
-        urgency: "not_urgent",
-        importance: "not_important"
-    },
-    {
-        id: "task-7",
-        title: "สรุปงบรายรับรายจ่ายประจำเดือนนี้",
-        description: "ตรวจสอบยอดเงินโอนเข้า ยอดบัตรเครดิต และจัดสรรงบออมเงิน/ลงทุนประชำเดือนถัดไป",
-        category: "personal",
-        dateCreated: getDateOffset(-3),
-        deadline: getDateOffset(0), // Today
-        status: "review",
-        urgency: "urgent",
-        importance: "important"
+try {
+    if (firebaseConfig.apiKey !== "YOUR_FIREBASE_CONFIG_API_KEY") {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        isFirebaseInitialized = true;
+        console.log("Firebase Database ได้รับการตั้งค่าเรียบร้อยแล้ว");
     }
-];
-
-// --- STATE MANAGEMENT ---
-let state = {
-    tasks: [],
-    activeTab: "dashboard-view", // "dashboard-view" | "kanban-view"
-    theme: "dark", // Default to Dark
-    kanbanFilter: "all", // "all", "ui", "inu", "uni", "nuni"
-    syncEnabled: false,
-    syncUrl: "",
-    syncKey: ""
-};
-
-// Load state from LocalStorage
-function loadState() {
-    const savedTasks = localStorage.getItem("solo_tasks");
-    const savedTab = localStorage.getItem("solo_active_tab");
-    const savedTheme = localStorage.getItem("solo_theme");
-    const savedFilter = localStorage.getItem("solo_matrix_filter");
-    const savedSyncEnabled = localStorage.getItem("solo_sync_enabled");
-    const savedSyncUrl = localStorage.getItem("solo_sync_url");
-    const savedSyncKey = localStorage.getItem("solo_sync_key");
-
-    state.tasks = savedTasks ? JSON.parse(savedTasks) : DEFAULT_TASKS;
-    state.activeTab = savedTab ? savedTab : "dashboard-view";
-    state.theme = savedTheme ? savedTheme : "dark"; // Default dark
-    state.kanbanFilter = savedFilter ? savedFilter : "all";
-    state.syncEnabled = savedSyncEnabled === "true";
-    state.syncUrl = savedSyncUrl ? savedSyncUrl : "";
-    state.syncKey = savedSyncKey ? savedSyncKey : "";
+} catch (e) {
+    console.error("เกิดข้อผิดพลาดในการเริ่มระบบ Firebase:", e);
 }
 
-// Save state to LocalStorage
-function saveState() {
-    localStorage.setItem("solo_tasks", JSON.stringify(state.tasks));
-    localStorage.setItem("solo_active_tab", state.activeTab);
-    localStorage.setItem("solo_theme", state.theme);
-    localStorage.setItem("solo_matrix_filter", state.kanbanFilter);
-    localStorage.setItem("solo_sync_enabled", state.syncEnabled);
-    localStorage.setItem("solo_sync_url", state.syncUrl);
-    localStorage.setItem("solo_sync_key", state.syncKey);
-}
+// Global Core State Management
+let tasks = [];
+let currentFilterMatrix = 'ALL';
+let isCloudSyncActive = false;
+let dbRef = null;
 
-// --- INITIALIZATION ---
+// Initialization
 document.addEventListener("DOMContentLoaded", () => {
-    loadState();
-    setupTheme();
-    setupEventListeners();
-    renderActiveView();
-    
-    // Trigger initial sync if enabled
-    if (state.syncEnabled) {
-        syncWithCloud();
+    // โหลดระบบธีมสีสีเริ่มต้น
+    const savedTheme = localStorage.getItem("solotask-theme") || "dark-theme";
+    document.body.className = savedTheme;
+    updateThemeIcon(savedTheme);
+
+    // ตรวจสอบและดึงข้อมูลโปรไฟล์ Cloud Sync เดิมที่เก็บไว้ในเครื่อง
+    const savedUserKey = localStorage.getItem("firebase-sync-userkey");
+    if (savedUserKey) {
+        document.getElementById("syncUserKey").value = savedUserKey;
+        if (isFirebaseInitialized) {
+            setupFirebaseRealtimeListener(savedUserKey);
+        } else {
+            updateSyncBadgeState("error", "รหัสตั้งค่าไม่ครบ");
+        }
     } else {
-        updateSyncBadge("offline");
+        // หากไม่มีข้อมูลซิงค์ ให้โหลดฐานข้อมูล LocalStorage บนเครื่องตามปกติ
+        loadLocalDataStore();
+        updateSyncBadgeState("offline", "เครื่องนี้ (Local)");
     }
-
-    // Auto sync on tab focus
-    window.addEventListener("focus", () => {
-        if (state.syncEnabled) {
-            syncWithCloud();
-        }
-    });
-
-    // Auto sync every 30 seconds
-    setInterval(() => {
-        if (state.syncEnabled && !isSyncing) {
-            syncWithCloud();
-        }
-    }, 30000);
 });
 
-// --- THEME MANAGEMENT ---
-function setupTheme() {
-    const body = document.body;
-    const themeBtn = document.getElementById("theme-toggle-btn");
+// ดึงข้อมูลกรณีเปิดโหมดใช้งานบนเครื่องโลคอล
+function loadLocalDataStore() {
+    const localTasks = localStorage.getItem("solotask-data");
+    tasks = localTasks ? JSON.parse(localTasks) : [];
+    refreshApplicationUI();
+}
+
+// ฟังก์ชันคุมสถานะ Sync Badge บนหน้า Header
+function updateSyncBadgeState(status, text) {
+    const badge = document.getElementById("syncStatusIndicator");
+    badge.className = `sync-status-badge ${status}`;
+    badge.querySelector("span").textContent = text;
     
-    if (state.theme === "dark") {
-        body.classList.remove("light-theme");
-        body.classList.add("dark-theme");
-        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    const icon = badge.querySelector("i");
+    if (status === 'syncing') {
+        icon.className = "fa-solid : fa-rotate fa-spin";
+    } else if (status === 'online') {
+        icon.className = "fa-solid : fa-cloud-checkmark";
+    } else if (status === 'error') {
+        icon.className = "fa-solid : fa-circle-exclamation";
     } else {
-        body.classList.remove("dark-theme");
-        body.classList.add("light-theme");
-        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        icon.className = "fa-solid : fa-cloud";
     }
 }
 
-function toggleTheme() {
-    state.theme = state.theme === "light" ? "dark" : "light";
-    saveState();
-    setupTheme();
-}
-
-// --- ACTIVE VIEW SWITCHING ---
-function renderActiveView() {
-    const dashboardView = document.getElementById("dashboard-view");
-    const kanbanView = document.getElementById("kanban-view");
-    const tabButtons = document.querySelectorAll(".nav-tab");
+// เปิดระบบดักข้อมูลแบบสด (Realtime Listener) จากฐานข้อมูล Firebase
+function setupFirebaseRealtimeListener(userKey) {
+    if (!isFirebaseInitialized || !db) return;
     
-    // Toggle active classes on sections
-    if (state.activeTab === "dashboard-view") {
-        dashboardView.classList.add("active");
-        kanbanView.classList.remove("active");
-        renderDashboard();
-    } else {
-        dashboardView.classList.remove("active");
-        kanbanView.classList.add("active");
-        renderKanban();
-    }
-
-    // Toggle active classes on tab buttons
-    tabButtons.forEach(btn => {
-        if (btn.getAttribute("data-tab") === state.activeTab) {
-            btn.classList.add("active");
-        } else {
-            btn.classList.remove("active");
-        }
-    });
-}
-
-// --- DASHBOARD LOGIC ---
-function renderDashboard() {
-    const todayStr = new Date().toISOString().split('T')[0];
-
-    // 1. Calculate General Statistics
-    const totalTasks = state.tasks.length;
-    const completedTasks = state.tasks.filter(t => t.status === "completed").length;
-    const pendingTasks = state.tasks.filter(t => t.status !== "completed").length;
-    const overdueTasks = state.tasks.filter(t => t.status !== "completed" && t.deadline < todayStr).length;
-
-    document.getElementById("stats-total").textContent = totalTasks;
-    document.getElementById("stats-pending").textContent = pendingTasks;
-    document.getElementById("stats-completed").textContent = completedTasks;
-    document.getElementById("stats-overdue").textContent = overdueTasks;
-
-    // Warning highlight on overdue card
-    const overdueCard = document.querySelector(".overdue-tasks");
-    if (overdueTasks > 0) {
-        overdueCard.style.borderColor = "var(--color-ui)";
-        overdueCard.style.boxShadow = "0 0 10px rgba(255, 69, 58, 0.15)";
-    } else {
-        overdueCard.style.borderColor = "";
-        overdueCard.style.boxShadow = "";
-    }
-
-    // 2. Render Circular Progress Meter
-    const completionPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-    const progressRing = document.querySelector(".progress-ring-container");
-    if (progressRing) {
-        progressRing.style.setProperty("--percentage", `${completionPct}%`);
-    }
-    document.getElementById("completion-percentage").textContent = `${completionPct}%`;
-    document.getElementById("progress-summary-text").textContent = `คุณจัดการงานเสร็จสิ้นไปแล้ว ${completedTasks} งาน จากทั้งหมด ${totalTasks} งาน`;
-
-    // 3. Render Category Chart
-    renderCategoryChart();
-
-    // 4. Render Eisenhower Matrix Quadrants
-    renderEisenhowerMatrix();
-
-    // 5. Render Tasks Table List
-    renderTasksTable();
-}
-
-function renderCategoryChart() {
-    const chartContainer = document.getElementById("category-chart");
-    chartContainer.innerHTML = "";
-
-    const categories = {
-        "work": { label: "งาน (Work)", activeCount: 0, class: "bg-work" },
-        "personal": { label: "ส่วนตัว (Personal)", activeCount: 0, class: "bg-personal" },
-        "learning": { label: "เรียนรู้ (Learning)", activeCount: 0, class: "bg-learning" },
-        "other": { label: "อื่นๆ (Other)", activeCount: 0, class: "bg-other" }
-    };
-
-    // Count pending/active tasks in each category
-    state.tasks.filter(t => t.status !== "completed").forEach(task => {
-        if (categories[task.category]) {
-            categories[task.category].activeCount++;
-        }
-    });
-
-    const maxActive = Math.max(...Object.values(categories).map(c => c.activeCount), 1);
-
-    Object.keys(categories).forEach(key => {
-        const cat = categories[key];
-        const pct = (cat.activeCount / maxActive) * 100;
-
-        const row = document.createElement("div");
-        row.className = "category-row fade-in";
-        row.innerHTML = `
-            <span class="category-label">${cat.label}</span>
-            <div class="category-bar-wrapper" title="งานที่ค้างอยู่: ${cat.activeCount} งาน">
-                <div class="category-bar-progress ${cat.class}" style="width: ${pct}%"></div>
-            </div>
-            <span class="category-count">${cat.activeCount} งาน</span>
-        `;
-        chartContainer.appendChild(row);
-    });
-}
-
-function renderEisenhowerMatrix() {
-    const quadrants = {
-        "ui": { countEl: "count-ui", listEl: "list-ui", tasks: [] }, // Urgent & Important
-        "inu": { countEl: "count-inu", listEl: "list-inu", tasks: [] }, // Important & Not Urgent
-        "uni": { countEl: "count-uni", listEl: "list-uni", tasks: [] }, // Urgent & Not Important
-        "nuni": { countEl: "count-nuni", listEl: "list-nuni", tasks: [] } // Neither
-    };
-
-    // Filter active tasks into matrix quadrants
-    state.tasks.filter(t => t.status !== "completed").forEach(task => {
-        if (task.urgency === "urgent" && task.importance === "important") {
-            quadrants.ui.tasks.push(task);
-        } else if (task.urgency === "not_urgent" && task.importance === "important") {
-            quadrants.inu.tasks.push(task);
-        } else if (task.urgency === "urgent" && task.importance === "not_important") {
-            quadrants.uni.tasks.push(task);
-        } else {
-            quadrants.nuni.tasks.push(task);
-        }
-    });
-
-    const getThaiCategory = (cat) => {
-        if (cat === "work") return "งาน";
-        if (cat === "personal") return "ส่วนตัว";
-        if (cat === "learning") return "เรียนรู้";
-        return "อื่นๆ";
-    };
-
-    // Populate UI
-    Object.keys(quadrants).forEach(key => {
-        const quad = quadrants[key];
-        document.getElementById(quad.countEl).textContent = `${quad.tasks.length} งาน`;
+    updateSyncBadgeState("syncing", "กำลังซิงค์...");
+    isCloudSyncActive = true;
+    
+    if (dbRef) dbRef.off(); // ล้างตัวตรวจจับตัวเก่าออกก่อน
+    
+    dbRef = db.ref("users_tasks/" + userKey);
+    
+    // เมื่อมีการเปลี่ยนแปลงข้อมูลใน Firebase ระบบจะโหลดและอัปเดตหน้าจอแอปให้อัตโนมัติทันที
+    dbRef.on("value", (snapshot) => {
+        const cloudData = snapshot.val();
+        tasks = cloudData ? cloudData : [];
         
-        const listContainer = document.getElementById(quad.listEl);
-        listContainer.innerHTML = "";
+        // เซฟข้อมูลสำรองลง LocalStorage ในเครื่องอีกชั้นนึงเพื่อความปลอดภัย
+        localStorage.setItem("solotask-data", JSON.stringify(tasks));
+        localStorage.setItem("firebase-sync-userkey", userKey);
         
-        if (quad.tasks.length === 0) {
-            listContainer.innerHTML = `<div style="font-size: 11px; color: var(--text-secondary); text-align: center; padding: 12px 0;">ไม่มีงานที่ค้างอยู่</div>`;
-            return;
-        }
+        refreshApplicationUI();
+        updateSyncBadgeState("online", "คลาวด์ (Firebase)");
+    }, (error) => {
+        console.error("Firebase Sync Fail:", error);
+        updateSyncBadgeState("error", "การเชื่อมต่อขัดข้อง");
+        loadLocalDataStore();
+    });
+}
 
-        const tasksToShow = quad.tasks.slice(0, 4);
-        tasksToShow.forEach(task => {
-            const card = document.createElement("div");
-            card.className = "matrix-mini-card fade-in";
-            card.innerHTML = `
-                <span class="matrix-mini-title" title="${task.title}">${task.title}</span>
-                <span class="matrix-mini-category">${getThaiCategory(task.category)}</span>
-            `;
-            card.addEventListener("click", () => openTaskModal(task.id));
-            listContainer.appendChild(card);
+// คำสั่งประมวลผลเมื่อกดปุ่ม "บันทึกและซิงค์" ในหน้ามอดอล
+function connectAndSyncFirebase() {
+    const userKey = document.getElementById("syncUserKey").value.trim().toLowerCase();
+    
+    if (!userKey) {
+        alert("กรุณากรอกชื่อโฟลเดอร์ผู้ใช้งานสำหรับใช้แยกฐานข้อมูลก่อนครับ");
+        return;
+    }
+    
+    if (!isFirebaseInitialized) {
+        alert("ขออภัยครับ ตรวจพบว่าคุณยังไม่ได้กรอกรหัส Firebase Config ในโค้ดตัวแอป โปรดเปิดแก้ไขไฟล์ html และนำรหัส config จากหน้าเว็บ Firebase Console มาใส่ก่อนใช้งานครับ");
+        return;
+    }
+    
+    // ส่งข้อมูลที่มีอยู่ในเครื่องปัจจุบันขึ้นไปบันทึกบนฐานข้อมูล Firebase เผื่อเป็นครั้งแรก
+    updateSyncBadgeState("syncing", "กำลังเชื่อมต่อ...");
+    
+    db.ref("users_tasks/" + userKey).set(tasks)
+        .then(() => {
+            setupFirebaseRealtimeListener(userKey);
+            closeModal('syncModal');
+        })
+        .catch((err) => {
+            alert("ไม่สามารถอัปโหลดข้อมูลซิงค์ได้: " + err.message);
+            updateSyncBadgeState("error", "ผิดพลาด");
         });
+}
 
-        if (quad.tasks.length > 4) {
-            const moreLabel = document.createElement("div");
-            moreLabel.style.fontSize = "10px";
-            moreLabel.style.color = "var(--text-secondary)";
-            moreLabel.style.textAlign = "right";
-            moreLabel.style.paddingRight = "4px";
-            moreLabel.textContent = `และอีก ${quad.tasks.length - 4} งาน...`;
-            listContainer.appendChild(moreLabel);
+// สั่งตัดการซิงค์ข้อมูลคลาวด์ กลับมาใช้งานบนเครื่องเดี่ยว
+function disconnectFirebaseCloud() {
+    if (dbRef) dbRef.off();
+    
+    localStorage.removeItem("firebase-sync-userkey");
+    document.getElementById("syncUserKey").value = "";
+    isCloudSyncActive = false;
+    dbRef = null;
+    
+    alert("ระบบตัดการซิงค์ข้อมูลบนคลาวด์เรียบร้อยแล้ว แอปจะเปลี่ยนมาใช้งานข้อมูลออฟไลน์ในเครื่องนี้แทน");
+    updateSyncBadgeState("offline", "เครื่องนี้ (Local)");
+    loadLocalDataStore();
+    closeModal('syncModal');
+}
+
+// บันทึกหรือกระจายผลการทำงานลงพื้นที่เก็บข้อมูล (ใช้ทุกครั้งที่ข้อมูลเปลี่ยน)
+function dispatchTasksUpdate() {
+    if (isCloudSyncActive && dbRef && isFirebaseInitialized) {
+        dbRef.set(tasks).catch((err) => {
+            console.error("เกิดปัญหาระหว่างส่งข้อมูลขึ้น Firebase:", err);
+            updateSyncBadgeState("error", "เซฟลงคลาวด์ล้มเหลว");
+        });
+    } else {
+        localStorage.setItem("solotask-data", JSON.stringify(tasks));
+        refreshApplicationUI();
+    }
+}
+
+// คำสั่งคำนวณและอัปเดตอินเตอร์เฟสทั้งหมดของแอปพลิเคชัน
+function refreshApplicationUI() {
+    renderDashboardCountersAndCharts();
+    renderEisenhowerMatrixGrid();
+    renderKanbanBoardSystem();
+    renderAllTasksTable();
+}
+
+// Navigation Tab Switcher
+function switchView(viewName) {
+    document.querySelectorAll(".view-section").forEach(sec => sec.classList.remove("active"));
+    document.querySelectorAll(".nav-tab").forEach(tab => tab.classList.remove("active"));
+    
+    document.getElementById(`${viewName}View`).classList.add("active");
+    event.currentTarget.classList.add("active");
+}
+
+// Theme Controls
+function toggleTheme() {
+    const currentTheme = document.body.className;
+    const nextTheme = currentTheme === 'dark-theme' ? 'light-theme' : 'dark-theme';
+    document.body.className = nextTheme;
+    localStorage.setItem("solotask-theme", nextTheme);
+    updateThemeIcon(nextTheme);
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.getElementById("themeIcon");
+    if(theme === 'dark-theme') {
+        icon.className = "fa-solid : fa-moon";
+    } else {
+        icon.className = "fa-solid : fa-sun";
+    }
+}
+
+// Modals Trigger
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add("active");
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove("active");
+}
+
+function openAddTaskModal() {
+    document.getElementById("taskForm").reset();
+    document.getElementById("formTaskId").value = "";
+    document.getElementById("modalTaskTitle").innerHTML = '<i class="fa-solid : fa-circle-plus" style="color:var(--accent-color)"></i> เพิ่มภารกิจใหม่เข้าระบบ';
+    document.getElementById("btnDeleteTask").style.display = "none";
+    document.getElementById("formTaskStatus").value = "todo";
+    openModal("taskModal");
+}
+
+function openEditTaskModal(id) {
+    const item = tasks.find(t => t.id === id);
+    if (!item) return;
+
+    document.getElementById("formTaskId").value = item.id;
+    document.getElementById("formTaskTitle").value = item.title;
+    document.getElementById("formTaskDesc").value = item.desc || "";
+    document.getElementById("formTaskCategory").value = item.category;
+    document.getElementById("formTaskDeadline").value = item.deadline || "";
+    document.getElementById("formTaskImportant").value = item.important;
+    document.getElementById("formTaskUrgent").value = item.urgent;
+    document.getElementById("formTaskStatus").value = item.status;
+
+    document.getElementById("modalTaskTitle").innerHTML = '<i class="fa-solid : fa-pen-to-square" style="color:var(--accent-color)"></i> แก้ไขข้อมูลภารกิจ';
+    document.getElementById("btnDeleteTask").style.display = "inline-flex";
+    openModal("taskModal");
+}
+
+// แปลงค่าข้อมูลฟอร์มเพื่อกดบันทึก (Save/Update)
+function saveTaskData(e) {
+    e.preventDefault();
+    
+    const id = document.getElementById("formTaskId").value;
+    const title = document.getElementById("formTaskTitle").value.trim();
+    const desc = document.getElementById("formTaskDesc").value.trim();
+    const category = document.getElementById("formTaskCategory").value;
+    const deadline = document.getElementById("formTaskDeadline").value;
+    const important = document.getElementById("formTaskImportant").value;
+    const urgent = document.getElementById("formTaskUrgent").value;
+    const status = document.getElementById("formTaskStatus").value;
+
+    if (id) {
+        // โหมดการแก้ไขข้อมูลภารกิจเดิม
+        const index = tasks.findIndex(t => t.id === id);
+        if (index !== -1) {
+            tasks[index] = { ...tasks[index], title, desc, category, deadline, important, urgent, status };
+        }
+    } else {
+        // โหมดการสร้างภารกิจขึ้นมาใหม่
+        const newTask = {
+            id: 'task_' + Date.now(),
+            title, desc, category, deadline, important, urgent, status,
+            createdAt: new Date().toISOString()
+        };
+        tasks.push(newTask);
+    }
+
+    dispatchTasksUpdate();
+    closeModal("taskModal");
+}
+
+function deleteCurrentTask() {
+    const id = document.getElementById("formTaskId").value;
+    if (!id) return;
+    
+    if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบงานชิ้นนี้ออกจากระบบอย่างถาวร?")) {
+        tasks = tasks.filter(t => t.id !== id);
+        dispatchTasksUpdate();
+        closeModal("taskModal");
+    }
+}
+
+// ตัวแปรวิเคราะห์การกระจายตัวของหมวดหมู่เพื่อใช้แบ่งสีกริดไอเซนฮาวร์
+function getMatrixQuadrantCode(task) {
+    if (task.important === 'YES' && task.urgent === 'YES') return 'UI';   // Q1
+    if (task.important === 'YES' && task.urgent === 'NO') return 'INU';  // Q2
+    if (task.important === 'NO' && task.urgent === 'YES') return 'UNI';   // Q3
+    return 'NUNI';                                                        // Q4
+}
+
+// --- การคำนวณแดชบอร์ดสถิติและกราฟประสิทธิภาพ ---
+function renderDashboardCountersAndCharts() {
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.status === 'completed').length;
+    const pending = total - completed;
+    
+    // ตรวจสอบงานเกินกำหนดส่ง (Overdue) โดยอิงจากเวลา ณ ปัจจุบันของปี 2026
+    const todayStr = new Date().toISOString().split('T')[0];
+    const overdue = tasks.filter(t => t.status !== 'completed' && t.deadline && t.deadline < todayStr).length;
+
+    document.getElementById("statTotal").textContent = total;
+    document.getElementById("statPending").textContent = pending;
+    document.getElementById("statCompleted").textContent = completed;
+    document.getElementById("statOverdue").textContent = overdue;
+
+    // คำนวณความก้าวหน้าการผลิต (Productivity Wheel)
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+    const ring = document.getElementById("productivityRing");
+    ring.style.setProperty('--percentage', `${percentage}%`);
+    document.getElementById("productivityPercent").textContent = `${percentage}%`;
+
+    document.getElementById("productivitySubtext").textContent = `เสร็จสิ้นภารกิจ ${completed} จากทั้งหมด ${total} งานในระบบ`;
+    
+    // ให้คำแนะนำตามสัดส่วนการเคลียร์งาน
+    const quote = document.getElementById("productivityQuote");
+    if(total === 0) quote.textContent = "ระบบว่างอยู่ เพิ่มงานชิ้นแรกเพื่อเริ่มต้นกันเลยครับ!";
+    else if(percentage === 100) quote.textContent = "สุดยอดมากครับ! คุณเคลียร์งานทั้งหมดในระบบครบถ้วน 100%";
+    else if(percentage >= 50) quote.textContent = "ทำงานได้เยี่ยมครับ! จัดการไปได้เกินครึ่งหนึ่งของเป้าหมายแล้ว";
+    else quote.textContent = "สู้ๆ ครับ! ค่อยๆ เคลียร์งานตามลำดับความสำคัญทีละนิดนะ";
+
+    // อัปเดตสถิติฝั่งหมวดหมู่คานบาร์ (Category Bars)
+    const catCounts = { WORK: 0, PERSONAL: 0, LEARNING: 0, OTHER: 0 };
+    tasks.forEach(t => { if(catCounts[t.category] !== undefined) catCounts[t.category]++; });
+
+    ['WORK', 'PERSONAL', 'LEARNING', 'OTHER'].forEach(cat => {
+        const count = catCounts[cat];
+        const pct = total > 0 ? (count / total) * 100 : 0;
+        const lowered = cat.toLowerCase();
+        
+        document.getElementById(`count${cat.charAt(0) + cat.slice(1).toLowerCase()}`).textContent = count;
+        document.getElementById(`bar${cat.charAt(0) + cat.slice(1).toLowerCase()}`).style.width = `${pct}%`;
+    });
+}
+
+// --- แสดงผลข้อมูลภายในตาราง Eisenhower Matrix บนหน้าแดชบอร์ด ---
+function renderEisenhowerMatrixGrid() {
+    const qContainers = { UI: 'quadrantQ1', INU: 'quadrantQ2', UNI: 'quadrantQ3', NUNI: 'quadrantQ4' };
+    const qCounts = { UI: 0, INU: 0, UNI: 0, NUNI: 0 };
+
+    Object.values(qContainers).forEach(id => document.getElementById(id).innerHTML = "");
+
+    // กรองดึงเฉพาะรายการงานที่ยังทำไม่เสร็จ (ไม่แสดง Completed ในเมทริกซ์ภาพรวม)
+    const activeTasks = tasks.filter(t => t.status !== 'completed');
+
+    activeTasks.forEach(task => {
+        const qCode = getMatrixQuadrantCode(task);
+        qCounts[qCode]++;
+
+        const miniCard = document.createElement("div");
+        miniCard.className = "matrix-mini-card";
+        miniCard.onclick = () => openEditTaskModal(task.id);
+        
+        let catEmojiName = "ภารกิจ";
+        if(task.category === 'WORK') catEmojiName = "💼 งาน";
+        else if(task.category === 'PERSONAL') catEmojiName = "🏡 ส่วนตัว";
+        else if(task.category === 'LEARNING') catEmojiName = "🎓 เรียน";
+        else catEmojiName = "✨ อื่นๆ";
+
+        miniCard.innerHTML = `
+            <div class="matrix-mini-title">${task.title}</div>
+            <span class="matrix-mini-category">${catEmojiName}</span>
+        `;
+        document.getElementById(qContainers[qCode]).appendChild(miniCard);
+    });
+
+    Object.keys(qCounts).forEach((key, index) => {
+        document.getElementById(`countQ${index+1}`).textContent = `${qCounts[key]} งาน`;
+    });
+}
+
+// --- ระบบบริหารจัดแจงคัมบังบอร์ด (Kanban Board) ร่วมกับการลากวาง Drag & Drop ---
+function filterKanbanMatrix(matrixType, btnElement) {
+    currentFilterMatrix = matrixType;
+    document.querySelectorAll(".kanban-filters .filter-btn").forEach(b => b.classList.remove("active"));
+    btnElement.classList.add("active");
+    renderKanbanBoardSystem();
+}
+
+function renderKanbanBoardSystem() {
+    const columns = { todo: 'cards-todo', inprogress: 'cards-inprogress', review: 'cards-review', completed: 'cards-completed' };
+    const colCounts = { todo: 0, inprogress: 0, review: 0, completed: 0 };
+
+    Object.values(columns).forEach(id => document.getElementById(id).innerHTML = "");
+
+    // ดึงข้อมูลงานที่คัดกรองตามหมวดหมู่ตัวเลือกด่วนด้านบนแล้ว
+    const filteredTasks = tasks.filter(task => {
+        if (currentFilterMatrix === 'ALL') return true;
+        return getMatrixQuadrantCode(task) === currentFilterMatrix;
+    });
+
+    filteredTasks.forEach(task => {
+        colCounts[task.status]++;
+        
+        const card = document.createElement("div");
+        const qCode = getMatrixQuadrantCode(task).toLowerCase();
+        card.className = `kanban-card card-priority-${qCode}`;
+        card.id = task.id;
+        card.draggable = true;
+        card.ondragstart = (e) => dragCardStart(e);
+        card.ondragend = () => card.classList.remove("dragging");
+        card.onclick = (e) => {
+            if(e.target.closest('.kanban-card')) openEditTaskModal(task.id);
+        };
+
+        // วิเคราะห์จัดระดับ Badge ความสำคัญด่วนเป็นสตริงข้อความ
+        let priorityLabel = "Q4 ไม่ด่วน/ไม่สำคัญ";
+        if(qCode === 'ui') priorityLabel = "Q1 เร่งด่วนภารกิจ";
+        else if(qCode === 'inu') priorityLabel = "Q2 แผนการสำคัญ";
+        else if(qCode === 'uni') priorityLabel = "Q3 งานมอบหมายด่วน";
+
+        // คัดแยกหมวดหมู่สีกริด
+        let catText = "อื่นๆ";
+        let catClass = "badge-cat-other";
+        if (task.category === 'WORK') { catText = "💼 งานอาชีพ"; catClass = "badge-cat-work"; }
+        else if (task.category === 'PERSONAL') { catText = "🏡 ส่วนตัว"; catClass = "badge-cat-personal"; }
+        else if (task.category === 'LEARNING') { catText = "🎓 การเรียนรู้"; catClass = "badge-cat-learning"; }
+
+        // คำนวณสีและการแจ้งเตือนเดดไลน์
+        let deadlineHtml = "";
+        if (task.deadline && task.status !== 'completed') {
+            const todayStr = new Date().toISOString().split('T')[0];
+            let dateClass = "deadline-ok";
+            if (task.deadline < todayStr) dateClass = "deadline-danger";
+            else if (task.deadline === todayStr) dateClass = "deadline-warning";
+            
+            deadlineHtml = `<div class="card-deadline ${dateClass}"><i class="fa-solid : fa-calendar-clock"></i> ${task.deadline}</div>`;
+        } else if (task.deadline) {
+            deadlineHtml = `<div class="card-deadline deadline-ok"><i class="fa-solid : fa-calendar-check"></i> ${task.deadline}</div>`;
+        }
+
+        card.innerHTML = `
+            <div class="card-tag-row">
+                <span class="card-urgency-badge badge-priority-${qCode}">${priorityLabel}</span>
+                <span class="badge-category ${catClass}">${catText}</span>
+            </div>
+            <div class="card-title">${task.title}</div>
+            <div class="card-description">${task.desc ? task.desc : '<span style="color:#6e6e73; font-style:italic">ไม่มีคำอธิบายภารกิจ</span>'}</div>
+            <div class="card-footer">
+                ${deadlineHtml}
+                <div style="color:var(--text-secondary); font-size:10px"><i class="fa-solid : fa-pencil"></i> แก้ไข</div>
+            </div>
+        `;
+        
+        document.getElementById(columns[task.status]).appendChild(card);
+    });
+
+    // อัปเดตตัวเลขเคาน์เตอร์หัวคอลัมน์คัมบัง
+    Object.keys(colCounts).forEach(status => {
+        document.getElementById(`countCol${status.charAt(0).toUpperCase() + status.slice(1)}`).textContent = colCounts[status];
+        
+        // หากคอลัมน์ว่างเปล่าจริง ให้แสดงแผ่นป้ายแจ้งเตือนเปล่าๆ เพื่อเป็นไกด์ไลน์
+        const container = document.getElementById(columns[status]);
+        if(colCounts[status] === 0) {
+            container.innerHTML = `<div class="empty-col-message">ไม่มีงานตกค้างในสถานะนี้</div>`;
         }
     });
 }
 
-function renderTasksTable() {
-    const tableBody = document.getElementById("leader-task-table-body");
-    const searchVal = document.getElementById("task-search").value.toLowerCase();
-    const filterCat = document.getElementById("filter-category").value;
-    const filterStatus = document.getElementById("filter-status").value;
+// ฟังก์ชันควบกลไก Drag & Drop API ตัวดักสถานะการทำงาน
+function dragCardStart(e) {
+    e.dataTransfer.setData("text/plain", e.currentTarget.id);
+    setTimeout(() => e.target.classList.add("dragging"), 0);
+}
 
+function allowDrop(e) {
+    e.preventDefault();
+    const col = e.currentTarget;
+    col.classList.add("drag-over");
+}
+
+function dragLeaveColumn(colName) {
+    document.getElementById(`col-${colName}`).classList.remove("drag-over");
+}
+
+function dropCard(e, targetStatus) {
+    e.preventDefault();
+    const col = e.currentTarget;
+    col.classList.remove("drag-over");
+    
+    const cardId = e.dataTransfer.getData("text/plain");
+    const targetTask = tasks.find(t => t.id === cardId);
+    
+    if (targetTask && targetTask.status !== targetStatus) {
+        targetTask.status = targetStatus;
+        dispatchTasksUpdate();
+    }
+}
+
+// --- หน้าต่างตารางงานแบบรายละเอียด (All Tasks List Table) ---
+function renderAllTasksTable() {
+    const tableBody = document.getElementById("allTasksTableBody");
     tableBody.innerHTML = "";
 
-    // Apply filtering
-    let filteredTasks = state.tasks.filter(task => {
-        const matchesSearch = task.title.toLowerCase().includes(searchVal) || 
-                              task.description.toLowerCase().includes(searchVal);
-        const matchesCategory = filterCat === "all" || task.category === filterCat;
-        const matchesStatus = filterStatus === "all" || task.status === filterStatus;
-        return matchesSearch && matchesCategory && matchesStatus;
+    const searchQuery = document.getElementById("tableSearchInput").value.trim().toLowerCase();
+    const catFilter = document.getElementById("filterTableCategory").value;
+    const matrixFilter = document.getElementById("filterTableMatrix").value;
+
+    const filtered = tasks.filter(task => {
+        const matchesSearch = task.title.toLowerCase().includes(searchQuery) || (task.desc && task.desc.toLowerCase().includes(searchQuery));
+        const matchesCat = catFilter === 'ALL' ? true : task.category === catFilter;
+        const matchesMatrix = matrixFilter === 'ALL' ? true : getMatrixQuadrantCode(task) === matrixFilter;
+        return matchesSearch && matchesCat && matchesMatrix;
     });
 
-    // Sort: Overdue first, priority score next, deadline next
-    filteredTasks.sort((a, b) => {
-        const todayStr = new Date().toISOString().split('T')[0];
-        const aOverdue = a.status !== "completed" && a.deadline < todayStr;
-        const bOverdue = b.status !== "completed" && b.deadline < todayStr;
-        
-        if (aOverdue && !bOverdue) return -1;
-        if (!aOverdue && bOverdue) return 1;
-        
-        const getPriorityScore = (t) => {
-            if (t.urgency === "urgent" && t.importance === "important") return 4;
-            if (t.urgency === "not_urgent" && t.importance === "important") return 3;
-            if (t.urgency === "urgent" && t.importance === "not_important") return 2;
-            return 1;
-        };
-        
-        const scoreA = getPriorityScore(a);
-        const scoreB = getPriorityScore(b);
-        if (scoreB !== scoreA) return scoreB - scoreA;
-        
-        return a.deadline.localeCompare(b.deadline);
-    });
-
-    if (filteredTasks.length === 0) {
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 40px 0;">
-                    ไม่พบรายการงานของคุณในขณะนี้
-                </td>
-            </tr>
-        `;
+    if (filtered.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px; color:var(--text-secondary)"><i class="fa-solid : fa-folder-open" style="font-size:24px; display:block; margin-bottom:8px"></i> ไม่พบรายการข้อมูลภารกิจที่ตรงตามเงื่อนไขตัวกรองของคุณ</td></tr>`;
         return;
     }
 
-    filteredTasks.forEach(task => {
-        const todayStr = new Date().toISOString().split('T')[0];
-        const isOverdue = task.status !== "completed" && task.deadline < todayStr;
-        const isToday = task.status !== "completed" && task.deadline === todayStr;
-        
-        let deadlineClass = "deadline-ok";
-        let deadlineLabel = formatDate(task.deadline);
-        if (isOverdue) {
-            deadlineClass = "deadline-danger";
-            deadlineLabel += " (เลยกำหนด!)";
-        } else if (isToday) {
-            deadlineClass = "deadline-warning";
-            deadlineLabel += " (วันนี้!)";
-        }
-
-        // Get status badge HTML
-        let statusBadge = "";
-        if (task.status === "todo") statusBadge = `<span class="badge-status badge-todo">ต้องทำ</span>`;
-        else if (task.status === "in_progress") statusBadge = `<span class="badge-status badge-inprogress">กำลังทำ</span>`;
-        else if (task.status === "review") statusBadge = `<span class="badge-status badge-review">รอตรวจทาน</span>`;
-        else statusBadge = `<span class="badge-status badge-completed">เสร็จสิ้น</span>`;
-
-        // Get priority tag HTML
-        let priorityTag = "";
-        if (task.urgency === "urgent" && task.importance === "important") {
-            priorityTag = `<span class="priority-tag priority-ui">ด่วน & สำคัญ</span>`;
-        } else if (task.urgency === "not_urgent" && task.importance === "important") {
-            priorityTag = `<span class="priority-tag priority-inu">ไม่ด่วน & สำคัญ</span>`;
-        } else if (task.urgency === "urgent" && task.importance === "not_important") {
-            priorityTag = `<span class="priority-tag priority-uni">ด่วน & ไม่สำคัญ</span>`;
-        } else {
-            priorityTag = `<span class="priority-tag priority-nuni">ไม่ด่วน & ไม่สำคัญ</span>`;
-        }
-
-        // Get category badge HTML
-        let catBadge = "";
-        if (task.category === "work") catBadge = `<span class="badge-category badge-cat-work">งาน (Work)</span>`;
-        else if (task.category === "personal") catBadge = `<span class="badge-category badge-cat-personal">ส่วนตัว (Personal)</span>`;
-        else if (task.category === "learning") catBadge = `<span class="badge-category badge-cat-learning">เรียนรู้ (Learning)</span>`;
-        else catBadge = `<span class="badge-category badge-cat-other">อื่นๆ (Other)</span>`;
-
+    filtered.forEach(task => {
         const tr = document.createElement("tr");
-        tr.className = "fade-in";
+        tr.style.cursor = "pointer";
+        tr.onclick = () => openEditTaskModal(task.id);
+
+        let catText = "อื่นๆ", catClass = "badge-cat-other";
+        if (task.category === 'WORK') { catText = "💼 งานอาชีพ"; catClass = "badge-cat-work"; }
+        else if (task.category === 'PERSONAL') { catText = "🏡 ส่วนตัว"; catClass = "badge-cat-personal"; }
+        else if (task.category === 'LEARNING') { catText = "🎓 การเรียนรู้"; catClass = "badge-cat-learning"; }
+
+        let statusText = "To Do", statusClass = "badge-todo";
+        if (task.status === 'inprogress') { statusText = "กำลังทำ"; statusClass = "badge-inprogress"; }
+        else if (task.status === 'review') { statusText = "รอตรวจ"; statusClass = "badge-review"; }
+        else if (task.status === 'completed') { statusText = "เสร็จสิ้น"; statusClass = "badge-completed"; }
+
+        const qCode = getMatrixQuadrantCode(task).toLowerCase();
+        let priorityText = "Q4 ไม่ด่วน/ไม่สำคัญ", priorityClass = "priority-nuni";
+        if (qCode === 'ui') { priorityText = "Q1 ด่วน & สำคัญ"; priorityClass = "priority-ui"; }
+        else if (qCode === 'inu') { priorityText = "Q2 สำคัญไม่เร่งด่วน"; priorityClass = "priority-inu"; }
+        else if (qCode === 'uni') { priorityText = "Q3 ด่วนแต่ไม่สำคัญ"; priorityClass = "priority-uni"; }
+
         tr.innerHTML = `
             <td>
                 <div class="table-task-title">${task.title}</div>
-                <div class="table-task-desc" title="${task.description}">${task.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</div>
+                <div class="table-task-desc">${task.desc ? task.desc : '<span style="color:#6e6e73; font-style:italic">ไม่ได้พิมพ์ข้อความรายละเอียด</span>'}</div>
             </td>
-            <td>${catBadge}</td>
-            <td style="color: var(--text-secondary)">${formatDate(task.dateCreated)}</td>
-            <td><span class="${deadlineClass}"><i class="fa-regular fa-calendar"></i> ${deadlineLabel}</span></td>
-            <td>${priorityTag}</td>
-            <td>${statusBadge}</td>
-            <td>
-                <button class="btn btn-secondary btn-icon edit-task-table-btn" data-id="${task.id}" title="แก้ไขงาน">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-            </td>
+            <td><span class="badge-category ${catClass}">${catText}</span></td>
+            <td><span class="badge-status ${statusClass}">${statusText}</span></td>
+            <td><span class="priority-tag ${priorityClass}">${priorityText}</span></td>
+            <td style="font-weight:500; font-family:'Inter'">${task.deadline ? task.deadline : '-'}</td>
         `;
-        
-        tr.querySelector(".edit-task-table-btn").addEventListener("click", () => openTaskModal(task.id));
         tableBody.appendChild(tr);
     });
 }
-
-// --- KANBAN BOARD LOGIC ---
-function renderKanban() {
-    const columns = {
-        "todo": document.getElementById("cards-todo"),
-        "in_progress": document.getElementById("cards-in_progress"),
-        "review": document.getElementById("cards-review"),
-        "completed": document.getElementById("cards-completed")
-    };
-
-    // Reset columns
-    Object.values(columns).forEach(col => col.innerHTML = "");
-
-    const counts = { todo: 0, in_progress: 0, review: 0, completed: 0 };
-
-    let filteredTasks = [...state.tasks];
-
-    // Apply matrix level filters inside Kanban View
-    if (state.kanbanFilter !== "all") {
-        filteredTasks = filteredTasks.filter(task => {
-            if (state.kanbanFilter === "ui") return task.urgency === "urgent" && task.importance === "important";
-            if (state.kanbanFilter === "inu") return task.urgency === "not_urgent" && task.importance === "important";
-            if (state.kanbanFilter === "uni") return task.urgency === "urgent" && task.importance === "not_important";
-            if (state.kanbanFilter === "nuni") return task.urgency === "not_urgent" && task.importance === "not_important";
-            return true;
-        });
-    }
-
-    filteredTasks.forEach(task => {
-        const card = createKanbanCard(task);
-        if (columns[task.status]) {
-            columns[task.status].appendChild(card);
-            counts[task.status]++;
-        }
-    });
-
-    // Update Kanban status count indicators
-    document.getElementById("count-col-todo").textContent = counts.todo;
-    document.getElementById("count-col-inprogress").textContent = counts.in_progress;
-    document.getElementById("count-col-review").textContent = counts.review;
-    document.getElementById("count-col-completed").textContent = counts.completed;
-
-    // Load empty messages if necessary
-    Object.keys(columns).forEach(status => {
-        if (counts[status] === 0) {
-            columns[status].innerHTML = `
-                <div class="empty-col-message">
-                    <i class="fa-solid fa-clipboard-list" style="font-size: 18px; display: block; margin-bottom: 6px; opacity: 0.5;"></i>
-                    ไม่มีรายการงานค้าง
-                </div>
-            `;
-        }
-    });
-
-    setupDragAndDrop();
-}
-
-function createKanbanCard(task) {
-    // 1. Identify Priority tag
-    let priorityClass = "card-priority-nuni";
-    let priorityBadgeClass = "badge-priority-nuni";
-    let priorityText = "ไม่ด่วน & ไม่สำคัญ";
-
-    if (task.urgency === "urgent" && task.importance === "important") {
-        priorityClass = "card-priority-ui";
-        priorityBadgeClass = "badge-priority-ui";
-        priorityText = "ด่วน & สำคัญ";
-    } else if (task.urgency === "not_urgent" && task.importance === "important") {
-        priorityClass = "card-priority-inu";
-        priorityBadgeClass = "badge-priority-inu";
-        priorityText = "ไม่ด่วน & สำคัญ";
-    } else if (task.urgency === "urgent" && task.importance === "not_important") {
-        priorityClass = "card-priority-uni";
-        priorityBadgeClass = "badge-priority-uni";
-        priorityText = "ด่วน & ไม่สำคัญ";
-    }
-
-    // 2. Identify Deadline status
-    const todayStr = new Date().toISOString().split('T')[0];
-    const isOverdue = task.status !== "completed" && task.deadline < todayStr;
-    const isToday = task.status !== "completed" && task.deadline === todayStr;
-    
-    let deadlineClass = "deadline-ok";
-    let deadlinePrefix = "";
-    if (isOverdue) {
-        deadlineClass = "deadline-danger";
-        deadlinePrefix = '<i class="fa-solid fa-triangle-exclamation"></i> เกินดิว: ';
-    } else if (isToday) {
-        deadlineClass = "deadline-warning";
-        deadlinePrefix = '<i class="fa-solid fa-clock"></i> ส่งวันนี้: ';
-    } else {
-        deadlinePrefix = '<i class="fa-regular fa-calendar-days"></i> กำหนดส่ง: ';
-    }
-
-    // 3. Get Category Class
-    let catClass = "badge-cat-other";
-    let catLabel = "อื่นๆ";
-    if (task.category === "work") { catClass = "badge-cat-work"; catLabel = "งาน"; }
-    else if (task.category === "personal") { catClass = "badge-cat-personal"; catLabel = "ส่วนตัว"; }
-    else if (task.category === "learning") { catClass = "badge-cat-learning"; catLabel = "เรียนรู้"; }
-
-    const card = document.createElement("div");
-    card.className = `kanban-card ${priorityClass} fade-in`;
-    card.setAttribute("draggable", "true");
-    card.setAttribute("data-id", task.id);
-    
-    card.innerHTML = `
-        <div class="card-tag-row">
-            <span class="card-urgency-badge ${priorityBadgeClass}">${priorityText}</span>
-            <span class="card-date">${formatDate(task.dateCreated)}</span>
-        </div>
-        <div class="card-title">${task.title}</div>
-        <div class="card-description">${task.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</div>
-        <div class="card-footer">
-            <span class="badge-category ${catClass}">${catLabel}</span>
-            <div class="card-deadline ${deadlineClass}">
-                ${deadlinePrefix}${formatDate(task.deadline)}
-            </div>
-        </div>
-    `;
-
-    card.addEventListener("click", () => {
-        if (card.classList.contains("dragging")) return;
-        openTaskModal(task.id);
-    });
-
-    return card;
-}
-
-// --- HTML5 DRAG & DROP LOGIC ---
-function setupDragAndDrop() {
-    const cards = document.querySelectorAll(".kanban-card");
-    const columns = document.querySelectorAll(".kanban-column");
-
-    cards.forEach(card => {
-        card.addEventListener("dragstart", (e) => {
-            card.classList.add("dragging");
-            e.dataTransfer.setData("text/plain", card.getAttribute("data-id"));
-            e.dataTransfer.effectAllowed = "move";
-        });
-
-        card.addEventListener("dragend", () => {
-            card.classList.remove("dragging");
-            columns.forEach(col => col.classList.remove("drag-over"));
-        });
-    });
-
-    columns.forEach(column => {
-        column.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = "move";
-        });
-
-        column.addEventListener("dragenter", (e) => {
-            e.preventDefault();
-            column.classList.add("drag-over");
-        });
-
-        column.addEventListener("dragleave", () => {
-            column.classList.remove("drag-over");
-        });
-
-        column.addEventListener("drop", (e) => {
-            e.preventDefault();
-            column.classList.remove("drag-over");
-            
-            const taskId = e.dataTransfer.getData("text/plain");
-            const newStatus = column.getAttribute("data-status");
-            
-            if (taskId && newStatus) {
-                updateTaskStatus(taskId, newStatus);
-            }
-        });
-    });
-}
-
-function updateTaskStatus(taskId, newStatus) {
-    const idx = state.tasks.findIndex(t => t.id === taskId);
-    if (idx !== -1) {
-        if (state.tasks[idx].status !== newStatus) {
-            state.tasks[idx].status = newStatus;
-            state.tasks[idx].lastUpdated = new Date().toISOString();
-            saveState();
-            
-            // Re-render
-            if (state.activeTab === "dashboard-view") {
-                renderDashboard();
-            } else {
-                renderKanban();
-            }
-
-            // Push to cloud if sync enabled
-            if (state.syncEnabled) {
-                pushTasksToCloud().then(() => updateSyncBadge("online"));
-            }
-
-            // Visual feedback flash
-            const col = document.querySelector(`.kanban-column[data-status="${newStatus}"]`);
-            if (col) {
-                col.style.transition = "box-shadow 0.15s ease";
-                col.style.boxShadow = "0 0 15px var(--accent-color)";
-                setTimeout(() => col.style.boxShadow = "", 300);
-            }
-        }
-    }
-}
-
-// --- TASK CRUD SYSTEM & MODALS ---
-function openTaskModal(taskId = null) {
-    const modal = document.getElementById("task-modal");
-    const form = document.getElementById("task-form");
-    const deleteBtn = document.getElementById("delete-task-btn");
-    const modalTitleText = document.getElementById("modal-title-text");
-
-    form.reset();
-    document.getElementById("task-id").value = "";
-
-    const todayStr = new Date().toISOString().split('T')[0];
-    document.getElementById("task-deadline-input").value = todayStr;
-    document.getElementById("task-urgency-select").value = "not_urgent";
-    document.getElementById("task-importance-select").value = "important";
-    document.getElementById("task-category-input").value = "work";
-    document.getElementById("task-status-select").value = "todo";
-
-    if (taskId) {
-        // Edit mode
-        const task = state.tasks.find(t => t.id === taskId);
-        if (task) {
-            modalTitleText.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> แก้ไขข้อมูลงาน`;
-            document.getElementById("task-id").value = task.id;
-            document.getElementById("task-title-input").value = task.title;
-            document.getElementById("task-desc-input").value = task.description;
-            document.getElementById("task-category-input").value = task.category;
-            document.getElementById("task-deadline-input").value = task.deadline;
-            document.getElementById("task-urgency-select").value = task.urgency;
-            document.getElementById("task-importance-select").value = task.importance;
-            document.getElementById("task-status-select").value = task.status;
-            
-            deleteBtn.style.display = "inline-flex";
-            deleteBtn.onclick = () => deleteTask(task.id);
-        }
-    } else {
-        // Create mode
-        modalTitleText.innerHTML = `<i class="fa-solid fa-circle-plus"></i> เพิ่มงานใหม่`;
-        deleteBtn.style.display = "none";
-    }
-
-    modal.classList.add("active");
-}
-
-function closeTaskModal() {
-    document.getElementById("task-modal").classList.remove("active");
-}
-
-function saveTask(e) {
-    e.preventDefault();
-    
-    const taskId = document.getElementById("task-id").value;
-    const title = document.getElementById("task-title-input").value.trim();
-    const description = document.getElementById("task-desc-input").value.trim();
-    const category = document.getElementById("task-category-input").value;
-    const deadline = document.getElementById("task-deadline-input").value;
-    const urgency = document.getElementById("task-urgency-select").value;
-    const importance = document.getElementById("task-importance-select").value;
-    const status = document.getElementById("task-status-select").value;
-
-    if (!title || !category || !deadline) {
-        alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
-        return;
-    }
-
-    if (taskId) {
-        // Update task
-        const idx = state.tasks.findIndex(t => t.id === taskId);
-        if (idx !== -1) {
-            state.tasks[idx] = {
-                ...state.tasks[idx],
-                title,
-                description,
-                category,
-                deadline,
-                urgency,
-                importance,
-                status,
-                lastUpdated: new Date().toISOString()
-            };
-        }
-    } else {
-        // Create task
-        const newTask = {
-            id: `task-${Date.now()}`,
-            title,
-            description,
-            category,
-            dateCreated: new Date().toISOString().split('T')[0],
-            deadline,
-            urgency,
-            importance,
-            status,
-            lastUpdated: new Date().toISOString()
-        };
-        state.tasks.push(newTask);
-    }
-
-    saveState();
-    closeTaskModal();
-    renderActiveView();
-
-    // Push to cloud if sync enabled
-    if (state.syncEnabled) {
-        pushTasksToCloud().then(() => updateSyncBadge("online"));
-    }
-}
-
-function deleteTask(taskId) {
-    if (confirm("คุณแน่ใจว่าต้องการลบงานนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถกู้คืนได้")) {
-        state.tasks = state.tasks.filter(t => t.id !== taskId);
-        saveState();
-        closeTaskModal();
-        renderActiveView();
-
-        // Push to cloud if sync enabled
-        if (state.syncEnabled) {
-            pushTasksToCloud().then(() => updateSyncBadge("online"));
-        }
-    }
-}
-
-// --- EVENT LISTENERS ---
-function setupEventListeners() {
-    // Navigation tab switching
-    const navTabs = document.querySelectorAll(".nav-tab");
-    navTabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            state.activeTab = tab.getAttribute("data-tab");
-            saveState();
-            renderActiveView();
-        });
-    });
-
-    // Theme Toggle
-    document.getElementById("theme-toggle-btn").addEventListener("click", toggleTheme);
-
-    // Sync Toggle
-    document.getElementById("sync-toggle-btn").addEventListener("click", openSyncModal);
-    document.getElementById("close-sync-modal").addEventListener("click", closeSyncModal);
-    document.getElementById("cancel-sync-btn").addEventListener("click", closeSyncModal);
-    document.getElementById("sync-enable-checkbox").addEventListener("change", handleSyncToggle);
-    document.getElementById("sync-form").addEventListener("submit", saveSyncSettings);
-    
-    // Manual sync click on status badge
-    document.getElementById("sync-status-badge").addEventListener("click", () => {
-        if (state.syncEnabled) syncWithCloud();
-    });
-
-    // Modal buttons
-    document.getElementById("add-task-btn").addEventListener("click", () => openTaskModal());
-    document.getElementById("close-task-modal").addEventListener("click", closeTaskModal);
-    document.getElementById("cancel-task-btn").addEventListener("click", closeTaskModal);
-    
-    // Form Submission
-    document.getElementById("task-form").addEventListener("submit", saveTask);
-
-    // Live filtering for dashboard list table
-    document.getElementById("task-search").addEventListener("input", renderTasksTable);
-    document.getElementById("filter-category").addEventListener("change", renderTasksTable);
-    document.getElementById("filter-status").addEventListener("change", renderTasksTable);
-
-    // Kanban priority matrix filter
-    const filterBtns = document.querySelectorAll(".filter-btn");
-    filterBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            filterBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            state.kanbanFilter = btn.getAttribute("data-matrix");
-            renderKanban();
-        });
-    });
-
-    // Close modals when clicking outside
-    window.addEventListener("click", (e) => {
-        const taskModal = document.getElementById("task-modal");
-        const syncModal = document.getElementById("sync-modal");
-        if (e.target === taskModal) closeTaskModal();
-        if (e.target === syncModal) closeSyncModal();
-    });
-}
-
-// --- SYNC MODAL MANAGEMENT ---
-function openSyncModal() {
-    const modal = document.getElementById("sync-modal");
-    const checkbox = document.getElementById("sync-enable-checkbox");
-    const fields = document.getElementById("sync-fields");
-    const urlInput = document.getElementById("sync-url-input");
-    const keyInput = document.getElementById("sync-key-input");
-
-    checkbox.checked = state.syncEnabled;
-    urlInput.value = state.syncUrl || "";
-    keyInput.value = state.syncKey || "";
-
-    if (state.syncEnabled) {
-        fields.style.display = "flex";
-    } else {
-        fields.style.display = "none";
-    }
-
-    modal.classList.add("active");
-}
-
-// Global exposure for debugging or inline triggers
-window.openSyncModal = openSyncModal;
-
-function closeSyncModal() {
-    document.getElementById("sync-modal").classList.remove("active");
-}
-
-function handleSyncToggle() {
-    const checkbox = document.getElementById("sync-enable-checkbox");
-    const fields = document.getElementById("sync-fields");
-    if (checkbox.checked) {
-        fields.style.display = "flex";
-    } else {
-        fields.style.display = "none";
-    }
-}
-
-async function saveSyncSettings(e) {
-    e.preventDefault();
-    
-    const checkbox = document.getElementById("sync-enable-checkbox");
-    const urlInput = document.getElementById("sync-url-input");
-    const keyInput = document.getElementById("sync-key-input");
-
-    state.syncEnabled = checkbox.checked;
-    state.syncUrl = urlInput.value.trim();
-    state.syncKey = keyInput.value.trim();
-
-    if (state.syncEnabled && (!state.syncUrl || !state.syncKey)) {
-        alert("กรุณากรอกข้อมูล URL และ Sync Key ให้ครบถ้วน!");
-        return;
-    }
-
-    saveState();
-    closeSyncModal();
-
-    if (state.syncEnabled) {
-        await syncWithCloud();
-    } else {
-        updateSyncBadge("offline");
-    }
-}
-
-// --- CLOUD SYNC LOGIC ---
-let isSyncing = false;
-
-async function syncWithCloud() {
-    if (!state.syncEnabled || !state.syncUrl || isSyncing) {
-        if (!state.syncEnabled) updateSyncBadge("offline");
-        return;
-    }
-
-    isSyncing = true;
-    updateSyncBadge("syncing");
-
-    try {
-        const response = await fetch(state.syncUrl, {
-            method: "GET",
-            headers: {
-                "X-Sync-Key": state.syncKey
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(response.status === 401 ? "Unauthorized" : "Sync Failed");
-        }
-
-        const cloudTasks = await response.json();
-        if (Array.isArray(cloudTasks)) {
-            const merged = mergeTasks(state.tasks, cloudTasks);
-            state.tasks = merged;
-            
-            // Save locally
-            localStorage.setItem("solo_tasks", JSON.stringify(state.tasks));
-            
-            // Push merged back to cloud to align
-            await pushTasksToCloud();
-            
-            updateSyncBadge("online");
-            renderActiveView();
-        } else {
-            throw new Error("Invalid format");
-        }
-    } catch (err) {
-        console.error("Sync Error:", err);
-        updateSyncBadge("error");
-    } finally {
-        isSyncing = false;
-    }
-}
-
-async function pushTasksToCloud() {
-    if (!state.syncEnabled || !state.syncUrl) return;
-    
-    try {
-        const response = await fetch(state.syncUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Sync-Key": state.syncKey
-            },
-            body: JSON.stringify(state.tasks)
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to push to cloud");
-        }
-    } catch (err) {
-        console.error("Cloud push failed:", err);
-        updateSyncBadge("error");
-    }
-}
-
-function mergeTasks(localTasks, cloudTasks) {
-    const merged = {};
-    
-    // Process local tasks
-    localTasks.forEach(t => {
-        merged[t.id] = t;
-    });
-    
-    // Process cloud tasks, override if newer
-    cloudTasks.forEach(ct => {
-        const local = merged[ct.id];
-        if (!local) {
-            merged[ct.id] = ct;
-        } else {
-            const localTime = new Date(local.lastUpdated || local.dateCreated || 0).getTime();
-            const cloudTime = new Date(ct.lastUpdated || ct.dateCreated || 0).getTime();
-            if (cloudTime > localTime) {
-                merged[ct.id] = ct;
-            }
-        }
-    });
-    
-    return Object.values(merged);
-}
-
-function updateSyncBadge(status) {
-    const badge = document.getElementById("sync-status-badge");
-    if (!badge) return;
-    
-    badge.className = `sync-status-badge ${status}`;
-    
-    if (status === "online") {
-        badge.innerHTML = '<i class="fa-solid fa-cloud"></i> ซิงค์แล้ว';
-        badge.title = "ข้อมูลซิงค์ตรงกับคลาวด์แล้ว คลิกเพื่อซิงค์ใหม่";
-    } else if (status === "offline") {
-        badge.innerHTML = '<i class="fa-solid fa-cloud"></i> ออฟไลน์';
-        badge.title = "ระบบคลาวด์ไม่ได้เปิดใช้งาน (เซฟในเครื่องอย่างเดียว) คลิกเพื่อตั้งค่า";
-    } else if (status === "syncing") {
-        badge.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> กำลังซิงค์...';
-        badge.title = "กำลังซิงค์ข้อมูลกับคลาวด์...";
-    } else if (status === "error") {
-        badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ผิดพลาด';
-        badge.title = "ไม่สามารถเชื่อมต่อคลาวด์ได้ ตรวจสอบ URL หรือ Sync Key ของคุณ (คลิกเพื่อลองใหม่)";
-    }
-}
-
-// --- HELPERS ---
-function formatDate(dateString) {
-    if (!dateString) return "";
-    const parts = dateString.split("-");
-    if (parts.length !== 3) return dateString;
-    return `${parts[2]}/${parts[1]}/${parts[0]}`;
-}
-</script>
+    </script>
 </body>
 </html>
