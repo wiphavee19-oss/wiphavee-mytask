@@ -1352,15 +1352,15 @@ input[type="password"]:focus {
             <div class="header-logo">
                 <div class="logo-icon"><i class="fa-solid : fa-layer-group"></i></div>
                 <div class="logo-text">
-                    <h1>My Task</h1>
-                    <p>ระบบบริหารงาน</p>
+                    <h1>My Task Of WJ</h1>
+                    <p>การบริหารงานของวิภาวี</p>
                 </div>
             </div>
             
             <nav class="app-navigation">
-                <button class="nav-tab active" onclick="switchView('dashboard')"><i class="fa-solid : fa-chart-pie"></i> แดชบอร์ด</button>
-                <button class="nav-tab" onclick="switchView('kanban')"><i class="fa-solid : fa-chalkboard-user"></i> คัมบังบอร์ด</button>
-                <button class="nav-tab" onclick="switchView('alltasks')"><i class="fa-solid : fa-list-check"></i> งานทั้งหมด</button>
+                <button class="nav-tab active" onclick="switchView('dashboard')"><i class="fa-solid : fa-chart-pie"></i> dashboard</button>
+                <button class="nav-tab" onclick="switchView('kanban')"><i class="fa-solid : fa-chalkboard-user"></i> board</button>
+                <button class="nav-tab" onclick="switchView('alltasks')"><i class="fa-solid : fa-list-check"></i> alltasks</button>
             </nav>
 
             <div class="header-actions">
@@ -1411,8 +1411,8 @@ input[type="password"]:focus {
 
             <div class="dashboard-grid">
                 <div class="dashboard-card">
-                    <h3><i class="fa-solid : fa-chart-line-up" style="color:#30d158"></i>สรุปความคืบหน้าของงาน</h3>
-                    <p class="card-desc">สัดส่วนงานตามหมวดหมู่</p>
+                    <h3><i class="fa-solid : fa-chart-line-up" style="color:#30d158"></i>ความคืบหน้าของงาน</h3>
+                    <p class="card-desc">สัดส่วนงาน</p>
                     
                     <div class="productivity-wrapper">
                         <div class="progress-ring-container" id="productivityRing">
@@ -1452,8 +1452,8 @@ input[type="password"]:focus {
                 </div>
 
                 <div class="dashboard-card">
-                    <h3><i class="fa-solid : fa-grid-2" style="color:var(--accent-color)"></i>จัดลำดับความสำคัญ (Eisenhower Matrix)</h3>
-                    <p class="card-desc">งานจะถูกจัดลงกล่องโดยอัตโนมัติตามระดับความสำคัญและความเร่งด่วน</p>
+                    <h3><i class="fa-solid : fa-grid-2" style="color:var(--accent-color)"></i> จัดลำดับความสำคัญ </h3>
+                    <p class="card-desc">งานจะถูกจัดลงกล่องตามระดับความสำคัญและความเร่งด่วน</p>
                     
                     <div class="matrix-grid">
                         <div class="matrix-quadrant urgent-important">
@@ -2113,8 +2113,8 @@ function renderKanbanBoardSystem() {
 
         // วิเคราะห์จัดระดับ Badge ความสำคัญด่วนเป็นสตริงข้อความ
         let priorityLabel = " ไม่ด่วน/ไม่สำคัญ";
-        if(qCode === 'ui') priorityLabel = " เร่งด่วนภารกิจ";
-        else if(qCode === 'inu') priorityLabel = " แผนการสำคัญ";
+        if(qCode === 'ui') priorityLabel = " เร่งด่วน";
+        else if(qCode === 'inu') priorityLabel = " งานสำคัญ";
         else if(qCode === 'uni') priorityLabel = " งานมอบหมายด่วน";
 
         // คัดแยกหมวดหมู่สีกริด
