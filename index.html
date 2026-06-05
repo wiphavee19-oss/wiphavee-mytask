@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskyBuddy - Personal Premium Task & Priority Space</title>
+    <title>My Task - Personal Task</title>
     
     <!-- Google Fonts: Inter for Modern typography & Sriracha for handwriting flair -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,11 +135,11 @@
             <nav class="flex items-center bg-stone-100 dark:bg-stone-800/80 p-1.5 rounded-2xl w-full md:w-auto max-w-md border border-stone-200/50 dark:border-stone-700/50">
                 <button id="tab-overview" class="tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all bg-white dark:bg-stone-900 shadow-sm border border-stone-200/50 dark:border-stone-800 text-coral-600 dark:text-coral-400">
                     <span class="text-sm">📊</span>
-                    <span>แดชบอร์ดภาพรวม</span>
+                    <span>Dashboard</span>
                 </button>
                 <button id="tab-matrix-tasks" class="tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 border border-transparent">
                     <span class="text-sm">🎯</span>
-                    <span>ตารางความสำคัญ & งาน</span>
+                    <span>All Tasks</span>
                 </button>
             </nav>
 
@@ -271,9 +271,9 @@
             <section class="bg-white dark:bg-stone-900 rounded-3xl p-6 shadow-sm border border-stone-150 dark:border-stone-800/80 space-y-4">
                 <div>
                     <h3 class="text-base sm:text-lg font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
-                        <span>📊</span> อัตราความสำเร็จแยกตามหมวดหมู่ (Donut Progress)
+                        <span>📊</span> อัตราความสำเร็จ
                     </h3>
-                    <p class="text-xs text-stone-400 dark:text-stone-500">คำนวณสัดส่วนความก้าวหน้าแยกตามการใช้งาน: งาน, ส่วนตัว, เรียนรู้ และอื่นๆ</p>
+                    <p class="text-xs text-stone-400 dark:text-stone-500">คสัดส่วนความก้าวหน้าแยกตามการใช้งาน: งาน, ส่วนตัว, เรียนรู้ และอื่นๆ</p>
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="donut-charts-container">
@@ -291,9 +291,9 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h3 class="text-base font-extrabold text-stone-800 dark:text-stone-100 flex items-center gap-2">
-                            <span>🔍</span> ตัวกรองอัจฉริยะ (Interactive Matrix & Tasks Filters)
+                            <span>🔍</span> ตัวกรอง (Tasks Filters)
                         </h3>
-                        <p class="text-xs text-stone-400 dark:text-stone-500">กรองชิ้นงานได้ทันทีทั้งบนตาราง Eisenhower 4 ช่อง และตารางรายการงานทั้งหมด</p>
+                        <p class="text-xs text-stone-400 dark:text-stone-500">กรองชิ้นงานได้ทันที</p>
                     </div>
 
                     <!-- Search Input Filter -->
@@ -319,19 +319,19 @@
             <section class="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 shadow-sm border border-stone-150 dark:border-stone-800/80 space-y-4">
                 <div>
                     <h3 class="text-base sm:text-lg font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
-                        <span>🎯</span> ตารางจัดความสำคัญส่วนตัว (Eisenhower Matrix Board)
+                        <span>🎯</span> ตารางจัดความสำคัญ (Matrix Board)
                     </h3>
-                    <p class="text-xs text-stone-400 dark:text-stone-500">ลากและวางรายการงานเพื่อสลับระดับความสำคัญเร่งด่วนได้ทันที (เปลี่ยนค่าจะอัปเดตเรียลไทม์ 🚀)</p>
+                    <p class="text-xs text-stone-400 dark:text-stone-500">ลากและวางรายการงานเพื่อสลับระดับความสำคัญเร่งด่วนได้ทันที 🚀</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     
-                    <!-- Q1: Urgent & Important -->
+                    <!--  Urgent & Important -->
                     <div class="bg-rose-50/40 dark:bg-rose-950/10 rounded-2xl p-4 border border-rose-100/70 dark:border-rose-900/30 flex flex-col gap-3 transition-colors duration-250">
                         <div class="flex items-center justify-between border-b border-rose-100 dark:border-rose-900/30 pb-2">
                             <span class="font-extrabold text-rose-600 dark:text-rose-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                                 <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                                1. ด่วน & สำคัญมาก (Do First)
+                                 ด่วน & สำคัญ (Do First)
                             </span>
                             <span id="q1-count" class="text-[10px] font-bold text-rose-600 bg-rose-100 dark:bg-rose-950 dark:text-rose-300 px-2 py-0.5 rounded-full">0 งาน</span>
                         </div>
@@ -340,12 +340,12 @@
                         </div>
                     </div>
 
-                    <!-- Q2: Important but Not Urgent -->
+                    <!--  Important but Not Urgent -->
                     <div class="bg-emerald-50/40 dark:bg-emerald-950/10 rounded-2xl p-4 border border-emerald-100/70 dark:border-emerald-900/30 flex flex-col gap-3 transition-colors duration-250">
                         <div class="flex items-center justify-between border-b border-emerald-100 dark:border-emerald-900/30 pb-2">
                             <span class="font-extrabold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                2. ไม่ด่วน แต่สำคัญ (Schedule)
+                                 ไม่ด่วน แต่สำคัญ (Schedule)
                             </span>
                             <span id="q2-count" class="text-[10px] font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded-full">0 งาน</span>
                         </div>
@@ -354,12 +354,12 @@
                         </div>
                     </div>
 
-                    <!-- Q3: Urgent but Not Important -->
+                    <!--  Urgent but Not Important -->
                     <div class="bg-amber-50/40 dark:bg-amber-950/10 rounded-2xl p-4 border border-amber-100/70 dark:border-amber-900/30 flex flex-col gap-3 transition-colors duration-250">
                         <div class="flex items-center justify-between border-b border-amber-100 dark:border-amber-900/30 pb-2">
                             <span class="font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                                 <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                                3. ด่วน แต่ไม่สำคัญ (Delegate)
+                                 ด่วน แต่ไม่สำคัญ (Delegate)
                             </span>
                             <span id="q3-count" class="text-[10px] font-bold text-amber-600 bg-amber-100 dark:bg-amber-950 dark:text-amber-300 px-2 py-0.5 rounded-full">0 งาน</span>
                         </div>
@@ -368,12 +368,12 @@
                         </div>
                     </div>
 
-                    <!-- Q4: Neither -->
+                    <!--  Neither -->
                     <div class="bg-stone-50 dark:bg-stone-900/40 rounded-2xl p-4 border border-stone-200/60 dark:border-stone-800 flex flex-col gap-3 transition-colors duration-250">
                         <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
                             <span class="font-extrabold text-stone-500 dark:text-stone-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                                 <span class="w-2 h-2 rounded-full bg-stone-400"></span>
-                                4. ไม่ด่วน & ไม่สำคัญ (Eliminate)
+                                 ไม่ด่วน & ไม่สำคัญ (Eliminate)
                             </span>
                             <span id="q4-count" class="text-[10px] font-bold text-stone-500 bg-stone-200 dark:bg-stone-850 dark:text-stone-300 px-2 py-0.5 rounded-full">0 งาน</span>
                         </div>
@@ -504,10 +504,10 @@
         <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-sm shadow-2xl p-6 border border-stone-150 dark:border-stone-800 flex flex-col items-center text-center animate-scale-up">
             <div class="w-16 h-16 bg-coral-100 dark:bg-coral-950/40 text-coral-500 rounded-2xl flex items-center justify-center text-3xl mb-4">👋</div>
             <h3 class="text-lg font-bold text-stone-800 dark:text-stone-100">โปรดระบุชื่อผู้ใช้งานของคุณ</h3>
-            <p class="text-xs text-stone-400 mt-1 mb-5">ข้อมูลนี้ใช้เพื่อความใกล้ชิดและการระบุจุดหมายของคุณเอง</p>
+            <p class="text-xs text-stone-400 mt-1 mb-5">ข้อมูลนี้ใช้เพื่อระบุจุดหมายของคุณ</p>
             
             <form id="form-profile" class="w-full space-y-4">
-                <input id="profile-name-input" type="text" placeholder="ระบุชื่อหรือฉายาของคุณ..." class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 text-center dark:text-stone-100 font-bold focus:border-coral-500 transition-all" required maxlength="25" />
+                <input id="profile-name-input" type="text" placeholder="ระบุชื่อของคุณ..." class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 text-center dark:text-stone-100 font-bold focus:border-coral-500 transition-all" required maxlength="25" />
                 
                 <button type="submit" class="w-full py-2.5 bg-coral-500 hover:bg-coral-600 active:scale-95 text-white font-bold rounded-xl text-sm shadow-md transition">
                     ยืนยันข้อมูลส่วนตัว
