@@ -1,2258 +1,1484 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Task - จัดการงานส่วนตัวของน้ำฝน</title>
+    <title>My Task - Personal</title>
+    
+    <!-- Google Fonts: Inter for Modern typography & Sriracha for handwriting flair -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sriracha&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        coral: {
+                            50: '#fff5f5',
+                            100: '#ffe6e3',
+                            200: '#ffd0ca',
+                            500: '#FF6F61', // Gorgeous Main Accent
+                            600: '#fa5444',
+                            700: '#e03d2d',
+                        },
+                        mint: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            500: '#20B2AA', // Bright Sea Mint/Teal Secondary
+                            600: '#0f9c94',
+                            700: '#0d7d77',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        hand: ['Sriracha', 'cursive']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-short': 'bounceShort 1.2s ease-in-out 1',
+                        'slide-in': 'slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'scale-up': 'scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+                    },
+                    keyframes: {
+                        bounceShort: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(30px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        scaleUp: {
+                            '0%': { transform: 'scale(0.94)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-/* SoloTask Global CSS Design System - Modern Gray-Orange Theme */
-
-:root {
-    --font-primary: 'Inter', 'Sarabun', sans-serif;
-    --transition-speed: 0.25s;
-    
-    /* System Values */
-    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.2), 0 0 1px rgba(255, 255, 255, 0.05);
-    --card-shadow-hover: 0 15px 35px rgba(255, 122, 0, 0.05), 0 10px 40px rgba(0, 0, 0, 0.3);
-    --border-radius-sm: 8px;
-    --border-radius-md: 12px;
-    --border-radius-lg: 16px;
-}
-
-/* Default Dark Theme: Gray-Orange */
-.dark-theme {
-    --bg-primary: #121214;       /* Warm Charcoal Dark */
-    --bg-secondary: #1a1a1e;     /* Slate / Graphite Dark */
-    --bg-glass: rgba(26, 26, 30, 0.85);
-    --border-color: #1A1A1D;
-    --border-focus: #FFD93D;     /* Neon Orange Focus */
-    --text-primary: #f5f5f7;
-    --text-secondary: #8e8e93;
-    
-    /* Accent Core */
-    --accent-color: #ff7a00;     /* Electric Orange */
-    --accent-hover: #e66e00;
-    --accent-light: rgba(255, 122, 0, 0.08);
-    --shadow-glow: rgba(255, 122, 0, 0.2);
-    
-    /* Priority Colors */
-    --color-ui: #FF0000;        /* Urgent & Important - Coral Red */
-    --color-ui-bg: rgba(255, 69, 58, 0.1);
-    --color-ui-border: rgba(255, 69, 58, 0.25);
-
-    --color-inu: #FF8400;       /* Important but Not Urgent - Warm Amber */
-    --color-inu-bg: rgba(255, 159, 10, 0.1);
-    --color-inu-border: rgba(255, 159, 10, 0.25);
-
-    --color-uni: #FDFF00;       /* Urgent but Not Important - Orange */
-    --color-uni-bg: rgba(255, 122, 0, 0.1);
-    --color-uni-border: rgba(255, 122, 0, 0.25);
-
-    --color-nuni: #FFF5E5;      /* Neither - Gray/Slate */
-    --color-nuni-bg: rgba(100, 116, 139, 0.1);
-    --color-nuni-border: rgba(100, 116, 139, 0.25);
-
-    /* Category Badges */
-    --cat-work-bg: rgba(255, 159, 10, 0.15);
-    --cat-work-text: #ff9f0a;
-    --cat-personal-bg: rgba(255, 69, 58, 0.15);
-    --cat-personal-text: #ff453a;
-    --cat-learning-bg: rgba(10, 132, 255, 0.15);
-    --cat-learning-text: #0a84ff;
-    --cat-other-bg: rgba(142, 142, 147, 0.15);
-    --cat-other-text: #8e8e93;
-
-    /* Kanban Status Colors */
-    --color-todo: #8e8e93;
-    --color-todo-bg: rgba(142, 142, 147, 0.08);
-    --color-inprogress: #ff9f0a;
-    --color-inprogress-bg: rgba(255, 159, 10, 0.08);
-    --color-review: #bf5af2;
-    --color-review-bg: rgba(191, 90, 242, 0.08);
-    --color-completed: #30d158;
-    --color-completed-bg: rgba(48, 209, 88, 0.08);
-}
-
-/* Light Theme version */
-.light-theme {
-    --bg-primary: #f5f5f7;
-    --bg-secondary: #ffffff;
-    --bg-glass: rgba(255, 255, 255, 0.85);
-    --border-color: #e5e5ea;
-    --border-focus: #ff7a00;
-    --text-primary: #1c1c1e;
-    --text-secondary: #8e8e93;
-    
-    --accent-color: #ff7a00;     /* Electric Orange */
-    --accent-hover: #e66e00;
-    --accent-light: #fff4eb;
-    --shadow-glow: rgba(255, 122, 0, 0.12);
-    
-    --color-ui: #ff3b30;
-    --color-ui-bg: rgba(255, 59, 48, 0.08);
-    --color-ui-border: rgba(255, 59, 48, 0.18);
-
-    --color-inu: #f59e0b;
-    --color-inu-bg: rgba(245, 158, 11, 0.08);
-    --color-inu-border: rgba(245, 158, 11, 0.18);
-
-    --color-uni: #ff7a00;
-    --color-uni-bg: rgba(255, 122, 0, 0.08);
-    --color-uni-border: rgba(255, 122, 0, 0.18);
-
-    --color-nuni: #8e8e93;
-    --color-nuni-bg: rgba(142, 142, 147, 0.08);
-    --color-nuni-border: rgba(142, 142, 147, 0.18);
-
-    /* Category Badges */
-    --cat-work-bg: #fff4eb;
-    --cat-work-text: #e66e00;
-    --cat-personal-bg: #ffebeb;
-    --cat-personal-text: #ff3b30;
-    --cat-learning-bg: #ebf5ff;
-    --cat-learning-text: #007aff;
-    --cat-other-bg: #f2f2f7;
-    --cat-other-text: #8e8e93;
-
-    --color-todo: #8e8e93;
-    --color-todo-bg: #f2f2f7;
-    --color-inprogress: #e66e00;
-    --color-inprogress-bg: #fff4eb;
-    --color-review: #af52de;
-    --color-review-bg: #faf0ff;
-    --color-completed: #34c759;
-    --color-completed-bg: #eafaf1;
-
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.08);
-    --card-shadow-hover: 0 12px 24px rgba(255, 122, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.03);
-}
-
-/* Base Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: var(--font-primary);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-.app-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 24px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* HEADER STYLING */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    background-color: var(--bg-secondary);
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--card-shadow);
-    margin-bottom: 24px;
-    border: 1px solid var(--border-color);
-    flex-wrap: wrap;
-    gap: 16px;
-    transition: all var(--transition-speed);
-}
-
-.header-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: var(--border-radius-md);
-    background: linear-gradient(135deg, var(--accent-color), #ff5100);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    box-shadow: 0 4px 15px rgba(255, 122, 0, 0.4);
-}
-
-.logo-text h1 {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: var(--text-primary);
-    line-height: 1.1;
-}
-
-.logo-text p {
-    font-size: 11px;
-    color: var(--text-secondary);
-    font-family: 'Sarabun', sans-serif;
-}
-
-/* TAB NAVIGATION SYSTEM */
-.app-navigation {
-    display: flex;
-    background-color: var(--bg-primary);
-    padding: 6px;
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-color);
-    gap: 4px;
-}
-
-.nav-tab {
-    background: transparent;
-    border: none;
-    padding: 8px 18px;
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-primary);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-}
-
-.nav-tab:hover {
-    color: var(--text-primary);
-    background-color: var(--bg-secondary);
-}
-
-.nav-tab.active {
-    background-color: var(--bg-secondary);
-    color: var(--accent-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border-color);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-/* BUTTON CONTROLS */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 18px;
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-primary);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all var(--transition-speed) ease;
-    white-space: nowrap;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--accent-color), #ff5100);
-    color: white;
-}
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px var(--shadow-glow);
-}
-
-.btn-secondary {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    border-color: var(--border-color);
-}
-
-.btn-secondary:hover {
-    background-color: var(--border-color);
-}
-
-.btn-danger {
-    background-color: #ff3b30;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #e02e24;
-    box-shadow: 0 4px 10px rgba(255, 59, 48, 0.2);
-}
-
-.btn-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--border-radius-sm);
-    padding: 0;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all var(--transition-speed);
-}
-
-.btn-icon:hover {
-    background-color: var(--border-color);
-    color: var(--text-primary);
-    border-color: var(--border-focus);
-}
-
-/* VIEW SWITCHER ANIMATION */
-.view-section {
-    display: none;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.view-section.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.view-header {
-    margin-bottom: 24px;
-}
-
-.view-header h2 {
-    font-size: 20px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-primary);
-}
-
-.view-subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-}
-
-/* STATS COUNTERS GRID */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-}
-
-.stat-card {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    box-shadow: var(--card-shadow);
-    transition: all var(--transition-speed) ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-focus);
-    box-shadow: var(--card-shadow-hover);
-}
-
-.stat-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-}
-
-.total-tasks .stat-icon { background-color: var(--accent-light); color: var(--accent-color); }
-.pending-tasks .stat-icon { background-color: var(--color-inprogress-bg); color: var(--color-inprogress); }
-.completed-tasks .stat-icon { background-color: var(--color-completed-bg); color: var(--color-completed); }
-.overdue-tasks .stat-icon { background-color: var(--color-ui-bg); color: var(--color-ui); }
-
-.stat-value {
-    font-size: 26px;
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--text-primary);
-}
-
-.stat-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-/* DASHBOARD LAYOUT & CHARTS */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
-}
-
-@media (max-width: 1024px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.dashboard-card {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    padding: 24px;
-    box-shadow: var(--card-shadow);
-}
-
-.dashboard-card h3 {
-    font-size: 15px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.card-desc {
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-    margin-top: 2px;
-}
-
-/* PRODUCTIVITY WHEEL */
-.productivity-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background-color: var(--bg-primary);
-    padding: 16px;
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-color);
-    margin-bottom: 20px;
-}
-
-.progress-ring-container {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: conic-gradient(var(--accent-color) var(--percentage, 0%), var(--border-color) 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 0 10px rgba(255, 122, 0, 0.1);
-    flex-shrink: 0;
-}
-
-.progress-ring-container::before {
-    content: '';
-    position: absolute;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background-color: var(--bg-secondary);
-}
-
-.progress-ring-text {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.2;
-}
-
-.progress-ring-text span {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.progress-ring-text .text-xs {
-    font-size: 10px;
-    color: var(--text-secondary);
-}
-
-.progress-summary-details p {
-    font-size: 13px;
-    color: var(--text-primary);
-}
-
-.progress-summary-details span {
-    font-size: 12px;
-    color: var(--text-secondary);
-    display: block;
-    margin-top: 4px;
-}
-
-/* CATEGORY CHART LIST */
-.category-chart-container {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.category-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 40px;
-    align-items: center;
-    gap: 12px;
-}
-
-.category-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.category-bar-wrapper {
-    height: 12px;
-    background-color: var(--bg-primary);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.category-bar-progress {
-    height: 100%;
-    border-radius: 6px;
-    width: 0;
-    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Category Specific Colors */
-.bg-work { background-color: var(--cat-work-text); }
-.bg-personal { background-color: var(--cat-personal-text); }
-.bg-learning { background-color: var(--cat-learning-text); }
-.bg-other { background-color: var(--cat-other-text); }
-
-.category-count {
-    font-size: 11px;
-    font-weight: 700;
-    text-align: right;
-    color: var(--text-secondary);
-}
-
-/* EISENHOWER MATRIX GIRD */
-.matrix-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 12px;
-}
-
-@media (max-width: 580px) {
-    .matrix-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.matrix-quadrant {
-    border-radius: var(--border-radius-sm);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 170px;
-    max-height: 220px;
-    overflow-y: auto;
-    border: 1px solid transparent;
-}
-
-.urgent-important {
-    background-color: var(--color-ui-bg);
-    border-color: var(--color-ui-border);
-}
-.important-not-urgent {
-    background-color: var(--color-inu-bg);
-    border-color: var(--color-inu-border);
-}
-.urgent-not-important {
-    background-color: var(--color-uni-bg);
-    border-color: var(--color-uni-border);
-}
-.not-urgent-not-important {
-    background-color: var(--color-nuni-bg);
-    border-color: var(--color-nuni-border);
-}
-
-.quadrant-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.quadrant-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 6px;
-    border-radius: 4px;
-}
-
-.badge-ui { background-color: rgba(255, 69, 58, 0.2); color: var(--color-ui); }
-.badge-inu { background-color: rgba(255, 159, 10, 0.2); color: var(--color-inu); }
-.badge-uni { background-color: rgba(255, 122, 0, 0.2); color: var(--color-uni); }
-.badge-nuni { background-color: var(--border-color); color: var(--text-secondary); }
-
-.quadrant-count {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-
-.quadrant-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* Miniature Tasks in Matrix */
-.matrix-mini-card {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    cursor: pointer;
-    transition: transform 0.15s ease, border-color 0.15s;
-}
-
-.matrix-mini-card:hover {
-    transform: translateX(2px);
-    border-color: var(--border-focus);
-}
-
-.matrix-mini-title {
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: var(--text-primary);
-}
-
-.matrix-mini-category {
-    font-size: 9px;
-    padding: 1px 5px;
-    background-color: var(--bg-primary);
-    border-radius: 4px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-}
-
-/* ALL TASKS TABLE */
-.table-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.table-filters {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    border-radius: var(--border-radius-sm);
-    gap: 8px;
-    min-width: 250px;
-}
-
-.search-box i {
-    color: var(--text-secondary);
-    font-size: 13px;
-}
-
-.search-box input {
-    border: none;
-    background: transparent;
-    outline: none;
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 13px;
-    width: 100%;
-}
-
-.table-filter-select {
-    padding: 8px 12px;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 13px;
-    outline: none;
-    cursor: pointer;
-}
-
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.premium-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 13px;
-}
-
-.premium-table th {
-    font-weight: 600;
-    color: var(--text-secondary);
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-}
-
-.premium-table td {
-    padding: 16px;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-primary);
-    vertical-align: middle;
-}
-
-.premium-table tr:hover td {
-    background-color: var(--bg-primary);
-}
-
-.table-task-title {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.table-task-desc {
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin-top: 2px;
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Category badges */
-.badge-category {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.badge-cat-work { background-color: var(--cat-work-bg); color: var(--cat-work-text); }
-.badge-cat-personal { background-color: var(--cat-personal-bg); color: var(--cat-personal-text); }
-.badge-cat-learning { background-color: var(--cat-learning-bg); color: var(--cat-learning-text); }
-.badge-cat-other { background-color: var(--cat-other-bg); color: var(--cat-other-text); }
-
-/* Status Badges */
-.badge-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.badge-status::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
-
-.badge-todo { background-color: var(--color-todo-bg); color: var(--color-todo); }
-.badge-todo::before { background-color: var(--color-todo); }
-
-.badge-inprogress { background-color: var(--color-inprogress-bg); color: var(--color-inprogress); }
-.badge-inprogress::before { background-color: var(--color-inprogress); }
-
-.badge-review { background-color: var(--color-review-bg); color: var(--color-review); }
-.badge-review::before { background-color: var(--color-review); }
-
-.badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed); }
-.badge-completed::before { background-color: var(--color-completed); }
-
-/* Priority Tags */
-.priority-tag {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.priority-ui { background-color: var(--color-ui-bg); color: var(--color-ui); border: 1px solid var(--color-ui-border); }
-.priority-inu { background-color: var(--color-inu-bg); color: var(--color-inu); border: 1px solid var(--color-inu-border); }
-.priority-uni { background-color: var(--color-uni-bg); color: var(--color-uni); border: 1px solid var(--color-uni-border); }
-.priority-nuni { background-color: var(--color-nuni-bg); color: var(--text-secondary); border: 1px solid var(--color-nuni-border); }
-
-/* KANBAN BOARD SYSTEM */
-.member-view-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-.kanban-filters {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    background-color: var(--bg-secondary);
-    padding: 8px 16px;
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--card-shadow);
-}
-
-.filter-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-
-.filter-btn-group {
-    display: flex;
-    gap: 8px;
-}
-
-.filter-btn {
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-    color: var(--text-secondary);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: var(--font-primary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all var(--transition-speed);
-}
-
-.filter-btn:hover {
-    border-color: var(--border-focus);
-    color: var(--text-primary);
-}
-
-.filter-btn.active {
-    background: linear-gradient(135deg, var(--accent-color), #ff5100);
-    border-color: var(--accent-color);
-    color: white;
-}
-
-.filter-btn .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
-.dot-ui { background-color: var(--color-ui); }
-.dot-inu { background-color: var(--color-inu); }
-.dot-uni { background-color: var(--color-uni); }
-.dot-nuni { background-color: var(--color-nuni); }
-
-.kanban-board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    align-items: start;
-    min-height: 65vh;
-}
-
-@media (max-width: 1200px) {
-    .kanban-board {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 680px) {
-    .kanban-board {
-        grid-template-columns: 1fr;
-    }
-}
-
-.kanban-column {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    padding: 16px;
-    box-shadow: var(--card-shadow);
-    display: flex;
-    flex-direction: column;
-    max-height: 70vh;
-    transition: border-color var(--transition-speed), background-color var(--transition-speed);
-}
-
-/* Kanban column Drag & Drop highlight */
-.kanban-column.drag-over {
-    border-color: var(--accent-color);
-    background-color: var(--accent-light);
-}
-
-.column-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--border-color);
-    margin-bottom: 12px;
-}
-
-.col-title-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.col-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.col-todo .col-status-dot { background-color: var(--color-todo); }
-.col-inprogress .col-status-dot { background-color: var(--color-inprogress); }
-.col-review .col-status-dot { background-color: var(--color-review); }
-.col-completed .col-status-dot { background-color: var(--color-completed); }
-
-.col-todo { border-bottom-color: var(--color-todo); }
-.col-inprogress { border-bottom-color: var(--color-inprogress); }
-.col-review { border-bottom-color: var(--color-review); }
-.col-completed { border-bottom-color: var(--color-completed); }
-
-.column-header h3 {
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.card-count {
-    background-color: var(--bg-primary);
-    color: var(--text-secondary);
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-}
-
-.kanban-cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow-y: auto;
-    min-height: 250px;
-    padding: 2px;
-}
-
-/* Individual Kanban Card */
-.kanban-card {
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    padding: 16px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    cursor: grab;
-    user-select: none;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, opacity 0.2s;
-    position: relative;
-    border-left-width: 4px;
-}
-
-.kanban-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-    border-color: var(--border-focus);
-}
-
-.kanban-card:active {
-    cursor: grabbing;
-}
-
-.kanban-card.dragging {
-    opacity: 0.4;
-    cursor: grabbing;
-}
-
-/* Priority Card Border Left Indicator */
-.card-priority-ui { border-left-color: var(--color-ui); }
-.card-priority-inu { border-left-color: var(--color-inu); }
-.card-priority-uni { border-left-color: var(--color-uni); }
-.card-priority-nuni { border-left-color: var(--color-nuni); }
-
-.card-tag-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.card-urgency-badge {
-    font-size: 9px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.badge-priority-ui { background-color: var(--color-ui-bg); color: var(--color-ui); }
-.badge-priority-inu { background-color: var(--color-inu-bg); color: var(--color-inu); }
-.badge-priority-uni { background-color: var(--color-uni-bg); color: var(--color-uni); }
-.badge-priority-nuni { background-color: var(--color-nuni-bg); color: var(--text-secondary); }
-
-.card-date {
-    font-size: 10px;
-    color: var(--text-secondary);
-}
-
-.card-title {
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-}
-
-.card-description {
-    font-size: 11px;
-    color: var(--text-secondary);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 12px;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border-color);
-    padding-top: 10px;
-    font-size: 11px;
-}
-
-.card-deadline {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 500;
-}
-
-.deadline-ok { color: var(--text-secondary); }
-.deadline-warning { color: var(--color-inprogress); font-weight: 600; }
-.deadline-danger { color: var(--color-ui); font-weight: 700; }
-
-.empty-col-message {
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 12px;
-    padding: 30px 10px;
-    border: 1px dashed var(--border-color);
-    border-radius: var(--border-radius-sm);
-    background-color: var(--bg-primary);
-}
-
-/* MODAL & DIALOG SYSTEM */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(10, 10, 12, 0.6);
-    backdrop-filter: blur(5px);
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-}
-
-.modal.active {
-    display: flex;
-    opacity: 1;
-}
-
-.modal-content {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    width: 100%;
-    max-width: 500px;
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    transform: translateY(-20px);
-    transition: transform 0.25s ease;
-    padding: 24px;
-}
-
-.modal.active .modal-content {
-    transform: translateY(0);
-}
-
-.glass-card {
-    background-color: var(--bg-glass);
-    backdrop-filter: blur(10px);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 16px;
-    margin-bottom: 20px;
-}
-
-.modal-header h2 {
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.close-btn {
-    background: transparent;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    transition: color 0.15s;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.close-btn:hover {
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
-}
-
-/* FORMS STYLING */
-.form-group {
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-@media (max-width: 480px) {
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-}
-
-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.required {
-    color: var(--color-ui);
-}
-
-input[type="text"],
-input[type="date"],
-textarea,
-select.premium-select {
-    padding: 10px 12px;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    width: 100%;
-}
-
-select.premium-select {
-    cursor: pointer;
-}
-
-input:focus,
-textarea:focus,
-select.premium-select:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px var(--shadow-glow);
-}
-
-textarea {
-    resize: vertical;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border-color);
-    padding-top: 16px;
-    margin-top: 24px;
-}
-
-.footer-right-buttons {
-    display: flex;
-    gap: 12px;
-}
-
-/* Utility Animations */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-    animation: fadeIn 0.3s ease forwards;
-}
-
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
-}
-
-/* CLOUD SYNC STYLING */
-.sync-status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    user-select: none;
-}
-
-.sync-status-badge.online {
-    background-color: rgba(46, 204, 113, 0.1);
-    color: #2ecc71;
-    border-color: rgba(46, 204, 113, 0.2);
-}
-
-.sync-status-badge.offline {
-    background-color: rgba(142, 142, 147, 0.1);
-    color: #8e8e93;
-    border-color: rgba(142, 142, 147, 0.2);
-}
-
-.sync-status-badge.syncing {
-    background-color: rgba(255, 122, 0, 0.1);
-    color: var(--accent-color);
-    border-color: rgba(255, 122, 0, 0.2);
-}
-
-.sync-status-badge.syncing i {
-    animation: fa-spin 1.5s linear infinite;
-}
-
-.sync-status-badge.error {
-    background-color: rgba(255, 69, 58, 0.1);
-    color: #ff453a;
-    border-color: rgba(255, 69, 58, 0.2);
-}
-
-input[type="url"],
-input[type="password"] {
-    padding: 10px 12px;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    width: 100%;
-}
-
-input[type="url"]:focus,
-input[type="password"]:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px var(--shadow-glow);
-}
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Premium custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #2d2a29;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e7e5e4;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d6d3stone-1;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="dark-theme">
+<body class="bg-stone-50 dark:bg-stone-950 text-stone-800 dark:text-stone-100 transition-colors duration-300 min-h-screen flex flex-col">
 
-    <div class="app-container">
-        <header class="app-header">
-            <div class="header-logo">
-                <div class="logo-icon"><i class="fa-solid : fa-layer-group"></i></div>
-                <div class="logo-text">
-                    <h1>My Task : Wiphavee J.</h1>
-                    <p>I Love My Job</p>
+    <!-- Top Sync Status Progress Bar -->
+    <div id="sync-indicator-bar" class="h-1 bg-amber-400 w-full fixed top-0 left-0 z-50 transition-all duration-300"></div>
+
+    <!-- MAIN TOP NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800 shadow-sm px-4 lg:px-8 py-3.5 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Logo Section & User Profile Info -->
+            <div class="flex items-center justify-between w-full md:w-auto gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-coral-500 to-mint-500 rounded-2xl flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-coral-500/20">
+                        T
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-base tracking-tight leading-none text-stone-800 dark:text-white">My Task</h1>
+                        <span class="text-[10px] uppercase font-extrabold tracking-wider text-coral-500">Personal Space</span>
+                    </div>
+                </div>
+
+                <!-- User Quick Info & Connection Status Status Bar -->
+                <div class="flex items-center gap-2 bg-stone-100/60 dark:bg-stone-800/40 px-3 py-1.5 rounded-2xl border border-stone-200/40 dark:border-stone-800">
+                    <!-- Added connection elements to resolve the null property JS error -->
+                    <span id="connection-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0"></span>
+                    <span id="connection-status-text" class="text-[10px] font-bold text-stone-500 dark:text-stone-400 hidden sm:inline-block max-w-[100px] truncate">กำลังตรวจสอบ...</span>
+                    
+                    <div class="h-4 w-[1px] bg-stone-200 dark:bg-stone-700 hidden sm:block"></div>
+
+                    <div id="user-avatar" class="w-7 h-7 rounded-lg bg-coral-500 text-white font-extrabold flex items-center justify-center text-xs shrink-0">U</div>
+                    <span id="user-display-name" class="text-xs font-bold truncate max-w-[80px]">ผู้ใช้งาน</span>
+                    <button id="btn-edit-profile" class="p-1 rounded text-stone-400 hover:text-coral-500 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            
-            <nav class="app-navigation">
-                <button class="nav-tab active" onclick="switchView('Dashboard')"><i class="fa-solid : fa-chart-pie"></i> dashboard</button>
-                <button class="nav-tab" onclick="switchView('Board')"><i class="fa-solid : fa-chalkboard-user"></i> board</button>
-                <button class="nav-tab" onclick="switchView('All tasks')"><i class="fa-solid : fa-list-check"></i> alltasks</button>
+
+            <!-- Middle Navigation: Slide Pill Tab Switchers (Both Tabs at Top) -->
+            <nav class="flex items-center bg-stone-100 dark:bg-stone-800/80 p-1.5 rounded-2xl w-full md:w-auto max-w-md border border-stone-200/50 dark:border-stone-700/50">
+                <button id="tab-overview" class="tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all bg-white dark:bg-stone-900 shadow-sm border border-stone-200/50 dark:border-stone-800 text-coral-600 dark:text-coral-400">
+                    <span class="text-sm">📊</span>
+                    <span>Dashboard</span>
+                </button>
+                <button id="tab-matrix-tasks" class="tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 border border-transparent">
+                    <span class="text-sm">🎯</span>
+                    <span>All Tasks</span>
+                </button>
             </nav>
 
-            <div class="header-actions">
-                <div id="syncStatusIndicator" class="sync-status-badge offline" onclick="openModal('syncModal')">
-                    <i class="fa-solid : fa-cloud"></i> <span>เครื่องนี้ (Local)</span>
-                </div>
-                <button class="btn-icon" onclick="toggleTheme()" title="เปลี่ยนธีมสี"><i class="fa-solid : fa-moon" id="themeIcon"></i></button>
-                <button class="btn btn-primary" onclick="openAddTaskModal()"><i class="fa-solid : fa-plus"></i> เพิ่มงานใหม่</button>
-            </div>
-        </header>
-
-        <main id="dashboardView" class="view-section active">
-            <div class="view-header">
-                <h2><i class="fa-solid : fa-gauge-high" style="color:var(--accent-color)"></i> ภาพรวมประสิทธิภาพการทำงาน</h2>
-                <p class="view-subtitle">วิเคราะห์ข้อมูล (Eisenhower Matrix)</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card total-tasks">
-                    <div class="stat-icon"><i class="fa-solid : fa-briefcase"></i></div>
-                    <div>
-                        <div class="stat-value" id="statTotal">0</div>
-                        <div class="stat-label">งานทั้งหมด</div>
-                    </div>
-                </div>
-                <div class="stat-card pending-tasks">
-                    <div class="stat-icon"><i class="fa-solid : fa-solid fa-clock"></i></div>
-                    <div>
-                        <div class="stat-value" id="statPending">0</div>
-                        <div class="stat-label">รอดำเนินการ</div>
-                    </div>
-                </div>
-                <div class="stat-card completed-tasks">
-                    <div class="stat-icon"><i class="fa-solid : fa-circle-check"></i></div>
-                    <div>
-                        <div class="stat-value" id="statCompleted">0</div>
-                        <div class="stat-label">เสร็จสิ้นแล้ว</div>
-                    </div>
-                </div>
-                <div class="stat-card overdue-tasks">
-                    <div class="stat-icon"><i class="fa-solid : fa-triangle-exclamation"></i></div>
-                    <div>
-                        <div class="stat-value" id="statOverdue">0</div>
-                        <div class="stat-label">เลยกำหนดส่ง</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <h3><i class="fa-solid : fa-chart-line-up" style="color:#30d158"></i>ความคืบหน้าของงาน</h3>
-                    <p class="card-desc">สัดส่วนงาน</p>
-                    
-                    <div class="productivity-wrapper">
-                        <div class="progress-ring-container" id="productivityRing">
-                            <div class="progress-ring-text">
-                                <span id="productivityPercent">0%</span>
-                                <div class="text-xs">ภาพรวม</div>
-                            </div>
-                        </div>
-                        <div class="progress-summary-details">
-                            <p id="productivityQuote">เริ่มต้นวันใหม่ด้วยการจัดลำดับงานที่สำคัญ!</p>
-                            <span id="productivitySubtext">เสร็จสิ้น 0 จากทั้งหมด 0 งานบนระบบ</span>
-                        </div>
-                    </div>
-
-                    <div class="category-chart-container">
-                        <div class="category-row">
-                            <div class="category-label"> งาน (work)</div>
-                            <div class="category-bar-wrapper"><div id="barWork" class="category-bar-progress bg-work"></div></div>
-                            <div class="category-count" id="countWork">0</div>
-                        </div>
-                        <div class="category-row">
-                            <div class="category-label"> ส่วนตัว (Personal)</div>
-                            <div class="category-bar-wrapper"><div id="barPersonal" class="category-bar-progress bg-personal"></div></div>
-                            <div class="category-count" id="countPersonal">0</div>
-                        </div>
-                        <div class="category-row">
-                            <div class="category-label"> เรียนรู้ (Learning)</div>
-                            <div class="category-bar-wrapper"><div id="barLearning" class="category-bar-progress bg-learning"></div></div>
-                            <div class="category-count" id="countLearning">0</div>
-                        </div>
-                        <div class="category-row">
-                            <div class="category-label"> อื่นๆ (Other)</div>
-                            <div class="category-bar-wrapper"><div id="barOther" class="category-bar-progress bg-other"></div></div>
-                            <div class="category-count" id="countOther">0</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-card">
-                    <h3><i class="fa-solid : fa-grid-2" style="color:var(--accent-color)"></i> จัดลำดับความสำคัญ </h3>
-                    <p class="card-desc">งานจะถูกจัดลงกล่องตามระดับความสำคัญและความเร่งด่วน</p>
-                    
-                    <div class="matrix-grid">
-                        <div class="matrix-quadrant urgent-important">
-                            <div class="quadrant-header">
-                                <span class="quadrant-badge badge-ui">ด่วน & สำคัญ</span>
-                                <span class="quadrant-count" id="countQ1">0 งาน</span>
-                            </div>
-                            <div class="quadrant-content" id="quadrantQ1"></div>
-                        </div>
-                        <div class="matrix-quadrant important-not-urgent">
-                            <div class="quadrant-header">
-                                <span class="quadrant-badge badge-inu">ด่วน & ไม่สำคัญ</span>
-                                <span class="quadrant-count" id="countQ2">0 งาน</span>
-                            </div>
-                            <div class="quadrant-content" id="quadrantQ2"></div>
-                        </div>
-                        <div class="matrix-quadrant urgent-not-important">
-                            <div class="quadrant-header">
-                                <span class="quadrant-badge badge-uni">ไม่ด่วน & สำคัญ</span>
-                                <span class="quadrant-count" id="countQ3">0 งาน</span>
-                            </div>
-                            <div class="quadrant-content" id="quadrantQ3"></div>
-                        </div>
-                        <div class="matrix-quadrant not-urgent-not-important">
-                            <div class="quadrant-header">
-                                <span class="quadrant-badge badge-nuni">ไม่ด่วน & ไม่สำคัญ</span>
-                                <span class="quadrant-count" id="countQ4">0 งาน</span>
-                            </div>
-                            <div class="quadrant-content" id="quadrantQ4"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <section id="kanbanView" class="view-section">
-            <div class="member-view-header">
-                <div class="view-header" style="margin-bottom:0">
-                    <h2><i class="fa-solid : fa-table-columns" style="color:var(--accent-color)"></i> สถานะงาน </h2>
-                    <p class="view-subtitle">ลากและวางการ์ดงานเพื่อเปลี่ยนสถานะ</p>
-                </div>
+            <!-- Right Controls Panel -->
+            <div class="flex items-center gap-2 w-full md:w-auto justify-end">
                 
-                <div class="kanban-filters">
-                    <span class="filter-label"><i class="fa-solid : fa-filter"></i> ตัวกรอง:</span>
-                    <div class="filter-btn-group">
-                        <button class="filter-btn active" onclick="filterKanbanMatrix('ALL', this)">ทั้งหมด</button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('UI', this)"><span class="dot dot-ui"></span> ด่วน & สำคัญ </button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('INU', this)"><span class="dot dot-inu"></span> ด่วน & ไม่คัญ </button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('UNI', this)"><span class="dot dot-uni"></span> ไม่ด่วน & สำคัญ </button>
-                        <button class="filter-btn" onclick="filterKanbanMatrix('NUNI', this)"><span class="dot dot-nuni"></span> ไม่ด่วน & ไม่สำคัญ </button>
-                    </div>
-                </div>
-            </div>
+                <!-- Toggle Mode Button with Premium Dynamic Icons -->
+                <button id="btn-theme-toggle" class="relative p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-750 transition-all duration-200 flex items-center gap-1.5 text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200" title="เปลี่ยนธีม">
+                    <!-- Icon Wrappers -->
+                    <span id="theme-toggle-icon-container" class="relative w-5 h-5 flex items-center justify-center">
+                        <svg id="sun-icon" class="w-5 h-5 text-amber-500 absolute transition-all duration-300 transform scale-0 opacity-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 2.243a1 1 0 11-1.414 1.414L11.828 4.83a1 1 0 111.414-1.414l.758.758zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zm-2.243 4a1 1 0 11-1.414-1.414l.758-.758a1 1 0 111.414 1.414l-.758.758zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zm-4-2.243a1 1 0 111.414-1.414l.758.758a1 1 0 11-1.414 1.414l-.758-.758zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm2.243-4a1 1 0 111.414 1.414L4.83 8.172a1 1 0 11-1.414-1.414l.758-.758zM10 5a5 5 0 100 10 5 5 0 000-10z" />
+                        </svg>
+                        <svg id="moon-icon" class="w-5 h-5 text-indigo-500 dark:text-indigo-400 absolute transition-all duration-300 transform scale-100 opacity-100" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                        </svg>
+                    </span>
+                    <span id="theme-toggle-text" class="text-xs font-bold hidden lg:inline">Light Mode</span>
+                </button>
 
-            <div class="kanban-board">
-                <div class="kanban-column" id="col-todo" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('todo')" ondrop="dropCard(event, 'todo')">
-                    <div class="column-header col-todo">
-                        <div class="col-title-container">
-                            <span class="col-status-dot"></span>
-                            <h3>ต้องทำ (To Do)</h3>
-                        </div>
-                        <span class="card-count" id="countColTodo">0</span>
-                    </div>
-                    <div class="kanban-cards-container" id="cards-todo"></div>
-                </div>
+                <!-- Sound FX Control -->
+                <button id="btn-sound-toggle" class="p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-750 text-stone-500 dark:text-stone-400 transition" title="เปิด/ปิดเสียง">
+                    <span id="sound-icon-state" class="text-sm">🔊</span>
+                </button>
 
-                <div class="kanban-column" id="col-inprogress" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('inprogress')" ondrop="dropCard(event, 'inprogress')">
-                    <div class="column-header col-inprogress">
-                        <div class="col-title-container">
-                            <span class="col-status-dot"></span>
-                            <h3>กำลังทำ (In Progress)</h3>
-                        </div>
-                        <span class="card-count" id="countColInprogress">0</span>
-                    </div>
-                    <div class="kanban-cards-container" id="cards-inprogress"></div>
-                </div>
-
-                <div class="kanban-column" id="col-review" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('review')" ondrop="dropCard(event, 'review')">
-                    <div class="column-header col-review">
-                        <div class="col-title-container">
-                            <span class="col-status-dot"></span>
-                            <h3>ตรวจสอบ (Review)</h3>
-                        </div>
-                        <span class="card-count" id="countColReview">0</span>
-                    </div>
-                    <div class="kanban-cards-container" id="cards-review"></div>
-                </div>
-
-                <div class="kanban-column" id="col-completed" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn('completed')" ondrop="dropCard(event, 'completed')">
-                    <div class="column-header col-completed">
-                        <div class="col-title-container">
-                            <span class="col-status-dot"></span>
-                            <h3>เสร็จสมบูรณ์ (Completed)</h3>
-                        </div>
-                        <span class="card-count" id="countColCompleted">0</span>
-                    </div>
-                    <div class="kanban-cards-container" id="cards-completed"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="alltasksView" class="view-section">
-            <div class="dashboard-card" style="padding: 24px;">
-                <div class="table-card-header">
-                    <div class="view-header" style="margin-bottom:0">
-                        <h2><i class="fa-solid : fa-table-list" style="color:var(--accent-color)"></i> รายการข้อมูลงานทั้งหมดบนฐานข้อมูล</h2>
-                        <p class="view-subtitle">ระบบค้นหา จัดเรียง และคัดกรองข้อมูล</p>
-                    </div>
+                <!-- Urgent Alarm Notification Bell Alert -->
+                <div class="relative">
+                    <button id="btn-bell" class="relative p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-750 text-stone-500 dark:text-stone-400 transition">
+                        <span class="text-sm">🔔</span>
+                        <span id="bell-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center ring-2 ring-white dark:ring-stone-900 hidden">0</span>
+                    </button>
                     
-                    <div class="table-filters">
-                        <div class="search-box">
-                            <i class="fa-solid : fa-magnifying-glass"></i>
-                            <input type="text" id="tableSearchInput" placeholder="ค้นหาชื่องานหรือคำอธิบาย..." oninput="renderAllTasksTable()">
+                    <!-- Notification Bell Dropdown List -->
+                    <div id="bell-dropdown" class="absolute right-0 mt-2.5 w-80 bg-white dark:bg-stone-900 border border-stone-150 dark:border-stone-800 rounded-2xl shadow-xl py-3 z-50 text-sm hidden">
+                        <div class="px-4 pb-2 border-b border-stone-100 dark:border-stone-800 flex justify-between items-center">
+                            <span class="font-bold text-stone-800 dark:text-stone-100">งานด่วนส่งภายใน 3 วัน</span>
+                            <button id="btn-bell-close" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 text-xs font-semibold">ปิด</button>
                         </div>
-                        <select class="table-filter-select" id="filterTableCategory" onchange="renderAllTasksTable()">
-                            <option value="ALL">ทุกหมวดหมู่</option>
-                            <option value="WORK">งาน (Work)</option>
-                            <option value="PERSONAL">ส่วนตัว (Personal)</option>
-                            <option value="LEARNING">เรียนรู้ (Learning)</option>
-                            <option value="OTHER">อื่นๆ (Other)</option>
-                        </select>
-                        <select class="table-filter-select" id="filterTableMatrix" onchange="renderAllTasksTable()">
-                            <option value="ALL">ระดับความสำคัญ</option>
-                            <option value="UI"> เร่งด่วน & สำคัญมาก</option>
-                            <option value="INU"> ไม่เร่งด่วน แต่สำคัญ</option>
-                            <option value="UNI"> เร่งด่วน แต่ไม่สำคัญ</option>
-                            <option value="NUNI"> ไม่เร่งด่วน & ไม่สำคัญ</option>
-                        </select>
+                        <div id="bell-items" class="max-h-72 overflow-y-auto px-2 pt-2 space-y-1.5">
+                            <p class="text-center text-stone-400 dark:text-stone-500 py-6 text-xs">ไม่มีรายการส่งด่วนชีวิตดี๊ดี ☀️</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="premium-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 40%">งานและรายละเอียด</th>
-                                <th style="width: 15%">หมวดหมู่</th>
-                                <th style="width: 15%">สถานะงาน</th>
-                                <th style="width: 15%">ความสำคัญ</th>
-                                <th style="width: 15%">กำหนดส่ง</th>
-                            </tr>
-                        </thead>
-                        <tbody id="allTasksTableBody">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="taskModal" class="modal">
-        <div class="modal-content glass-card fade-in">
-            <div class="modal-header">
-                <h2 id="modalTaskTitle"><i class="fa-solid : fa-circle-plus" style="color:var(--accent-color)"></i> เพิ่มภารกิจใหม่เข้าระบบ</h2>
-                <button class="close-btn" onclick="closeModal('taskModal')">&times;</button>
-            </div>
-            <form id="taskForm" onsubmit="saveTaskData(event)">
-                <input type="hidden" id="formTaskId">
+                <!-- Create New Task Trigger Button -->
+                <button id="btn-create-task-top" class="flex items-center gap-1.5 px-4 py-2.5 bg-coral-500 hover:bg-coral-600 active:scale-95 text-white font-bold rounded-xl shadow-lg shadow-coral-500/20 transition-all duration-150 text-xs sm:text-sm">
+                    <span>+ สร้างงานใหม่</span>
+                </button>
                 
-                <div class="form-group">
-                    <label>หัวข้อภารกิจ <span class="required">*</span></label>
-                    <input type="text" id="formTaskTitle" required placeholder="เช่น ประชุมวางแผนไตรมาสที่ 3, ออกกำลังกาย...">
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CANVAS SCROLLER VIEW WRAPPER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 space-y-6 overflow-x-hidden">
+
+        <!-- ==================== TAB 1: DASHBOARD VIEW SECTION ==================== -->
+        <div id="view-section-overview" class="space-y-6 block animate-slide-in">
+            
+            <!-- Welcome greeting & Motivational Insight Segment -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <div class="lg:col-span-2 bg-gradient-to-r from-coral-500/10 to-mint-500/10 border border-coral-500/10 dark:border-coral-500/5 rounded-3xl p-5 sm:p-6 flex flex-col justify-between gap-4">
+                    <div>
+                        <h3 class="font-extrabold text-stone-800 dark:text-stone-100 text-base sm:text-lg">สวัสดีคุณ <span id="display-greeting-name" class="text-coral-500">Tasky User</span>! มาร่วมทำวันนี้ให้ยอดเยี่ยมกัน 🌟</h3>
+                        <p id="motivation-quote" class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 font-hand mt-2 leading-relaxed">"การเริ่มลงมือทำทีละน้อยคือความสำเร็จที่ยิ่งใหญ่"</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex-1 bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 rounded-2xl p-3 flex items-center gap-2">
+                            <span class="text-base shrink-0">🎯</span>
+                            <input id="input-daily-focus" type="text" placeholder="พิมพ์เป้าหมายหลักประจำวันนี้ของคุณที่นี่..." class="bg-transparent border-none text-xs w-full focus:outline-none dark:text-stone-100 font-semibold" />
+                        </div>
+                        <button id="btn-save-focus" class="px-4 py-2 bg-mint-500 hover:bg-mint-600 active:scale-95 transition text-white text-xs font-bold rounded-xl shadow-md">บันทึกเป้าหมาย</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>คำอธิบายประกอบการทำงาน</label>
-                    <textarea id="formTaskDesc" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม หรือสเปกงานที่ต้องการทำ..."></textarea>
+                <!-- Life Sync Score Card (Progress Ring Score Card) -->
+                <div class="bg-white dark:bg-stone-900 rounded-3xl p-5 border border-stone-150 dark:border-stone-800/85 flex flex-col justify-between gap-3 shadow-xs">
+                    <div>
+                        <h4 class="text-xs font-bold text-stone-400 uppercase tracking-wide">ภาพรวมความก้าวหน้า</h4>
+                        <h2 class="text-2xl font-extrabold text-stone-800 dark:text-stone-100 mt-1">Life Sync Score</h2>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div id="overall-progress-circle-box" class="w-16 h-16 relative flex items-center justify-center shrink-0">
+                            <!-- Dynamic SVG overall progress circle injected here -->
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-stone-400">สัดส่วนภารกิจเสร็จสิ้นวันนี้</p>
+                            <p id="overall-progress-commentary" class="text-xs text-stone-600 dark:text-stone-300 font-bold mt-0.5">ลุยทำต่ออีกนิดนะ!</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>หมวดหมู่หลัก</label>
-                        <select id="formTaskCategory" class="premium-select">
-                            <option value="WORK">งาน (work)</option>
-                            <option value="PERSONAL">ส่วนตัว (personal)</option>
-                            <option value="LEARNING">เรียนรู้ (Learning)</option>
-                            <option value="OTHER">อื่นๆ (Other)</option>
+            </div>
+
+            <!-- Quick Counter Stat Blocks -->
+            <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-stone-900 rounded-2xl p-4 shadow-sm border border-stone-150 dark:border-stone-800 flex items-center gap-3 transition hover:shadow-md">
+                    <div class="w-10 h-10 rounded-xl bg-coral-100 dark:bg-coral-950/40 text-coral-600 dark:text-coral-400 flex items-center justify-center text-lg font-black">📝</div>
+                    <div>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">งานทั้งหมด</p>
+                        <h3 id="stat-total" class="text-xl font-bold text-stone-800 dark:text-stone-100">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-stone-900 rounded-2xl p-4 shadow-sm border border-stone-150 dark:border-stone-800 flex items-center gap-3 transition hover:shadow-md">
+                    <div class="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 flex items-center justify-center text-lg font-black">✅</div>
+                    <div>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">เสร็จสมบูรณ์</p>
+                        <h3 id="stat-completed" class="text-xl font-bold text-teal-600 dark:text-teal-400">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-stone-900 rounded-2xl p-4 shadow-sm border border-stone-150 dark:border-stone-800 flex items-center gap-3 transition hover:shadow-md">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg font-black">⚙️</div>
+                    <div>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">กำลังดำเนินการ</p>
+                        <h3 id="stat-pending" class="text-xl font-bold text-blue-600 dark:text-blue-400">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-stone-900 rounded-2xl p-4 shadow-sm border border-stone-150 dark:border-stone-800 flex items-center gap-3 transition hover:shadow-md">
+                    <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg font-black">⚠️</div>
+                    <div>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">เกินกำหนดส่ง</p>
+                        <h3 id="stat-overdue" class="text-xl font-bold text-rose-600 dark:text-rose-400">0</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Success Donut Progress Dashboard Grid -->
+            <section class="bg-white dark:bg-stone-900 rounded-3xl p-6 shadow-sm border border-stone-150 dark:border-stone-800/80 space-y-4">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                        <span>📊</span> อัตราความสำเร็จ
+                    </h3>
+                    <p class="text-xs text-stone-400 dark:text-stone-500">คสัดส่วนความก้าวหน้าแยกตามการใช้งาน: งาน, ส่วนตัว, เรียนรู้ และอื่นๆ</p>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="donut-charts-container">
+                    <!-- Donut charts SVG dynamically injected here -->
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ==================== TAB 2: PRIORITY MATRIX & ALL TASKS WORKSPACE ==================== -->
+        <div id="view-section-matrix-tasks" class="space-y-6 hidden animate-slide-in">
+            
+            <!-- Filter Options Panel at Top of Tab 2 (Affects both the Matrix and All Tasks List) -->
+            <section class="bg-white dark:bg-stone-900 rounded-3xl p-5 border border-stone-150 dark:border-stone-800/80 space-y-4 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-base font-extrabold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                            <span>🔍</span> ตัวกรอง (Tasks Filters)
+                        </h3>
+                        <p class="text-xs text-stone-400 dark:text-stone-500">กรองชิ้นงานได้ทันที</p>
+                    </div>
+
+                    <!-- Search Input Filter -->
+                    <div class="relative w-full md:w-64">
+                        <input id="search-input" type="text" placeholder="ค้นหาชื่องาน..." class="w-full pl-9 pr-3 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs focus:ring-2 focus:ring-coral-500/20 focus:outline-none dark:text-stone-100 focus:border-coral-500 transition-all" />
+                        <svg class="w-4 h-4 text-stone-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Unified Category Tab Selector Buttons -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none border-t border-stone-100 dark:border-stone-800/60 pt-3">
+                    <button class="filter-bubble-btn active px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-coral-500 text-white shadow-sm" data-category="All">ทั้งหมด</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="งาน">งาน 💼</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="ส่วนตัว">ส่วนตัว 🏠</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="เรียนรู้">เรียนรู้ 📚</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="อื่นๆ">อื่นๆ ✨</button>
+                </div>
+            </section>
+
+            <!-- Eisenhower Matrix 4 Quadrants -->
+            <section class="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 shadow-sm border border-stone-150 dark:border-stone-800/80 space-y-4">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                        <span>🎯</span> ตารางจัดความสำคัญ (Matrix Board)
+                    </h3>
+                    <p class="text-xs text-stone-400 dark:text-stone-500">ลากและวางรายการงานเพื่อสลับระดับความสำคัญเร่งด่วนได้ทันที 🚀</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    
+                    <!--  Urgent & Important -->
+                    <div class="bg-rose-50/40 dark:bg-rose-950/10 rounded-2xl p-4 border border-rose-100/70 dark:border-rose-900/30 flex flex-col gap-3 transition-colors duration-250">
+                        <div class="flex items-center justify-between border-b border-rose-100 dark:border-rose-900/30 pb-2">
+                            <span class="font-extrabold text-rose-600 dark:text-rose-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                                 ด่วน & สำคัญ (Do First)
+                            </span>
+                            <span id="q1-count" class="text-[10px] font-bold text-rose-600 bg-rose-100 dark:bg-rose-950 dark:text-rose-300 px-2 py-0.5 rounded-full">0 งาน</span>
+                        </div>
+                        <div id="q1-list" data-quadrant="q1" class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1 min-h-[120px] rounded-xl transition-all p-1">
+                            <!-- Dynamic items load here -->
+                        </div>
+                    </div>
+
+                    <!--  Important but Not Urgent -->
+                    <div class="bg-emerald-50/40 dark:bg-emerald-950/10 rounded-2xl p-4 border border-emerald-100/70 dark:border-emerald-900/30 flex flex-col gap-3 transition-colors duration-250">
+                        <div class="flex items-center justify-between border-b border-emerald-100 dark:border-emerald-900/30 pb-2">
+                            <span class="font-extrabold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                 ไม่ด่วน แต่สำคัญ (Schedule)
+                            </span>
+                            <span id="q2-count" class="text-[10px] font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded-full">0 งาน</span>
+                        </div>
+                        <div id="q2-list" data-quadrant="q2" class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1 min-h-[120px] rounded-xl transition-all p-1">
+                            <!-- Dynamic items load here -->
+                        </div>
+                    </div>
+
+                    <!--  Urgent but Not Important -->
+                    <div class="bg-amber-50/40 dark:bg-amber-950/10 rounded-2xl p-4 border border-amber-100/70 dark:border-amber-900/30 flex flex-col gap-3 transition-colors duration-250">
+                        <div class="flex items-center justify-between border-b border-amber-100 dark:border-amber-900/30 pb-2">
+                            <span class="font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                 ด่วน แต่ไม่สำคัญ (Delegate)
+                            </span>
+                            <span id="q3-count" class="text-[10px] font-bold text-amber-600 bg-amber-100 dark:bg-amber-950 dark:text-amber-300 px-2 py-0.5 rounded-full">0 งาน</span>
+                        </div>
+                        <div id="q3-list" data-quadrant="q3" class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1 min-h-[120px] rounded-xl transition-all p-1">
+                            <!-- Dynamic items load here -->
+                        </div>
+                    </div>
+
+                    <!--  Neither -->
+                    <div class="bg-stone-50 dark:bg-stone-900/40 rounded-2xl p-4 border border-stone-200/60 dark:border-stone-800 flex flex-col gap-3 transition-colors duration-250">
+                        <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
+                            <span class="font-extrabold text-stone-500 dark:text-stone-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                                <span class="w-2 h-2 rounded-full bg-stone-400"></span>
+                                 ไม่ด่วน & ไม่สำคัญ (Eliminate)
+                            </span>
+                            <span id="q4-count" class="text-[10px] font-bold text-stone-500 bg-stone-200 dark:bg-stone-850 dark:text-stone-300 px-2 py-0.5 rounded-full">0 งาน</span>
+                        </div>
+                        <div id="q4-list" data-quadrant="q4" class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1 min-h-[120px] rounded-xl transition-all p-1">
+                            <!-- Dynamic items load here -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- All Tasks List Panel -->
+            <section class="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 border border-stone-150 dark:border-stone-800/80 flex flex-col gap-4">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                        <span>📂</span> รายการงานทั้งหมด (All Tasks List)
+                    </h3>
+                    <p class="text-xs text-stone-400 dark:text-stone-500">รายการงานทั้งหมดเรียงตามวันครบกำหนด เพื่อให้ง่ายต่อการติดตามความคืบหน้า</p>
+                </div>
+
+                <!-- Dynamic filtered tasks loaded here -->
+                <div id="all-tasks-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                    <!-- Dynamic tasks list items appear here -->
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- ==================== SYSTEM POPUP DIALOGS & MODALS ==================== -->
+    
+    <!-- 1. Task Create/Edit Dialog Modal -->
+    <div id="modal-task" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 transition-opacity hidden">
+        <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-scale-up border border-stone-150 dark:border-stone-800">
+            <!-- Header -->
+            <div class="px-6 py-4 bg-stone-50 dark:bg-stone-850 border-b border-stone-150 dark:border-stone-800 flex items-center justify-between">
+                <h3 id="modal-task-title" class="text-base font-bold text-stone-800 dark:text-stone-100">🚀 สร้างงานใหม่</h3>
+                <button id="btn-modal-task-close" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 p-1.5 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Forms -->
+            <form id="form-task" class="p-6 flex flex-col gap-4">
+                <input type="hidden" id="edit-task-id" />
+                
+                <!-- Title Topic -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">ชื่องานที่ต้องทำ</label>
+                    <input id="task-title" type="text" placeholder="ระบุภารกิจของคุณที่ต้องการทำ..." class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition-all" required />
+                </div>
+
+                <!-- Timings & Category Configurations -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">กำหนดส่ง (Due Date)</label>
+                        <input id="task-due-date" type="date" class="w-full px-4 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition-all" required />
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">หมวดหมู่งาน</label>
+                        <select id="task-category" class="w-full px-4 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition">
+                            <option value="งาน">งาน 💼</option>
+                            <option value="ส่วนตัว">ส่วนตัว 🏠</option>
+                            <option value="เรียนรู้">เรียนรู้ 📚</option>
+                            <option value="อื่นๆ">อื่นๆ ✨</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>วันสิ้นสุดกำหนดส่ง (Deadline)</label>
-                        <input type="date" id="formTaskDeadline">
-                    </div>
+
                 </div>
 
-                <div class="form-row" style="margin-top: 8px; background-color: var(--bg-primary); padding:12px; border-radius: var(--border-radius-sm); border:1px solid var(--border-color);">
-                    <div class="form-group" style="margin-bottom:0">
-                        <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-circle-exclamation" style="color:#ff9f0a"></i> ระดับความสำคัญ</label>
-                        <select id="formTaskImportant" class="premium-select" style="margin-top:4px">
-                            <option value="YES">สำคัญมาก (Important)</option>
-                            <option value="NO">ไม่สำคัญ (Not Important)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="margin-bottom:0">
-                        <label style="display:flex; align-items:center; gap:6px"><i class="fa-solid : fa-bolt" style="color:#ff7a00"></i> ระดับความเร่งด่วน</label>
-                        <select id="formTaskUrgent" class="premium-select" style="margin-top:4px">
-                            <option value="YES">เร่งด่วน (Urgent)</option>
-                            <option value="NO">ไม่เร่งด่วน (Not Urgent)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-top:16px">
-                    <label>สถานะขั้นตอนการทำงานปัจจุบัน</label>
-                    <select id="formTaskStatus" class="premium-select">
-                        <option value="todo"> ต้องทำ (To Do)</option>
-                        <option value="inprogress"> กำลังดำเนินการ (In Progress)</option>
-                        <option value="review"> ตรวจสอบ (Review)</option>
-                        <option value="completed"> เสร็จสิ้น (Completed)</option>
+                <!-- Status Selection -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">สถานะการทำงาน</label>
+                    <select id="task-status" class="w-full px-4 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition">
+                        <option value="Todo">ยังไม่ดำเนินการ ⏳</option>
+                        <option value="In Progress">กำลังทำ 🛠️</option>
+                        <option value="Completed">เสร็จสิ้น 🎉</option>
                     </select>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" id="btnDeleteTask" class="btn btn-danger" style="display:none;" onclick="deleteCurrentTask()"><i class="fa-solid : fa-trash-can"></i> ลบภารกิจนี้</button>
-                    <div style="flex-grow:1"></div>
-                    <div class="footer-right-buttons">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal('taskModal')">ยกเลิก</button>
-                        <button type="submit" class="btn btn-primary"><i class="fa-solid : fa-floppy-disk"></i> บันทึกข้อมูล</button>
+                <!-- Priority flags checklist -->
+                <div class="p-4 bg-stone-50 dark:bg-stone-850 rounded-2xl border border-stone-150 dark:border-stone-800 flex flex-col gap-3">
+                    <span class="text-xs font-extrabold text-stone-600 dark:text-stone-300">ระบุลำดับความสำคัญของงาน (Eisenhower Matrix Flags)</span>
+                    <div class="flex flex-col gap-2">
+                        
+                        <label class="flex items-center justify-between p-2.5 bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-750 hover:border-rose-200 dark:hover:border-rose-900/60 cursor-pointer transition select-none">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base">🔥</span>
+                                <div>
+                                    <p class="text-xs font-bold text-stone-800 dark:text-stone-200">เป็นงาน "เร่งด่วน" (Urgent)</p>
+                                    <p class="text-[10px] text-stone-400">ต้องรีบทำทันที หรือมีระยะเวลากำหนดส่งที่กระชั้นชิด</p>
+                                </div>
+                            </div>
+                            <input id="task-is-urgent" type="checkbox" class="w-4.5 h-4.5 rounded text-coral-500 focus:ring-coral-500 border-stone-300" />
+                        </label>
+
+                        <label class="flex items-center justify-between p-2.5 bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-750 hover:border-amber-200 dark:hover:border-amber-900/60 cursor-pointer transition select-none">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base">👑</span>
+                                <div>
+                                    <p class="text-xs font-bold text-stone-800 dark:text-stone-200">เป็นงาน "สำคัญ" (Important)</p>
+                                    <p class="text-[10px] text-stone-400">ส่งผลกระทบต่อเป้าหมาย หรือความก้าวหน้าหลักในชีวิต</p>
+                                </div>
+                            </div>
+                            <input id="task-is-important" type="checkbox" class="w-4.5 h-4.5 rounded text-coral-500 focus:ring-coral-500 border-stone-300" />
+                        </label>
+
                     </div>
                 </div>
+
+                <!-- Footer Action Buttons -->
+                <div class="flex gap-3 justify-end mt-2">
+                    <button type="button" id="btn-modal-task-cancel" class="px-4 py-2 text-sm font-bold text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-xl transition">ยกเลิก</button>
+                    <button type="submit" class="px-6 py-2 text-sm font-bold bg-coral-500 hover:bg-coral-600 active:scale-95 text-white rounded-xl shadow-md shadow-coral-500/20 transition">บันทึกข้อมูล</button>
+                </div>
+
             </form>
         </div>
     </div>
 
-    <div id="syncModal" class="modal">
-        <div class="modal-content glass-card fade-in" style="max-width: 450px;">
-            <div class="modal-header">
-                <h2><i class="fa-solid : fa-cloud-arrow-up" style="color:var(--accent-color)"></i> ตั้งค่าซิงค์ข้อมูลผ่าน Firebase</h2>
-                <button class="close-btn" onclick="closeModal('syncModal')">&times;</button>
-            </div>
-            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px; font-family:'Sarabun'">
-                เชื่อมต่อระบบเข้ากับ Firebase Realtime Database ของคุณเพื่อทำการสำรองข้อมูล และซิงค์งานทั้งหมดข้ามคอมพิวเตอร์ แท็บเล็ต หรือมือถือได้แบบเรียลไทม์
-            </p>
+    <!-- 2. Personal Profile Settings Modal -->
+    <div id="modal-profile" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity hidden">
+        <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-sm shadow-2xl p-6 border border-stone-150 dark:border-stone-800 flex flex-col items-center text-center animate-scale-up">
+            <div class="w-16 h-16 bg-coral-100 dark:bg-coral-950/40 text-coral-500 rounded-2xl flex items-center justify-center text-3xl mb-4">👋</div>
+            <h3 class="text-lg font-bold text-stone-800 dark:text-stone-100">โปรดระบุชื่อผู้ใช้งานของคุณ</h3>
+            <p class="text-xs text-stone-400 mt-1 mb-5">ข้อมูลนี้ใช้เพื่อระบุจุดหมายของคุณ</p>
             
-            <div class="form-group">
-                <label>ชื่อโฟลเดอร์ผู้ใช้งานในการซิงค์ (Sync User Key)</label>
-                <input type="text" id="syncUserKey" placeholder="ระบุชื่อสำหรับแยกข้อมูล เช่น user_wiphavee" style="margin-bottom: 4px;">
-                <span style="font-size:10px; color:var(--text-secondary)">* ใช้ชื่อเดียวกันในอุปกรณ์เครื่องอื่นเพื่อดึงข้อมูลงานชุดเดียวกันมาเปิดแก้ไข</span>
-            </div>
+            <form id="form-profile" class="w-full space-y-4">
+                <input id="profile-name-input" type="text" placeholder="ระบุชื่อของคุณ..." class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 text-center dark:text-stone-100 font-bold focus:border-coral-500 transition-all" required maxlength="25" />
+                
+                <button type="submit" class="w-full py-2.5 bg-coral-500 hover:bg-coral-600 active:scale-95 text-white font-bold rounded-xl text-sm shadow-md transition">
+                    ยืนยันข้อมูลส่วนตัว
+                </button>
+            </form>
+        </div>
+    </div>
 
-            <div class="modal-footer" style="margin-top:16px; padding-top:12px">
-                <button type="button" class="btn btn-danger" onclick="disconnectFirebaseCloud()"><i class="fa-solid : fa-link-slash"></i> ตัดการเชื่อมต่อ</button>
-                <div class="footer-right-buttons">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('syncModal')">ปิดหน้าต่าง</button>
-                    <button type="button" class="btn btn-primary" onclick="connectAndSyncFirebase()"><i class="fa-solid : fa-rotate"></i> บันทึกและซิงค์</button>
-                </div>
+    <!-- 3. Safe Custom Delete Dialogue Modal -->
+    <div id="modal-delete" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 transition-opacity hidden">
+        <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-sm p-6 shadow-2xl border border-stone-150 dark:border-stone-850 flex flex-col items-center text-center animate-scale-up">
+            <span class="text-4xl">⚠️</span>
+            <h3 class="text-base font-bold text-stone-800 dark:text-stone-100 mt-3">แน่ใจหรือว่าต้องการลบรายการนี้?</h3>
+            <p id="delete-item-title" class="text-xs text-stone-400 dark:text-stone-500 mt-1 mb-5 break-all max-w-xs font-semibold">"งานของคุณ"</p>
+            
+            <div class="flex gap-3 w-full justify-center">
+                <button id="btn-delete-cancel" class="flex-1 py-2.5 text-xs font-bold bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-750 text-stone-600 dark:text-stone-300 rounded-xl transition">ยกเลิก</button>
+                <button id="btn-delete-confirm" class="flex-1 py-2.5 text-xs font-bold bg-rose-500 hover:bg-rose-600 text-white rounded-xl shadow-md transition">ยืนยันลบข้อมูล</button>
             </div>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <!-- 4. Dynamic Toast System -->
+    <div id="toast" class="fixed bottom-5 left-5 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-xl font-bold text-white text-sm animate-bounce-short hidden">
+        <span id="toast-icon">🎉</span>
+        <span id="toast-text">เตือนระบบ</span>
+    </div>
 
-    <script>
-// --- ส่วนของรหัสตั้งค่าสำหรับ FIREBASE CONFIGURATION ---
-// คัดลอกโค้ดโครงสร้างตั้งค่าจากโปรเจกต์ Firebase ของคุณมาวางทับส่วนนี้ได้เลยครับ
-const firebaseConfig = {
-    apiKey: "AIzaSyC4YX2mYgptRc8KlLWfvMGr1zYyuWSkRj4",
-  authDomain: "my-task-app-e6cc3.firebaseapp.com",
-  databaseURL: "https://my-task-app-e6cc3-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "my-task-app-e6cc3",
-  storageBucket: "my-task-app-e6cc3.firebasestorage.app",
-  messagingSenderId: "686196651721",
-  appId: "1:686196651721:web:73c7ec34c6185d60117f18",
-  measurementId: "G-7PHER23QH1"
-};
-// ตรวจเช็กและทำการเริ่มระบบฐานข้อมูล Firebase
-let db = null;
-let isFirebaseInitialized = false;
+    <!-- Firebase Scripting Modules -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithCustomToken, 
+            signInAnonymously, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            collection, 
+            onSnapshot, 
+            addDoc, 
+            updateDoc, 
+            deleteDoc, 
+            setDoc 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-try {
-    if (firebaseConfig.apiKey !== "YOUR_FIREBASE_CONFIG_API_KEY") {
-        firebase.initializeApp(firebaseConfig);
-        db = firebase.database();
-        isFirebaseInitialized = true;
-        console.log("Firebase Database ได้รับการตั้งค่าเรียบร้อยแล้ว");
-    }
-} catch (e) {
-    console.error("เกิดข้อผิดพลาดในการเริ่มระบบ Firebase:", e);
-}
+        // Global Local In-Memory & App Configurations
+        let appId = 'taskybuddy-personal';
+        let db = null;
+        let auth = null;
+        let currentUserData = { uid: '', name: 'Tasky User' };
 
-// Global Core State Management
-let tasks = [];
-let currentFilterMatrix = 'ALL';
-let isCloudSyncActive = false;
-let dbRef = null;
+        // Real-time task cache array
+        let tasksState = [];
+        let isSoundEnabled = true;
 
-// Initialization
-document.addEventListener("DOMContentLoaded", () => {
-    // โหลดระบบธีมสีสีเริ่มต้น
-    const savedTheme = localStorage.getItem("solotask-theme") || "dark-theme";
-    document.body.className = savedTheme;
-    updateThemeIcon(savedTheme);
+        // Custom filter triggers for Tab 2
+        let filterActiveCategory = 'All';
+        let filterSearchQuery = '';
 
-    // ตรวจสอบและดึงข้อมูลโปรไฟล์ Cloud Sync เดิมที่เก็บไว้ในเครื่อง
-    const savedUserKey = localStorage.getItem("firebase-sync-userkey");
-    if (savedUserKey) {
-        document.getElementById("syncUserKey").value = savedUserKey;
-        if (isFirebaseInitialized) {
-            setupFirebaseRealtimeListener(savedUserKey);
-        } else {
-            updateSyncBadgeState("error", "รหัสตั้งค่าไม่ครบ");
-        }
-    } else {
-        // หากไม่มีข้อมูลซิงค์ ให้โหลดฐานข้อมูล LocalStorage บนเครื่องตามปกติ
-        loadLocalDataStore();
-        updateSyncBadgeState("offline", "เครื่องนี้ (Local)");
-    }
-});
-
-// ดึงข้อมูลกรณีเปิดโหมดใช้งานบนเครื่องโลคอล
-function loadLocalDataStore() {
-    const localTasks = localStorage.getItem("solotask-data");
-    tasks = localTasks ? JSON.parse(localTasks) : [];
-    refreshApplicationUI();
-}
-
-// ฟังก์ชันคุมสถานะ Sync Badge บนหน้า Header
-function updateSyncBadgeState(status, text) {
-    const badge = document.getElementById("syncStatusIndicator");
-    badge.className = `sync-status-badge ${status}`;
-    badge.querySelector("span").textContent = text;
-    
-    const icon = badge.querySelector("i");
-    if (status === 'syncing') {
-        icon.className = "fa-solid : fa-rotate fa-spin";
-    } else if (status === 'online') {
-        icon.className = "fa-solid : fa-cloud-checkmark";
-    } else if (status === 'error') {
-        icon.className = "fa-solid : fa-circle-exclamation";
-    } else {
-        icon.className = "fa-solid : fa-cloud";
-    }
-}
-
-// เปิดระบบดักข้อมูลแบบสด (Realtime Listener) จากฐานข้อมูล Firebase
-function setupFirebaseRealtimeListener(userKey) {
-    if (!isFirebaseInitialized || !db) return;
-    
-    updateSyncBadgeState("syncing", "กำลังซิงค์...");
-    isCloudSyncActive = true;
-    
-    if (dbRef) dbRef.off(); // ล้างตัวตรวจจับตัวเก่าออกก่อน
-    
-    dbRef = db.ref("users_tasks/" + userKey);
-    
-    // เมื่อมีการเปลี่ยนแปลงข้อมูลใน Firebase ระบบจะโหลดและอัปเดตหน้าจอแอปให้อัตโนมัติทันที
-    dbRef.on("value", (snapshot) => {
-        const cloudData = snapshot.val();
-        tasks = cloudData ? cloudData : [];
-        
-        // เซฟข้อมูลสำรองลง LocalStorage ในเครื่องอีกชั้นนึงเพื่อความปลอดภัย
-        localStorage.setItem("solotask-data", JSON.stringify(tasks));
-        localStorage.setItem("firebase-sync-userkey", userKey);
-        
-        refreshApplicationUI();
-        updateSyncBadgeState("online", "คลาวด์ (Firebase)");
-    }, (error) => {
-        console.error("Firebase Sync Fail:", error);
-        updateSyncBadgeState("error", "การเชื่อมต่อขัดข้อง");
-        loadLocalDataStore();
-    });
-}
-
-// คำสั่งประมวลผลเมื่อกดปุ่ม "บันทึกและซิงค์" ในหน้ามอดอล
-function connectAndSyncFirebase() {
-    const userKey = document.getElementById("syncUserKey").value.trim().toLowerCase();
-    
-    if (!userKey) {
-        alert("กรุณากรอกชื่อโฟลเดอร์ผู้ใช้งานสำหรับใช้แยกฐานข้อมูลก่อนครับ");
-        return;
-    }
-    
-    if (!isFirebaseInitialized) {
-        alert("ขออภัยครับ ตรวจพบว่าคุณยังไม่ได้กรอกรหัส Firebase Config ในโค้ดตัวแอป โปรดเปิดแก้ไขไฟล์ html และนำรหัส config จากหน้าเว็บ Firebase Console มาใส่ก่อนใช้งานครับ");
-        return;
-    }
-    
-    // ส่งข้อมูลที่มีอยู่ในเครื่องปัจจุบันขึ้นไปบันทึกบนฐานข้อมูล Firebase เผื่อเป็นครั้งแรก
-    updateSyncBadgeState("syncing", "กำลังเชื่อมต่อ...");
-    
-    db.ref("users_tasks/" + userKey).set(tasks)
-        .then(() => {
-            setupFirebaseRealtimeListener(userKey);
-            closeModal('syncModal');
-        })
-        .catch((err) => {
-            alert("ไม่สามารถอัปโหลดข้อมูลซิงค์ได้: " + err.message);
-            updateSyncBadgeState("error", "ผิดพลาด");
-        });
-}
-
-// สั่งตัดการซิงค์ข้อมูลคลาวด์ กลับมาใช้งานบนเครื่องเดี่ยว
-function disconnectFirebaseCloud() {
-    if (dbRef) dbRef.off();
-    
-    localStorage.removeItem("firebase-sync-userkey");
-    document.getElementById("syncUserKey").value = "";
-    isCloudSyncActive = false;
-    dbRef = null;
-    
-    alert("ระบบตัดการซิงค์ข้อมูลบนคลาวด์เรียบร้อยแล้ว แอปจะเปลี่ยนมาใช้งานข้อมูลออฟไลน์ในเครื่องนี้แทน");
-    updateSyncBadgeState("offline", "เครื่องนี้ (Local)");
-    loadLocalDataStore();
-    closeModal('syncModal');
-}
-
-// บันทึกหรือกระจายผลการทำงานลงพื้นที่เก็บข้อมูล (ใช้ทุกครั้งที่ข้อมูลเปลี่ยน)
-function dispatchTasksUpdate() {
-    if (isCloudSyncActive && dbRef && isFirebaseInitialized) {
-        dbRef.set(tasks).catch((err) => {
-            console.error("เกิดปัญหาระหว่างส่งข้อมูลขึ้น Firebase:", err);
-            updateSyncBadgeState("error", "เซฟลงคลาวด์ล้มเหลว");
-        });
-    } else {
-        localStorage.setItem("solotask-data", JSON.stringify(tasks));
-        refreshApplicationUI();
-    }
-}
-
-// คำสั่งคำนวณและอัปเดตอินเตอร์เฟสทั้งหมดของแอปพลิเคชัน
-function refreshApplicationUI() {
-    renderDashboardCountersAndCharts();
-    renderEisenhowerMatrixGrid();
-    renderKanbanBoardSystem();
-    renderAllTasksTable();
-}
-
-// Navigation Tab Switcher
-function switchView(viewName) {
-    document.querySelectorAll(".view-section").forEach(sec => sec.classList.remove("active"));
-    document.querySelectorAll(".nav-tab").forEach(tab => tab.classList.remove("active"));
-    
-    document.getElementById(`${viewName}View`).classList.add("active");
-    event.currentTarget.classList.add("active");
-}
-
-// Theme Controls
-function toggleTheme() {
-    const currentTheme = document.body.className;
-    const nextTheme = currentTheme === 'dark-theme' ? 'light-theme' : 'dark-theme';
-    document.body.className = nextTheme;
-    localStorage.setItem("solotask-theme", nextTheme);
-    updateThemeIcon(nextTheme);
-}
-
-function updateThemeIcon(theme) {
-    const icon = document.getElementById("themeIcon");
-    if(theme === 'dark-theme') {
-        icon.className = "fa-solid : fa-moon";
-    } else {
-        icon.className = "fa-solid : fa-sun";
-    }
-}
-
-// Modals Trigger
-function openModal(modalId) {
-    document.getElementById(modalId).classList.add("active");
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove("active");
-}
-
-function openAddTaskModal() {
-    document.getElementById("taskForm").reset();
-    document.getElementById("formTaskId").value = "";
-    document.getElementById("modalTaskTitle").innerHTML = '<i class="fa-solid : fa-circle-plus" style="color:var(--accent-color)"></i> เพิ่มภารกิจใหม่เข้าระบบ';
-    document.getElementById("btnDeleteTask").style.display = "none";
-    document.getElementById("formTaskStatus").value = "todo";
-    openModal("taskModal");
-}
-
-function openEditTaskModal(id) {
-    const item = tasks.find(t => t.id === id);
-    if (!item) return;
-
-    document.getElementById("formTaskId").value = item.id;
-    document.getElementById("formTaskTitle").value = item.title;
-    document.getElementById("formTaskDesc").value = item.desc || "";
-    document.getElementById("formTaskCategory").value = item.category;
-    document.getElementById("formTaskDeadline").value = item.deadline || "";
-    document.getElementById("formTaskImportant").value = item.important;
-    document.getElementById("formTaskUrgent").value = item.urgent;
-    document.getElementById("formTaskStatus").value = item.status;
-
-    document.getElementById("modalTaskTitle").innerHTML = '<i class="fa-solid : fa-pen-to-square" style="color:var(--accent-color)"></i> แก้ไขข้อมูลภารกิจ';
-    document.getElementById("btnDeleteTask").style.display = "inline-flex";
-    openModal("taskModal");
-}
-
-// แปลงค่าข้อมูลฟอร์มเพื่อกดบันทึก (Save/Update)
-function saveTaskData(e) {
-    e.preventDefault();
-    
-    const id = document.getElementById("formTaskId").value;
-    const title = document.getElementById("formTaskTitle").value.trim();
-    const desc = document.getElementById("formTaskDesc").value.trim();
-    const category = document.getElementById("formTaskCategory").value;
-    const deadline = document.getElementById("formTaskDeadline").value;
-    const important = document.getElementById("formTaskImportant").value;
-    const urgent = document.getElementById("formTaskUrgent").value;
-    const status = document.getElementById("formTaskStatus").value;
-
-    if (id) {
-        // โหมดการแก้ไขข้อมูลภารกิจเดิม
-        const index = tasks.findIndex(t => t.id === id);
-        if (index !== -1) {
-            tasks[index] = { ...tasks[index], title, desc, category, deadline, important, urgent, status };
-        }
-    } else {
-        // โหมดการสร้างภารกิจขึ้นมาใหม่
-        const newTask = {
-            id: 'task_' + Date.now(),
-            title, desc, category, deadline, important, urgent, status,
-            createdAt: new Date().toISOString()
-        };
-        tasks.push(newTask);
-    }
-
-    dispatchTasksUpdate();
-    closeModal("taskModal");
-}
-
-function deleteCurrentTask() {
-    const id = document.getElementById("formTaskId").value;
-    if (!id) return;
-    
-    if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบงานชิ้นนี้ออกจากระบบอย่างถาวร?")) {
-        tasks = tasks.filter(t => t.id !== id);
-        dispatchTasksUpdate();
-        closeModal("taskModal");
-    }
-}
-
-// ตัวแปรวิเคราะห์การกระจายตัวของหมวดหมู่เพื่อใช้แบ่งสีกริดไอเซนฮาวร์
-function getMatrixQuadrantCode(task) {
-    if (task.important === 'YES' && task.urgent === 'YES') return 'UI';   // Q1
-    if (task.important === 'YES' && task.urgent === 'NO') return 'INU';  // Q2
-    if (task.important === 'NO' && task.urgent === 'YES') return 'UNI';   // Q3
-    return 'NUNI';                                                        // Q4
-}
-
-// --- การคำนวณแดชบอร์ดสถิติและกราฟประสิทธิภาพ ---
-function renderDashboardCountersAndCharts() {
-    const total = tasks.length;
-    const completed = tasks.filter(t => t.status === 'completed').length;
-    const pending = total - completed;
-    
-    // ตรวจสอบงานเกินกำหนดส่ง (Overdue) โดยอิงจากเวลา ณ ปัจจุบันของปี 2026
-    const todayStr = new Date().toISOString().split('T')[0];
-    const overdue = tasks.filter(t => t.status !== 'completed' && t.deadline && t.deadline < todayStr).length;
-
-    document.getElementById("statTotal").textContent = total;
-    document.getElementById("statPending").textContent = pending;
-    document.getElementById("statCompleted").textContent = completed;
-    document.getElementById("statOverdue").textContent = overdue;
-
-    // คำนวณความก้าวหน้าการผลิต (Productivity Wheel)
-    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-    const ring = document.getElementById("productivityRing");
-    ring.style.setProperty('--percentage', `${percentage}%`);
-    document.getElementById("productivityPercent").textContent = `${percentage}%`;
-
-    document.getElementById("productivitySubtext").textContent = `เสร็จสิ้นภารกิจ ${completed} จากทั้งหมด ${total} งานในระบบ`;
-    
-    // ให้คำแนะนำตามสัดส่วนการเคลียร์งาน
-    const quote = document.getElementById("productivityQuote");
-    if(total === 0) quote.textContent = "ระบบว่างอยู่ เพิ่มงานชิ้นแรกเพื่อเริ่มต้นกันเลยครับ!";
-    else if(percentage === 100) quote.textContent = "สุดยอดมากครับ! คุณเคลียร์งานทั้งหมดในระบบครบถ้วน 100%";
-    else if(percentage >= 50) quote.textContent = "ทำงานได้เยี่ยมครับ! จัดการไปได้เกินครึ่งหนึ่งของเป้าหมายแล้ว";
-    else quote.textContent = "สู้ๆ ครับ! ค่อยๆ เคลียร์งานตามลำดับความสำคัญทีละนิดนะ";
-
-    // อัปเดตสถิติฝั่งหมวดหมู่คานบาร์ (Category Bars)
-    const catCounts = { WORK: 0, PERSONAL: 0, LEARNING: 0, OTHER: 0 };
-    tasks.forEach(t => { if(catCounts[t.category] !== undefined) catCounts[t.category]++; });
-
-    ['WORK', 'PERSONAL', 'LEARNING', 'OTHER'].forEach(cat => {
-        const count = catCounts[cat];
-        const pct = total > 0 ? (count / total) * 100 : 0;
-        const lowered = cat.toLowerCase();
-        
-        document.getElementById(`count${cat.charAt(0) + cat.slice(1).toLowerCase()}`).textContent = count;
-        document.getElementById(`bar${cat.charAt(0) + cat.slice(1).toLowerCase()}`).style.width = `${pct}%`;
-    });
-}
-
-// --- แสดงผลข้อมูลภายในตาราง Eisenhower Matrix บนหน้าแดชบอร์ด ---
-function renderEisenhowerMatrixGrid() {
-    const qContainers = { UI: 'quadrantQ1', INU: 'quadrantQ2', UNI: 'quadrantQ3', NUNI: 'quadrantQ4' };
-    const qCounts = { UI: 0, INU: 0, UNI: 0, NUNI: 0 };
-
-    Object.values(qContainers).forEach(id => document.getElementById(id).innerHTML = "");
-
-    // กรองดึงเฉพาะรายการงานที่ยังทำไม่เสร็จ (ไม่แสดง Completed ในเมทริกซ์ภาพรวม)
-    const activeTasks = tasks.filter(t => t.status !== 'completed');
-
-    activeTasks.forEach(task => {
-        const qCode = getMatrixQuadrantCode(task);
-        qCounts[qCode]++;
-
-        const miniCard = document.createElement("div");
-        miniCard.className = "matrix-mini-card";
-        miniCard.onclick = () => openEditTaskModal(task.id);
-        
-        let catEmojiName = "ภารกิจ";
-        if(task.category === 'WORK') catEmojiName = "งาน (work)";
-        else if(task.category === 'PERSONAL') catEmojiName = "ส่วนตัว (Personal)";
-        else if(task.category === 'LEARNING') catEmojiName = "เรียนรู้ (Learning)";
-        else catEmojiName = "ภารกิจ อื่นๆ (Other)";
-
-        miniCard.innerHTML = `
-            <div class="matrix-mini-title">${task.title}</div>
-            <span class="matrix-mini-category">${catEmojiName}</span>
-        `;
-        document.getElementById(qContainers[qCode]).appendChild(miniCard);
-    });
-
-    Object.keys(qCounts).forEach((key, index) => {
-        document.getElementById(`countQ${index+1}`).textContent = `${qCounts[key]} งาน`;
-    });
-}
-
-// --- ระบบบริหารจัดแจงบอร์ด (Kanban Board) ร่วมกับการลากวาง Drag & Drop ---
-function filterKanbanMatrix(matrixType, btnElement) {
-    currentFilterMatrix = matrixType;
-    document.querySelectorAll(".kanban-filters .filter-btn").forEach(b => b.classList.remove("active"));
-    btnElement.classList.add("active");
-    renderKanbanBoardSystem();
-}
-
-function renderKanbanBoardSystem() {
-    const columns = { todo: 'cards-todo', inprogress: 'cards-inprogress', review: 'cards-review', completed: 'cards-completed' };
-    const colCounts = { todo: 0, inprogress: 0, review: 0, completed: 0 };
-
-    Object.values(columns).forEach(id => document.getElementById(id).innerHTML = "");
-
-    // ดึงข้อมูลงานที่คัดกรองตามหมวดหมู่ตัวเลือกด่วนด้านบนแล้ว
-    const filteredTasks = tasks.filter(task => {
-        if (currentFilterMatrix === 'ALL') return true;
-        return getMatrixQuadrantCode(task) === currentFilterMatrix;
-    });
-
-    filteredTasks.forEach(task => {
-        colCounts[task.status]++;
-        
-        const card = document.createElement("div");
-        const qCode = getMatrixQuadrantCode(task).toLowerCase();
-        card.className = `kanban-card card-priority-${qCode}`;
-        card.id = task.id;
-        card.draggable = true;
-        card.ondragstart = (e) => dragCardStart(e);
-        card.ondragend = () => card.classList.remove("dragging");
-        card.onclick = (e) => {
-            if(e.target.closest('.kanban-card')) openEditTaskModal(task.id);
+        // Web Audio Synthesizer (Pure synthesizer, zero external files)
+        const playSynthSound = (type) => {
+            if (!isSoundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                if (type === 'complete') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.35);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.08);
+                } else if (type === 'delete') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(250, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.25);
+                }
+            } catch (err) {
+                console.warn('Sound synthethizer ignored:', err);
+            }
         };
 
-        // วิเคราะห์จัดระดับ Badge ความสำคัญด่วนเป็นสตริงข้อความ
-        let priorityLabel = " ไม่ด่วน/ไม่สำคัญ";
-        if(qCode === 'ui') priorityLabel = " เร่งด่วน";
-        else if(qCode === 'inu') priorityLabel = " สำคัญ";
-        else if(qCode === 'uni') priorityLabel = " งานมอบหมายด่วน";
+        // System Toasts UI Controller
+        const triggerToast = (text, type = 'success') => {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
 
-        // คัดแยกหมวดหมู่สีกริด
-        let catText = "อื่นๆ";
-        let catClass = "badge-cat-other";
-        if (task.category === 'WORK') { catText = "งาน (work)"; catClass = "badge-cat-work"; }
-        else if (task.category === 'PERSONAL') { catText = "ส่วนตัว (Personal)"; catClass = "badge-cat-personal"; }
-        else if (task.category === 'LEARNING') { catText = "เรียนรู้ (Other)"; catClass = "badge-cat-learning"; }
-
-        // คำนวณสีและการแจ้งเตือนเดดไลน์
-        let deadlineHtml = "";
-        if (task.deadline && task.status !== 'completed') {
-            const todayStr = new Date().toISOString().split('T')[0];
-            let dateClass = "deadline-ok";
-            if (task.deadline < todayStr) dateClass = "deadline-danger";
-            else if (task.deadline === todayStr) dateClass = "deadline-warning";
+            toastText.textContent = text;
             
-            deadlineHtml = `<div class="card-deadline ${dateClass}"><i class="fa-solid : fa-calendar-clock"></i> ${task.deadline}</div>`;
-        } else if (task.deadline) {
-            deadlineHtml = `<div class="card-deadline deadline-ok"><i class="fa-solid : fa-calendar-check"></i> ${task.deadline}</div>`;
+            if (type === 'error') {
+                toast.className = "fixed bottom-5 left-5 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-xl font-bold text-white text-sm bg-rose-500 animate-bounce-short";
+                toastIcon.textContent = "❌";
+            } else if (type === 'warning') {
+                toast.className = "fixed bottom-5 left-5 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-xl font-bold text-white text-sm bg-amber-500 animate-bounce-short";
+                toastIcon.textContent = "⚠️";
+            } else {
+                toast.className = "fixed bottom-5 left-5 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-xl font-bold text-white text-sm bg-emerald-500 animate-bounce-short";
+                toastIcon.textContent = "🎉";
+            }
+            
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        };
+
+        // Premium Dark/Light theme switches
+        const setDarkMode = (isDark) => {
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const themeText = document.getElementById('theme-toggle-text');
+
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                // Sun icon shows
+                sunIcon.classList.remove('scale-0', 'opacity-0');
+                sunIcon.classList.add('scale-100', 'opacity-100');
+                // Moon icon hides
+                moonIcon.classList.remove('scale-100', 'opacity-100');
+                moonIcon.classList.add('scale-0', 'opacity-0');
+                
+                themeText.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                // Sun icon hides
+                sunIcon.classList.remove('scale-100', 'opacity-100');
+                sunIcon.classList.add('scale-0', 'opacity-0');
+                // Moon icon shows
+                moonIcon.classList.remove('scale-0', 'opacity-0');
+                moonIcon.classList.add('scale-100', 'opacity-100');
+
+                themeText.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // Random motivational quotes
+        const MOTIVATIONS = [
+            "\"ความลับของความสำเร็จ คือการเตรียมพร้อมรับมือกับทุกสิ่งอย่างมีแบบแผน\"",
+            "\"การเริ่มต้นคือส่วนที่ท้าทายที่สุด แต่จะนำไปสู่ความสำเร็จอันยิ่งใหญ่\"",
+            "\"เวลาที่ดีที่สุดในการจัดการความสำคัญคือตอนนี้ จัดชีวิตอย่างมีระดับด้วยเมทริกซ์กันนะ!\"",
+            "\"จงเชื่อว่าคุณจัดสรรสิ่งต่างๆ ได้อย่างราบรื่น แล้วคุณจะทำได้อย่างใจคิด 🌟\"",
+            "\"การแบ่งย่อยความสำคัญในแต่ละวัน จะทำให้ชีวิตคุณมีพื้นที่หายใจเพิ่มขึ้น\"",
+            "\"ความผิดพลาดเรื่องเดดไลน์ในอดีต คือโอกาสในการจัดระบบชีวิตให้ดียิ่งขึ้นวันนี้\""
+        ];
+        const updateMotivationalQuote = () => {
+            const randomIdx = Math.floor(Math.random() * MOTIVATIONS.length);
+            document.getElementById('motivation-quote').textContent = MOTIVATIONS[randomIdx];
+        };
+
+        // Eisenhower Drag and Drop handlers
+        const initDragAndDrop = () => {
+            const quadrantIds = ['q1-list', 'q2-list', 'q3-list', 'q4-list'];
+            
+            quadrantIds.forEach(id => {
+                const zone = document.getElementById(id);
+                if (!zone) return;
+
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault(); // Crucial to allow drops!
+                });
+
+                zone.addEventListener('dragenter', (e) => {
+                    e.preventDefault();
+                    const quadrant = zone.getAttribute('data-quadrant');
+                    
+                    // Specific highlight colors based on targeted quadrant
+                    if (quadrant === 'q1') {
+                        zone.classList.add('bg-rose-100/40', 'dark:bg-rose-950/20', 'border-rose-400');
+                    } else if (quadrant === 'q2') {
+                        zone.classList.add('bg-emerald-100/40', 'dark:bg-emerald-950/20', 'border-emerald-400');
+                    } else if (quadrant === 'q3') {
+                        zone.classList.add('bg-amber-100/40', 'dark:bg-amber-950/20', 'border-amber-400');
+                    } else {
+                        zone.classList.add('bg-stone-200/50', 'dark:bg-stone-800/80', 'border-stone-400');
+                    }
+                    zone.classList.add('border-2', 'border-dashed', 'scale-[1.01]');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    resetZoneVisuals(zone);
+                });
+
+                zone.addEventListener('drop', async (e) => {
+                    e.preventDefault();
+                    resetZoneVisuals(zone);
+
+                    const taskId = e.dataTransfer.getData('text/plain');
+                    const targetQuadrant = zone.getAttribute('data-quadrant');
+                    
+                    const task = tasksState.find(t => t.id === taskId);
+                    if (!task) return;
+
+                    // Compute dynamic priorities depending on where user dropped the item
+                    let isUrgent = false;
+                    let isImportant = false;
+                    let textMessage = "";
+
+                    if (targetQuadrant === 'q1') {
+                        isUrgent = true;
+                        isImportant = true;
+                        textMessage = "ด่วน & สำคัญมาก (Do First)";
+                    } else if (targetQuadrant === 'q2') {
+                        isUrgent = false;
+                        isImportant = true;
+                        textMessage = "ไม่ด่วน แต่สำคัญ (Schedule)";
+                    } else if (targetQuadrant === 'q3') {
+                        isUrgent = true;
+                        isImportant = false;
+                        textMessage = "ด่วน แต่ไม่สำคัญ (Delegate)";
+                    } else {
+                        isUrgent = false;
+                        isImportant = false;
+                        textMessage = "ไม่ด่วน & ไม่สำคัญ (Eliminate)";
+                    }
+
+                    // Prevent firing duplicates if dropped on the same state
+                    if (task.isUrgent === isUrgent && task.isImportant === isImportant) {
+                        return;
+                    }
+
+                    playSynthSound('complete');
+
+                    try {
+                        if (db && auth.currentUser) {
+                            const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', taskId);
+                            await updateDoc(ref, { 
+                                isUrgent, 
+                                isImportant, 
+                                updatedAt: new Date().toISOString() 
+                            });
+                        } else {
+                            // Offline updates sandbox fallback
+                            tasksState = tasksState.map(t => t.id === taskId ? { ...t, isUrgent, isImportant, updatedAt: new Date().toISOString() } : t);
+                            localStorage.setItem('tasky_offline_personal_tasks', JSON.stringify(tasksState));
+                            renderDashboardContent();
+                        }
+                        triggerToast(`ย้ายความสำคัญไปยัง "${textMessage}" เรียบร้อย!`);
+                    } catch (err) {
+                        console.error("Priority drag drop update failed: ", err);
+                        triggerToast("พบข้อผิดพลาดในการเคลื่อนย้ายงาน", "error");
+                    }
+                });
+            });
+        };
+
+        const resetZoneVisuals = (zone) => {
+            zone.classList.remove(
+                'bg-rose-100/40', 'dark:bg-rose-950/20', 'border-rose-400',
+                'bg-emerald-100/40', 'dark:bg-emerald-950/20', 'border-emerald-400',
+                'bg-amber-100/40', 'dark:bg-amber-950/20', 'border-amber-400',
+                'bg-stone-200/50', 'dark:bg-stone-800/80', 'border-stone-400',
+                'border-2', 'border-dashed', 'scale-[1.01]'
+            );
+        };
+
+        // Local name profiling setup
+        const setupUserProfile = () => {
+            let savedName = localStorage.getItem('tasky_personal_username');
+            if (!savedName) {
+                document.getElementById('modal-profile').classList.remove('hidden');
+            } else {
+                currentUserData.name = savedName;
+                document.getElementById('user-display-name').textContent = savedName;
+                document.getElementById('display-greeting-name').textContent = savedName;
+                document.getElementById('user-avatar').textContent = savedName.charAt(0).toUpperCase();
+            }
+
+            // Read Focus goals of the day
+            let savedFocus = localStorage.getItem('tasky_daily_focus');
+            if (savedFocus) {
+                document.getElementById('input-daily-focus').value = savedFocus;
+            }
+        };
+
+        // Initialize Firebase SDK Cloud connection (Fallbacks automatically if no environment vars configured)
+        try {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'taskybuddy-personal';
+            } else {
+                throw new Error("Missing config variables block");
+            }
+        } catch (error) {
+            console.warn("Local sandbox mode enabled.", error);
+            document.getElementById('connection-status-text').textContent = 'ออฟไลน์';
+            document.getElementById('connection-dot').className = 'w-2.5 h-2.5 rounded-full bg-rose-500';
+            document.getElementById('sync-indicator-bar').className = 'h-1 bg-rose-500 w-full fixed top-0 left-0 z-50';
         }
 
-        card.innerHTML = `
-            <div class="card-tag-row">
-                <span class="card-urgency-badge badge-priority-${qCode}">${priorityLabel}</span>
-                <span class="badge-category ${catClass}">${catText}</span>
-            </div>
-            <div class="card-title">${task.title}</div>
-            <div class="card-description">${task.desc ? task.desc : '<span style="color:#6e6e73; font-style:italic">ไม่มีคำอธิบายภารกิจ</span>'}</div>
-            <div class="card-footer">
-                ${deadlineHtml}
-                <div style="color:var(--text-secondary); font-size:10px"><i class="fa-solid : fa-pencil"></i> แก้ไข</div>
-            </div>
-        `;
-        
-        document.getElementById(columns[task.status]).appendChild(card);
-    });
+        // Firebase Firestore Snapshot triggers
+        const initFirestoreListeners = async () => {
+            if (!db || !auth.currentUser) return;
+            
+            document.getElementById('connection-status-text').textContent = 'ซิงค์คลาวด์เสร็จสิ้น';
+            document.getElementById('connection-dot').className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
+            document.getElementById('sync-indicator-bar').className = 'h-1 bg-emerald-500 w-full fixed top-0 left-0 z-50';
 
-    // อัปเดตตัวเลขเคาน์เตอร์หัวคอลัมน์คัมบัง
-    Object.keys(colCounts).forEach(status => {
-        document.getElementById(`countCol${status.charAt(0).toUpperCase() + status.slice(1)}`).textContent = colCounts[status];
-        
-        // หากคอลัมน์ว่างเปล่าจริง ให้แสดงแผ่นป้ายแจ้งเตือนเปล่าๆ เพื่อเป็นไกด์ไลน์
-        const container = document.getElementById(columns[status]);
-        if(colCounts[status] === 0) {
-            container.innerHTML = `<div class="empty-col-message">ไม่มีงานตกค้างในสถานะนี้</div>`;
-        }
-    });
-}
+            const tasksRef = collection(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks');
+            onSnapshot(tasksRef, (snapshot) => {
+                const loadedTasks = [];
+                snapshot.forEach(doc => {
+                    loadedTasks.push({ id: doc.id, ...doc.data() });
+                });
+                tasksState = loadedTasks;
+                renderDashboardContent();
+            }, (err) => {
+                console.error("Firestore loading synchronizer exception:", err);
+            });
+        };
 
-// ฟังก์ชันควบกลไก Drag & Drop API ตัวดักสถานะการทำงาน
-function dragCardStart(e) {
-    e.dataTransfer.setData("text/plain", e.currentTarget.id);
-    setTimeout(() => e.target.classList.add("dragging"), 0);
-}
+        // Loaded default mockup cards if running purely client-side first time
+        const loadLocalMockData = () => {
+            const stored = localStorage.getItem('tasky_offline_personal_tasks');
+            if (stored) {
+                tasksState = JSON.parse(stored);
+            } else {
+                tasksState = [
+                    { id: '1', title: 'พัฒนา To Do System แบบ Premium คราฟต์ส่วนตัว', dueDate: new Date().toISOString().split('T')[0], category: 'งาน', status: 'In Progress', isUrgent: true, isImportant: true },
+                    { id: '2', title: 'ศึกษาเรื่องการสลับ ธีม Dark/White และ CSS Transitions', dueDate: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0], category: 'เรียนรู้', status: 'Todo', isUrgent: false, isImportant: true },
+                    { id: '3', title: 'ซื้ออาหารสุนัข และจัดเตรียมวัตถุดิบเข้าตู้เย็น', dueDate: new Date(Date.now() + 86400000 * 4).toISOString().split('T')[0], category: 'ส่วนตัว', status: 'Completed', isUrgent: false, isImportant: false }
+                ];
+                localStorage.setItem('tasky_offline_personal_tasks', JSON.stringify(tasksState));
+            }
+            renderDashboardContent();
+        };
 
-function allowDrop(e) {
-    e.preventDefault();
-    const col = e.currentTarget;
-    col.classList.add("drag-over");
-}
+        // Window load triggers
+        window.addEventListener('load', async () => {
+            // Apply theme checks
+            const theme = localStorage.getItem('theme');
+            setDarkMode(theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches));
 
-function dragLeaveColumn(colName) {
-    document.getElementById(`col-${colName}`).classList.remove("drag-over");
-}
+            setupUserProfile();
+            updateMotivationalQuote();
+            initDragAndDrop();
 
-function dropCard(e, targetStatus) {
-    e.preventDefault();
-    const col = e.currentTarget;
-    col.classList.remove("drag-over");
-    
-    const cardId = e.dataTransfer.getData("text/plain");
-    const targetTask = tasks.find(t => t.id === cardId);
-    
-    if (targetTask && targetTask.status !== targetStatus) {
-        targetTask.status = targetStatus;
-        dispatchTasksUpdate();
-    }
-}
+            if (auth) {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    currentUserData.uid = auth.currentUser.uid;
+                    await initFirestoreListeners();
+                } catch (e) {
+                    console.error("Firebase auth exception sandbox activated:", e);
+                    loadLocalMockData();
+                }
+            } else {
+                loadLocalMockData();
+            }
+        });
 
-// --- หน้าต่างตารางงานแบบรายละเอียด (All Tasks List Table) ---
-function renderAllTasksTable() {
-    const tableBody = document.getElementById("allTasksTableBody");
-    tableBody.innerHTML = "";
+        // Date calculations helper
+        const getDaysDiffHelper = (dateStr) => {
+            if (!dateStr) return 999;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const due = new Date(dateStr);
+            due.setHours(0,0,0,0);
+            return Math.ceil((due.getTime() - today.getTime()) / (1000 * 3600 * 24));
+        };
 
-    const searchQuery = document.getElementById("tableSearchInput").value.trim().toLowerCase();
-    const catFilter = document.getElementById("filterTableCategory").value;
-    const matrixFilter = document.getElementById("filterTableMatrix").value;
+        // Main Statistics & Charts Rendering
+        const renderDashboardContent = () => {
+            const total = tasksState.length;
+            const completed = tasksState.filter(t => t.status === 'Completed').length;
+            const pending = tasksState.filter(t => t.status !== 'Completed').length;
+            
+            let overdue = 0;
+            tasksState.forEach(t => {
+                if (t.status !== 'Completed' && getDaysDiffHelper(t.dueDate) < 0) {
+                    overdue++;
+                }
+            });
 
-    const filtered = tasks.filter(task => {
-        const matchesSearch = task.title.toLowerCase().includes(searchQuery) || (task.desc && task.desc.toLowerCase().includes(searchQuery));
-        const matchesCat = catFilter === 'ALL' ? true : task.category === catFilter;
-        const matchesMatrix = matrixFilter === 'ALL' ? true : getMatrixQuadrantCode(task) === matrixFilter;
-        return matchesSearch && matchesCat && matchesMatrix;
-    });
+            // Put texts values
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-completed').textContent = completed;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-overdue').textContent = overdue;
 
-    if (filtered.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px; color:var(--text-secondary)"><i class="fa-solid : fa-folder-open" style="font-size:24px; display:block; margin-bottom:8px"></i> ไม่พบรายการข้อมูลภารกิจที่ตรงตามเงื่อนไขตัวกรองของคุณ</td></tr>`;
-        return;
-    }
+            // Render Overall Progress Circular Rings
+            const ringProgressBox = document.getElementById('overall-progress-circle-box');
+            const scorePercent = total === 0 ? 0 : Math.round((completed / total) * 100);
+            const scoreRadius = 26;
+            const scoreCirc = 2 * Math.PI * scoreRadius;
+            const scoreDashoffset = scoreCirc - (scorePercent / 100) * scoreCirc;
 
-    filtered.forEach(task => {
-        const tr = document.createElement("tr");
-        tr.style.cursor = "pointer";
-        tr.onclick = () => openEditTaskModal(task.id);
+            ringProgressBox.innerHTML = `
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="32" cy="32" r="${scoreRadius}" class="stroke-stone-100 dark:stroke-stone-800 fill-none" stroke-width="5" />
+                    <circle cx="32" cy="32" r="${scoreRadius}" class="fill-none stroke-current text-coral-500" stroke-width="6" stroke-dasharray="${scoreCirc}" stroke-dashoffset="${scoreDashoffset}" stroke-linecap="round" />
+                </svg>
+                <span class="absolute text-xs font-extrabold text-stone-700 dark:text-stone-300">${scorePercent}%</span>
+            `;
 
-        let catText = "อื่นๆ", catClass = "badge-cat-other";
-        if (task.category === 'WORK') { catText = " งานอาชีพ"; catClass = "badge-cat-work"; }
-        else if (task.category === 'PERSONAL') { catText = " ส่วนตัว"; catClass = "badge-cat-personal"; }
-        else if (task.category === 'LEARNING') { catText = " เรียนรู้"; catClass = "badge-cat-learning"; }
+            let commentary = "พร้อมแล้ว ลุยทำเป้าหมายวันนี้กัน!";
+            if (scorePercent > 0 && scorePercent < 50) commentary = "เริ่มต้นยอดเยี่ยม ค่อยๆ คืบหน้านะ! 🚀";
+            else if (scorePercent >= 50 && scorePercent < 90) commentary = "ครึ่งทางแล้ว คุณเยี่ยมมาก มุ่งมั่นไปต่อ! 🌟";
+            else if (scorePercent >= 90) commentary = "สุดยอดนักจัดการชีวิต! เคลียร์เป้าหมายครบถ้วน! 🎉";
+            document.getElementById('overall-progress-commentary').textContent = commentary;
 
-        let statusText = "ต้องทำ", statusClass = "badge-todo";
-        if (task.status === 'inprogress') { statusText = "กำลังทำ"; statusClass = "badge-inprogress"; }
-        else if (task.status === 'review') { statusText = "รอตรวจ"; statusClass = "badge-review"; }
-        else if (task.status === 'completed') { statusText = "เสร็จสิ้น"; statusClass = "badge-completed"; }
+            // Donut progress categories grids (Jobs, Personal, Studies, Others)
+            const categories = ['งาน', 'ส่วนตัว', 'เรียนรู้', 'อื่นๆ'];
+            const donutContainer = document.getElementById('donut-charts-container');
+            donutContainer.innerHTML = '';
 
-        const qCode = getMatrixQuadrantCode(task).toLowerCase();
-        let priorityText = " ไม่ด่วน/ไม่สำคัญ", priorityClass = "priority-nuni";
-        if (qCode === 'ui') { priorityText = " ด่วน & สำคัญ"; priorityClass = "priority-ui"; }
-        else if (qCode === 'inu') { priorityText = " สำคัญไม่เร่งด่วน"; priorityClass = "priority-inu"; }
-        else if (qCode === 'uni') { priorityText = " ด่วนแต่ไม่สำคัญ"; priorityClass = "priority-uni"; }
+            const themeColors = [
+                'text-coral-500',  // งาน
+                'text-teal-500',   // ส่วนตัว
+                'text-blue-500',   // เรียนรู้
+                'text-amber-500'   // อื่นๆ
+            ];
 
-        tr.innerHTML = `
-            <td>
-                <div class="table-task-title">${task.title}</div>
-                <div class="table-task-desc">${task.desc ? task.desc : '<span style="color:#6e6e73; font-style:italic">ไม่ได้พิมพ์ข้อความรายละเอียด</span>'}</div>
-            </td>
-            <td><span class="badge-category ${catClass}">${catText}</span></td>
-            <td><span class="badge-status ${statusClass}">${statusText}</span></td>
-            <td><span class="priority-tag ${priorityClass}">${priorityText}</span></td>
-            <td style="font-weight:500; font-family:'Inter'">${task.deadline ? task.deadline : '-'}</td>
-        `;
-        tableBody.appendChild(tr);
-    });
-}
+            categories.forEach((cat, idx) => {
+                const catTasks = tasksState.filter(t => t.category === cat);
+                const catTotal = catTasks.length;
+                const catCompleted = catTasks.filter(t => t.status === 'Completed').length;
+                const catPct = catTotal === 0 ? 0 : Math.round((catCompleted / catTotal) * 100);
+
+                const ringRadius = 24;
+                const ringCirc = 2 * Math.PI * ringRadius;
+                const ringOffset = ringCirc - (catPct / 100) * ringCirc;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = "flex items-center justify-between gap-4 p-4 bg-stone-50/50 dark:bg-stone-900/60 rounded-2xl border border-stone-150/40 dark:border-stone-800/80 shrink-0 shadow-xs";
+                wrapper.innerHTML = `
+                    <div class="relative flex items-center justify-center w-12 h-12 shrink-0">
+                        <svg class="w-full h-full transform -rotate-90">
+                            <circle cx="24" cy="24" r="${ringRadius}" class="stroke-stone-150 dark:stroke-stone-800 fill-none" stroke-width="4" />
+                            <circle cx="24" cy="24" r="${ringRadius}" class="fill-none stroke-current ${themeColors[idx]}" stroke-width="4.5" stroke-dasharray="${ringCirc}" stroke-dashoffset="${ringOffset}" stroke-linecap="round" />
+                        </svg>
+                        <span class="absolute text-[9px] font-extrabold text-stone-700 dark:text-stone-300">${catPct}%</span>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-bold text-stone-700 dark:text-stone-300 truncate">${cat}</p>
+                        <p class="text-[10px] text-stone-400 font-semibold mt-0.5">เสร็จ ${catCompleted}/${catTotal} รายการ</p>
+                    </div>
+                `;
+                donutContainer.appendChild(wrapper);
+            });
+
+            // Trigger rendering of filtered lists of both Eisenhower Board and All Tasks list
+            renderMatrixLists();
+            renderFilteredTasks();
+            updateNotificationBell();
+        };
+
+        // Render Eisenhower Matrix Board using global interactive searches & category filters
+        const renderMatrixLists = () => {
+            const searchVal = filterSearchQuery.toLowerCase();
+            const activeCategory = filterActiveCategory;
+
+            // Apply interactive filter criteria to Matrix Tasks
+            const filteredTasksForMatrix = tasksState.filter(task => {
+                const matchesSearch = task.title.toLowerCase().includes(searchVal);
+                const matchesCategory = activeCategory === 'All' || task.category === activeCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            const matrix = {
+                q1: filteredTasksForMatrix.filter(t => t.isImportant && t.isUrgent),
+                q2: filteredTasksForMatrix.filter(t => t.isImportant && !t.isUrgent),
+                q3: filteredTasksForMatrix.filter(t => !t.isImportant && t.isUrgent),
+                q4: filteredTasksForMatrix.filter(t => !t.isImportant && !t.isUrgent)
+            };
+
+            const fillMatrixBox = (boxId, tasks, countId) => {
+                const list = document.getElementById(boxId);
+                const badge = document.getElementById(countId);
+                badge.textContent = `${tasks.length} งาน`;
+                list.innerHTML = '';
+
+                if (tasks.length === 0) {
+                    list.innerHTML = `<p class="text-[10px] text-stone-400 dark:text-stone-500 italic py-4 text-center">ไม่มีภารกิจค้างในหมวดหมู่นี้</p>`;
+                    return;
+                }
+
+                tasks.forEach(task => {
+                    const isCompleted = task.status === 'Completed';
+                    const item = document.createElement('div');
+                    item.className = "flex items-center justify-between p-2.5 bg-white dark:bg-stone-850 rounded-xl border border-stone-100 dark:border-stone-800 text-xs hover:border-coral-300 dark:hover:border-coral-500/50 transition-all gap-2 cursor-grab active:cursor-grabbing select-none hover:shadow-xs";
+                    item.setAttribute('draggable', 'true');
+                    
+                    // Drag triggers binding
+                    item.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.setData('text/plain', task.id);
+                        item.classList.add('opacity-40', 'scale-95');
+                        playSynthSound('click');
+                    });
+
+                    item.addEventListener('dragend', () => {
+                        item.classList.remove('opacity-40', 'scale-95');
+                    });
+
+                    item.innerHTML = `
+                        <div class="flex items-center gap-2 min-w-0">
+                            <button class="btn-toggle-status shrink-0 w-4.5 h-4.5 rounded-md flex items-center justify-center border transition-all hover:scale-105 active:scale-95" draggable="false" data-id="${task.id}">
+                                ${isCompleted ? '<svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M5 13l4 4L19 7"/></svg>' : ''}
+                            </button>
+                            <span class="font-bold truncate dark:text-stone-200 ${isCompleted ? 'line-through text-stone-400 dark:text-stone-500' : ''}">${task.title}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button class="btn-edit-task text-coral-500 hover:text-coral-600 font-bold px-1 transition hover:scale-105" draggable="false" data-id="${task.id}">แก้ไข</button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+            };
+
+            fillMatrixBox('q1-list', matrix.q1, 'q1-count');
+            fillMatrixBox('q2-list', matrix.q2, 'q2-count');
+            fillMatrixBox('q3-list', matrix.q3, 'q3-count');
+            fillMatrixBox('q4-list', matrix.q4, 'q4-count');
+        };
+
+        // Render All Tasks List View (Applies same filters dynamically)
+        const renderFilteredTasks = () => {
+            const searchVal = filterSearchQuery.toLowerCase();
+            const activeCategory = filterActiveCategory;
+
+            let filtered = tasksState.filter(task => {
+                const matchesSearch = task.title.toLowerCase().includes(searchVal);
+                const matchesCategory = activeCategory === 'All' || task.category === activeCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            // Sort dates from nearest to furthest
+            filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+            const list = document.getElementById('all-tasks-list');
+            list.innerHTML = '';
+
+            if (filtered.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-10 text-stone-400 dark:text-stone-500">
+                        <span class="text-3xl">🎐</span>
+                        <p class="text-xs font-semibold mt-2">ไม่พบรายการงานที่ตรงกับเงื่อนไข</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(task => {
+                const isCompleted = task.status === 'Completed';
+                const daysDiff = getDaysDiffHelper(task.dueDate);
+                const isOverdue = !isCompleted && daysDiff < 0;
+                const isNearDue = !isCompleted && daysDiff >= 0 && daysDiff <= 3;
+
+                let cardBgClass = "bg-white dark:bg-stone-900 border-stone-100 dark:border-stone-800";
+                if (isCompleted) {
+                    cardBgClass = "bg-stone-50/70 dark:bg-stone-900/40 border-stone-100 dark:border-stone-850 opacity-65";
+                } else if (isOverdue) {
+                    cardBgClass = "bg-rose-50/30 dark:bg-rose-950/10 border-rose-200 dark:border-rose-950";
+                } else if (isNearDue) {
+                    cardBgClass = "bg-amber-50/20 dark:bg-amber-950/10 border-amber-200 dark:border-amber-950";
+                }
+
+                const item = document.createElement('div');
+                item.className = `p-3.5 rounded-2xl border transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 ${cardBgClass}`;
+                item.innerHTML = `
+                    <div class="flex items-start gap-3 min-w-0">
+                        <button class="btn-toggle-status mt-1 w-5.5 h-5.5 rounded-lg flex items-center justify-center border shrink-0 transition-all ${isCompleted ? 'bg-teal-500 border-teal-500 text-white' : 'border-stone-300 dark:border-stone-600 hover:border-coral-500 bg-white dark:bg-stone-850'}" data-id="${task.id}">
+                            ${isCompleted ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M5 13l4 4L19 7"/></svg>' : ''}
+                        </button>
+                        
+                        <div class="min-w-0">
+                          <p class="text-sm font-bold truncate text-stone-800 dark:text-stone-100 ${isCompleted ? 'line-through text-stone-400 dark:text-stone-500' : ''}">${task.title}</p>
+                          <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300">${task.category}</span>
+                              ${task.isUrgent ? '<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950 dark:text-rose-400 text-rose-600">ด่วน</span>' : ''}
+                              ${task.isImportant ? '<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950 dark:text-amber-400 text-amber-700">สำคัญ</span>' : ''}
+                              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${isOverdue ? 'bg-rose-500 text-white' : isNearDue ? 'bg-amber-400 text-stone-900 font-extrabold animate-pulse' : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300'}">
+                                  📆 ${task.dueDate} 
+                                  ${isOverdue ? ' (เลยกำหนด!)' : isNearDue ? ` (อีก ${daysDiff} วัน)` : ''}
+                              </span>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 self-end sm:self-center shrink-0 text-xs">
+                        <button class="btn-edit-task px-3 py-1.5 font-bold text-teal-600 dark:text-teal-400 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition" data-id="${task.id}">แก้ไข</button>
+                        <button class="btn-delete-task px-3 py-1.5 font-bold text-rose-500 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition" data-id="${task.id}">ลบ</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+
+            bindTasksSubcomponents();
+        };
+
+        // Alarm notification bell list items logic
+        const updateNotificationBell = () => {
+            const bellBadge = document.getElementById('bell-badge');
+            const bellItems = document.getElementById('bell-items');
+            
+            const upcoming = tasksState.filter(task => {
+                if (task.status === 'Completed') return false;
+                const diff = getDaysDiffHelper(task.dueDate);
+                return diff >= 0 && diff <= 3;
+            }).sort((a, b) => getDaysDiffHelper(a.dueDate) - getDaysDiffHelper(b.dueDate));
+
+            if (upcoming.length > 0) {
+                bellBadge.textContent = upcoming.length;
+                bellBadge.classList.remove('hidden');
+                
+                bellItems.innerHTML = '';
+                upcoming.forEach(task => {
+                    const days = getDaysDiffHelper(task.dueDate);
+                    const div = document.createElement('div');
+                    div.className = "p-2.5 bg-amber-50/70 dark:bg-amber-950/10 border border-amber-100 dark:border-amber-900/40 rounded-xl text-xs flex flex-col gap-1";
+                    div.innerHTML = `
+                        <div class="flex justify-between font-bold text-stone-800 dark:text-stone-100">
+                            <span class="truncate pr-1">${task.title}</span>
+                            <span class="text-amber-600 dark:text-amber-400 text-[10px] shrink-0 font-extrabold">${days === 0 ? 'วันนี้!' : `อีก ${days} วัน`}</span>
+                        </div>
+                        <div class="flex justify-end text-[10px] text-stone-400">
+                            <button class="text-coral-500 font-bold underline cursor-pointer btn-bell-view" data-id="${task.id}">จัดการภารกิจ</button>
+                        </div>
+                    `;
+                    bellItems.appendChild(div);
+                });
+
+                document.querySelectorAll('.btn-bell-view').forEach(btn => {
+                    btn.onclick = (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        const task = tasksState.find(t => t.id === id);
+                        if (task) {
+                            // Automatically switch tab to tab-matrix-tasks to show the item
+                            activeTab('tasks');
+                            openTaskForm(task);
+                        }
+                        document.getElementById('bell-dropdown').classList.add('hidden');
+                    };
+                });
+            } else {
+                bellBadge.classList.add('hidden');
+                bellItems.innerHTML = `<p class="text-center text-stone-400 py-6 text-xs font-semibold">ไม่มีรายการเดดไลน์ใน 3 วันนี้ ☀️</p>`;
+            }
+        };
+
+        // Bind dynamic elements actions inside rendered tasks
+        const bindTasksSubcomponents = () => {
+            
+            // Toggle task completed state
+            document.querySelectorAll('.btn-toggle-status').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    const task = tasksState.find(t => t.id === id);
+                    if (!task) return;
+
+                    const nextStatus = task.status === 'Completed' ? 'Todo' : 'Completed';
+                    if (nextStatus === 'Completed') {
+                        playSynthSound('complete');
+                    } else {
+                        playSynthSound('click');
+                    }
+
+                    try {
+                        if (db && auth.currentUser) {
+                            const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', id);
+                            await updateDoc(ref, { status: nextStatus, updatedAt: new Date().toISOString() });
+                        } else {
+                            // Local sandboxed Fallback
+                            tasksState = tasksState.map(t => t.id === id ? { ...t, status: nextStatus } : t);
+                            localStorage.setItem('tasky_offline_personal_tasks', JSON.stringify(tasksState));
+                            renderDashboardContent();
+                        }
+                        triggerToast(nextStatus === 'Completed' ? "ทำสำเร็จ ยอดเยี่ยมมาก! 🎉" : "ปรับเป็นรอดำเนินการ");
+                    } catch (err) {
+                        console.error(err);
+                    }
+                };
+            });
+
+            // Trigger Editing Dialog View
+            document.querySelectorAll('.btn-edit-task').forEach(btn => {
+                btn.onclick = (e) => {
+                    playSynthSound('click');
+                    const id = e.currentTarget.getAttribute('data-id');
+                    const task = tasksState.find(t => t.id === id);
+                    if (task) openTaskForm(task);
+                };
+            });
+
+            // Trigger Safe Custom Confirmation Modal for Deletion (No native prompt alerts)
+            document.querySelectorAll('.btn-delete-task').forEach(btn => {
+                btn.onclick = (e) => {
+                    playSynthSound('click');
+                    const id = e.currentTarget.getAttribute('data-id');
+                    const task = tasksState.find(t => t.id === id);
+                    if (task) {
+                        const modal = document.getElementById('modal-delete');
+                        const labelText = document.getElementById('delete-item-title');
+                        const confirmBtn = document.getElementById('btn-delete-confirm');
+
+                        labelText.textContent = `"${task.title}"`;
+                        modal.classList.remove('hidden');
+
+                        confirmBtn.onclick = async () => {
+                            playSynthSound('delete');
+                            try {
+                                if (db && auth.currentUser) {
+                                    const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', id);
+                                    await deleteDoc(ref);
+                                } else {
+                                    tasksState = tasksState.filter(t => t.id !== id);
+                                    localStorage.setItem('tasky_offline_personal_tasks', JSON.stringify(tasksState));
+                                    renderDashboardContent();
+                                }
+                                triggerToast("ลบรายการงานเรียบร้อยแล้ว");
+                            } catch (err) {
+                                console.error(err);
+                            } finally {
+                                modal.classList.add('hidden');
+                            }
+                        };
+                    }
+                };
+            });
+        };
+
+        // Form open handler
+        const openTaskForm = (task = null) => {
+            const modal = document.getElementById('modal-task');
+            const titleLabel = document.getElementById('modal-task-title');
+            
+            // Node references
+            const editId = document.getElementById('edit-task-id');
+            const titleInp = document.getElementById('task-title');
+            const dateInp = document.getElementById('task-due-date');
+            const catInp = document.getElementById('task-category');
+            const statusInp = document.getElementById('task-status');
+            const checkUrgent = document.getElementById('task-is-urgent');
+            const checkImportant = document.getElementById('task-is-important');
+
+            dateInp.value = new Date().toISOString().split('T')[0];
+
+            if (task) {
+                titleLabel.textContent = '📝 แก้ไขรายละเอียดงาน';
+                editId.value = task.id;
+                titleInp.value = task.title;
+                dateInp.value = task.dueDate;
+                catInp.value = task.category;
+                statusInp.value = task.status;
+                checkUrgent.checked = task.isUrgent;
+                checkImportant.checked = task.isImportant;
+            } else {
+                titleLabel.textContent = '🚀 สร้างงานใหม่';
+                editId.value = '';
+                titleInp.value = '';
+                catInp.value = 'งาน';
+                statusInp.value = 'Todo';
+                checkUrgent.checked = false;
+                checkImportant.checked = false;
+            }
+
+            modal.classList.remove('hidden');
+        };
+
+        // Profile Form Setup
+        document.getElementById('form-profile').onsubmit = (e) => {
+            e.preventDefault();
+            playSynthSound('complete');
+            const nameVal = document.getElementById('profile-name-input').value.trim();
+            if (nameVal) {
+                localStorage.setItem('tasky_personal_username', nameVal);
+                currentUserData.name = nameVal;
+                document.getElementById('user-display-name').textContent = nameVal;
+                document.getElementById('display-greeting-name').textContent = nameVal;
+                document.getElementById('user-avatar').textContent = nameVal.charAt(0).toUpperCase();
+                document.getElementById('modal-profile').classList.add('hidden');
+                triggerToast(`ยินดีต้อนรับคุณ ${nameVal}!`);
+            }
+        };
+
+        // Form task create/edit submit
+        document.getElementById('form-task').onsubmit = async (e) => {
+            e.preventDefault();
+            playSynthSound('complete');
+
+            const id = document.getElementById('edit-task-id').value;
+            const title = document.getElementById('task-title').value.trim();
+            const dueDate = document.getElementById('task-due-date').value;
+            const category = document.getElementById('task-category').value;
+            const status = document.getElementById('task-status').value;
+            const isUrgent = document.getElementById('task-is-urgent').checked;
+            const isImportant = document.getElementById('task-is-important').checked;
+
+            const taskModel = {
+                title,
+                dueDate,
+                category,
+                status,
+                isUrgent,
+                isImportant,
+                updatedAt: new Date().toISOString()
+            };
+
+            try {
+                if (db && auth.currentUser) {
+                    if (id) {
+                        const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', id);
+                        await updateDoc(ref, taskModel);
+                        triggerToast("บันทึกการแก้ไขแล้ว!");
+                    } else {
+                        taskModel.createdAt = new Date().toISOString();
+                        const ref = collection(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks');
+                        await addDoc(ref, taskModel);
+                        triggerToast("สร้างเป้าหมายใหม่เรียบร้อยแล้ว!");
+                    }
+                } else {
+                    // Local fallback triggers
+                    if (id) {
+                        tasksState = tasksState.map(t => t.id === id ? { ...t, ...taskModel } : t);
+                    } else {
+                        const localTask = {
+                            id: 'local_' + Date.now(),
+                            createdAt: new Date().toISOString(),
+                            ...taskModel
+                        };
+                        tasksState.push(localTask);
+                    }
+                    localStorage.setItem('tasky_offline_personal_tasks', JSON.stringify(tasksState));
+                    renderDashboardContent();
+                    triggerToast("บันทึกข้อมูลเรียบร้อย!");
+                }
+            } catch (err) {
+                console.error(err);
+                triggerToast("พบปัญหาในการบันทึกข้อมูล", "error");
+            } finally {
+                document.getElementById('modal-task').classList.add('hidden');
+            }
+        };
+
+        // Save daily focus action
+        document.getElementById('btn-save-focus').onclick = () => {
+            playSynthSound('complete');
+            const focusInput = document.getElementById('input-daily-focus').value.trim();
+            localStorage.setItem('tasky_daily_focus', focusInput);
+            triggerToast("บันทึกจุดโฟกัสประจำวันแล้ว ลุยเลย! ☀️");
+        };
+
+        // TAB NAVIGATION CONTROLLER (TABS AT TOP)
+        const activeTab = (tabId) => {
+            playSynthSound('click');
+            const overviewBtn = document.getElementById('tab-overview');
+            const matrixTasksBtn = document.getElementById('tab-matrix-tasks');
+            const overviewSec = document.getElementById('view-section-overview');
+            const matrixTasksSec = document.getElementById('view-section-matrix-tasks');
+
+            // Reset Tab Button Styling to Neutral States
+            [overviewBtn, matrixTasksBtn].forEach(btn => {
+                btn.className = "tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 border border-transparent";
+            });
+
+            // Highlight and Switch
+            if (tabId === 'overview') {
+                overviewBtn.className = "tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all bg-white dark:bg-stone-900 shadow-sm border border-stone-200/50 dark:border-stone-800 text-coral-600 dark:text-coral-400";
+                overviewSec.classList.remove('hidden');
+                overviewSec.classList.add('block');
+                matrixTasksSec.classList.add('hidden');
+                matrixTasksSec.classList.remove('block');
+            } else {
+                matrixTasksBtn.className = "tab-btn flex-1 md:flex-initial px-5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all bg-white dark:bg-stone-900 shadow-sm border border-stone-200/50 dark:border-stone-800 text-coral-600 dark:text-coral-400";
+                matrixTasksSec.classList.remove('hidden');
+                matrixTasksSec.classList.add('block');
+                overviewSec.classList.add('hidden');
+                overviewSec.classList.remove('block');
+            }
+        };
+
+        // Tab selection events
+        document.getElementById('tab-overview').onclick = () => activeTab('overview');
+        document.getElementById('tab-matrix-tasks').onclick = () => activeTab('tasks');
+
+        // Other generic system handlers
+        document.getElementById('btn-create-task-top').onclick = () => {
+            playSynthSound('click');
+            openTaskForm();
+        };
+
+        document.getElementById('btn-modal-task-close').onclick = () => {
+            document.getElementById('modal-task').classList.add('hidden');
+        };
+        document.getElementById('btn-modal-task-cancel').onclick = () => {
+            document.getElementById('modal-task').classList.add('hidden');
+        };
+        document.getElementById('btn-delete-cancel').onclick = () => {
+            document.getElementById('modal-delete').classList.add('hidden');
+        };
+
+        document.getElementById('btn-edit-profile').onclick = () => {
+            playSynthSound('click');
+            const currentName = localStorage.getItem('tasky_personal_username');
+            document.getElementById('profile-name-input').value = currentName || '';
+            document.getElementById('modal-profile').classList.remove('hidden');
+        };
+
+        // Sound Engine triggers toggle
+        document.getElementById('btn-sound-toggle').onclick = () => {
+            isSoundEnabled = !isSoundEnabled;
+            document.getElementById('sound-icon-state').textContent = isSoundEnabled ? '🔊' : '🔇';
+            playSynthSound('click');
+        };
+
+        // Interactive Notification dropdown triggers
+        document.getElementById('btn-bell').onclick = () => {
+            playSynthSound('click');
+            const dd = document.getElementById('bell-dropdown');
+            dd.classList.toggle('hidden');
+        };
+        document.getElementById('btn-bell-close').onclick = () => {
+            document.getElementById('bell-dropdown').classList.add('hidden');
+        };
+
+        // Text query search trigger
+        document.getElementById('search-input').oninput = (e) => {
+            filterSearchQuery = e.target.value;
+            renderMatrixLists();
+            renderFilteredTasks();
+        };
+
+        // Category pill switcher action triggers (Filtes Matrix Board + Tasks instantly)
+        document.querySelectorAll('.filter-bubble-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                playSynthSound('click');
+                document.querySelectorAll('.filter-bubble-btn').forEach(b => {
+                    b.className = "filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700";
+                });
+                e.target.className = "filter-bubble-btn active px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-coral-500 text-white shadow-sm";
+                filterActiveCategory = e.target.getAttribute('data-category');
+                renderMatrixLists();
+                renderFilteredTasks();
+            };
+        });
+
+        // Theme modes toggle triggers (Smooth Transitions and Icons)
+        document.getElementById('btn-theme-toggle').onclick = () => {
+            playSynthSound('click');
+            const isDark = document.documentElement.classList.contains('dark');
+            setDarkMode(!isDark);
+        };
     </script>
 </body>
 </html>
-
-
 
