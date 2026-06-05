@@ -63,7 +63,32 @@
             }
         }
     </script>
-    
+    // --- ส่วนของรหัสตั้งค่าสำหรับ FIREBASE CONFIGURATION ---
+// คัดลอกโค้ดโครงสร้างตั้งค่าจากโปรเจกต์ Firebase ของคุณมาวางทับส่วนนี้ได้เลยครับ
+const firebaseConfig = {
+    apiKey: "AIzaSyC4YX2mYgptRc8KlLWfvMGr1zYyuWSkRj4",
+  authDomain: "my-task-app-e6cc3.firebaseapp.com",
+  databaseURL: "https://my-task-app-e6cc3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "my-task-app-e6cc3",
+  storageBucket: "my-task-app-e6cc3.firebasestorage.app",
+  messagingSenderId: "686196651721",
+  appId: "1:686196651721:web:73c7ec34c6185d60117f18",
+  measurementId: "G-7PHER23QH1"
+};
+// ตรวจเช็กและทำการเริ่มระบบฐานข้อมูล Firebase
+let db = null;
+let isFirebaseInitialized = false;
+
+try {
+    if (firebaseConfig.apiKey !== "YOUR_FIREBASE_CONFIG_API_KEY") {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        isFirebaseInitialized = true;
+        console.log("Firebase Database ได้รับการตั้งค่าเรียบร้อยแล้ว");
+    }
+} catch (e) {
+    console.error("เกิดข้อผิดพลาดในการเริ่มระบบ Firebase:", e);
+}
     <style>
         body {
             font-family: 'Inter', sans-serif;
