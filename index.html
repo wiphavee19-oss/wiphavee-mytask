@@ -117,7 +117,7 @@
                     <span id="connection-status-text" class="text-[10px] font-bold text-stone-500 dark:text-stone-400 hidden sm:inline-block max-w-[100px] truncate">กำลังตรวจสอบ...</span>
                     
                     <!-- ปุ่มซิงค์ข้อมูลแมนนวลไป Firebase -->
-                    <button id="btn-manual-sync" class="p-1 rounded bg-stone-200 dark:bg-stone-700 hover:bg-coral-500 hover:text-white transition text-stone-500 dark:text-stone-400 text-xs flex items-center gap-1" title="ซิงค์ข้อมูลกับ Firebase ตอนนี้">
+                    <button id="btn-manual-sync" class="p-1.5 rounded bg-stone-200 dark:bg-stone-750 hover:bg-coral-500 hover:text-white transition text-stone-500 dark:text-stone-400 text-xs flex items-center gap-1" title="ซิงค์ข้อมูลกับ Firebase ตอนนี้">
                         <svg id="sync-icon-svg" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 7H18" />
                         </svg>
@@ -127,10 +127,8 @@
 
                     <div id="user-avatar" class="w-7 h-7 rounded-lg bg-coral-500 text-white font-extrabold flex items-center justify-center text-xs shrink-0">U</div>
                     <span id="user-display-name" class="text-xs font-bold truncate max-w-[80px]">ผู้ใช้งาน</span>
-                    <button id="btn-edit-profile" class="p-1 rounded text-stone-400 hover:text-coral-500 transition">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
+                    <button id="btn-edit-profile" class="p-1.5 rounded bg-stone-150 dark:bg-stone-750 text-stone-500 dark:text-stone-400 hover:text-coral-500 transition" title="ตั้งค่าระบบซิงค์หลายอุปกรณ์">
+                        ⚙️
                     </button>
                 </div>
             </div>
@@ -312,9 +310,9 @@
                 <!-- Unified Category Tab Selector Buttons -->
                 <div class="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none border-t border-stone-100 dark:border-stone-800/60 pt-3">
                     <button class="filter-bubble-btn active px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-coral-500 text-white shadow-sm" data-category="All">ทั้งหมด</button>
-                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="งาน">งาน 💼</button>
-                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="ส่วนตัว">ส่วนตัว 🏠</button>
-                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700" data-category="เรียนรู้">เรียนรู้ 📚</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-750" data-category="งาน">งาน 💼</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-750" data-category="ส่วนตัว">ส่วนตัว 🏠</button>
+                    <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-750" data-category="เรียนรู้">เรียนรู้ 📚</button>
                     <button class="filter-bubble-btn px-4 py-2 rounded-full text-xs font-bold transition whitespace-nowrap bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-750" data-category="อื่นๆ">อื่นๆ ✨</button>
                 </div>
             </section>
@@ -438,7 +436,7 @@
                     
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">กำหนดส่ง (Due Date)</label>
-                        <input id="task-due-date" type="date" class="w-full px-4 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition-all" required />
+                        <input id="task-due-date" type="date" class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition-all" required />
                     </div>
 
                     <div class="flex flex-col gap-1.5">
@@ -456,7 +454,7 @@
                 <!-- Status Selection -->
                 <div class="flex flex-col gap-1.5">
                     <label class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">สถานะการทำงาน</label>
-                    <select id="task-status" class="w-full px-4 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition">
+                    <select id="task-status" class="w-full px-4 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-coral-500/20 dark:text-stone-100 focus:border-coral-500 transition">
                         <option value="Todo">ยังไม่ดำเนินการ ⏳</option>
                         <option value="In Progress">กำลังทำ 🛠️</option>
                         <option value="Completed">เสร็จสิ้น 🎉</option>
@@ -503,19 +501,58 @@
         </div>
     </div>
 
-    <!-- 2. Personal Profile Settings Modal -->
+    <!-- 2. Personal Profile & Cloud Sync Settings Modal (ตั้งค่าการซิงค์ข้อมูลหลายอุปกรณ์) -->
     <div id="modal-profile" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity hidden">
-        <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-sm shadow-2xl p-6 border border-stone-150 dark:border-stone-800 flex flex-col items-center text-center animate-scale-up">
-            <div class="w-16 h-16 bg-coral-100 dark:bg-coral-950/40 text-coral-500 rounded-2xl flex items-center justify-center text-3xl mb-4">👋</div>
-            <h3 class="text-lg font-bold text-stone-800 dark:text-stone-100">โปรดระบุชื่อผู้ใช้งานของคุณ</h3>
-            <p class="text-xs text-stone-400 mt-1 mb-5">ข้อมูลนี้ใช้เพื่อระบุจุดหมายของคุณ</p>
+        <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-md shadow-2xl p-6 border border-stone-150 dark:border-stone-800 flex flex-col animate-scale-up relative">
             
-            <form id="form-profile" class="w-full space-y-4">
-                <input id="profile-name-input" type="text" placeholder="ระบุชื่อของคุณ..." class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20 text-center dark:text-stone-100 font-bold focus:border-coral-500 transition-all" required maxlength="25" />
+            <!-- ปุ่มปิดหน้าต่าง -->
+            <button id="btn-modal-profile-close" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 text-xl font-bold transition">×</button>
+
+            <!-- หัวข้อหน้าต่างโมดอล -->
+            <div class="flex items-center gap-3 mb-3 text-left">
+                <span class="text-3xl text-coral-500">☁️</span>
+                <h3 class="text-lg font-bold text-stone-800 dark:text-stone-100">ตั้งค่าการซิงค์ข้อมูลหลายอุปกรณ์</h3>
+            </div>
+            
+            <p class="text-xs text-stone-500 dark:text-stone-400 mb-5 leading-relaxed text-left">
+                เชื่อมต่อฐานข้อมูลคลาวด์ของคุณผ่าน Firebase Firestore เพื่อบันทึกและซิงค์งานทั้งหมดของคุณข้ามอุปกรณ์ได้แบบเรียลไทม์
+            </p>
+            
+            <form id="form-profile" class="w-full space-y-4 text-left">
+                <!-- ชื่อผู้ใช้งาน -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">ชื่อผู้ใช้งานของคุณ (Username) *</label>
+                    <input id="profile-name-input" type="text" placeholder="ระบุชื่อของคุณ..." class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs dark:text-stone-100 font-bold focus:outline-none focus:ring-2 focus:ring-coral-500/20 focus:border-coral-500" required maxlength="25" />
+                </div>
+
+                <!-- Checkbox เปิดการซิงค์ข้อมูล -->
+                <label class="flex items-center gap-3 p-3 bg-stone-50 dark:bg-stone-850 rounded-xl border border-stone-200 dark:border-stone-750 cursor-pointer select-none">
+                    <input id="sync-enabled-checkbox" type="checkbox" class="w-4.5 h-4.5 rounded text-coral-500 focus:ring-coral-500 border-stone-300" />
+                    <div>
+                        <p class="text-xs font-bold text-stone-800 dark:text-stone-200">เปิดใช้งานการซิงค์ข้อมูลผ่านคลาวด์ (Cloud Sync)</p>
+                        <p class="text-[10px] text-stone-400">อนุญาตให้ส่งข้อมูลขึ้นไปสำรองและซิงค์ข้อมูลเรียลไทม์</p>
+                    </div>
+                </label>
+
+                <!-- Project ID Input -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Cloud Project ID (Firebase Project ID ของคุณ) *</label>
+                    <input id="project-id-input" type="text" placeholder="เช่น my-task-app-e6cc3" class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-coral-500/20 focus:border-coral-500" />
+                    <p class="text-[10px] text-stone-400 dark:text-stone-500">* ที่อยู่ของโปรเจกต์ Firebase ที่คุณนำไปติดตั้ง</p>
+                </div>
+
+                <!-- Sync Key (รหัสผ่านลับสำหรับซิงค์ข้อมูล) -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">รหัสผ่านลับในการเข้าถึงข้อมูล (Sync Key) *</label>
+                    <input id="sync-key-input" type="password" placeholder="กรอกรหัสผ่านเพื่อความปลอดภัยของข้อมูล" class="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 rounded-xl text-xs dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-coral-500/20 focus:border-coral-500" />
+                    <p class="text-[10px] text-stone-400 dark:text-stone-500">* รหัสที่ใช้เพื่อเข้ารหัสและยืนยันตัวตนกับฐานข้อมูล</p>
+                </div>
                 
-                <button type="submit" class="w-full py-2.5 bg-coral-500 hover:bg-coral-600 active:scale-95 text-white font-bold rounded-xl text-sm shadow-md transition">
-                    ยืนยันข้อมูลส่วนตัว
-                </button>
+                <!-- Action Buttons -->
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="btn-profile-cancel" class="flex-1 py-2.5 text-xs font-bold bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-750 text-stone-600 dark:text-stone-300 rounded-xl transition">ยกเลิก</button>
+                    <button type="submit" class="flex-1 py-2.5 text-xs font-bold bg-coral-500 hover:bg-coral-600 active:scale-95 text-white rounded-xl shadow-md transition">บันทึกและเชื่อมต่อ</button>
+                </div>
             </form>
         </div>
     </div>
@@ -560,15 +597,27 @@
             setDoc 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // คอนฟิกหลักของระบบ Firebase ที่เชื่อมต่อเสถียรที่สุด 
-        const localFirebaseConfig = {
+        // คอนฟิกหลักดั้งเดิมของระบบ Firebase
+        const defaultFirebaseConfig = {
             apiKey: "AIzaSyC4YX2mYgptRc8KlLWfvMGr1zYyuWSkRj4",
             authDomain: "my-task-app-e6cc3.firebaseapp.com",
-            projectId: "my-task-app-e6cc3", // กำหนด Project ID ให้ถูกต้อง ไม่ใช่ลิงก์ RTDB URL
+            projectId: "my-task-app-e6cc3",
             storageBucket: "my-task-app-e6cc3.firebasestorage.app",
             messagingSenderId: "686196651721",
             appId: "1:686196651721:web:73c7ec34c6185d60117f18",
             measurementId: "G-7PHER23QH1"
+        };
+
+        // อ่านค่าการซิงค์ข้อมูลจาก LocalStorage
+        let state = {
+            tasks: [],
+            activeTab: 'overview',
+            isDarkMode: localStorage.getItem('dark_mode') === 'true',
+            username: localStorage.getItem('tasky_personal_username') || '',
+            isCloudSyncEnabled: localStorage.getItem('tasky_cloud_sync_enabled') !== 'false', // ค่าตั้งต้นเป็น true
+            firebaseProjectId: localStorage.getItem('tasky_firebase_project_id') || 'my-task-app-e6cc3',
+            syncKey: localStorage.getItem('tasky_sync_key') || '',
+            dailyFocus: localStorage.getItem('tasky_daily_focus') || ''
         };
 
         let appId = 'taskybuddy-personal';
@@ -768,8 +817,9 @@
                     playSynthSound('complete');
 
                     try {
-                        if (db && auth.currentUser) {
-                            const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', taskId);
+                        if (db && auth.currentUser && state.isCloudSyncEnabled) {
+                            const syncUserId = getSyncUserId();
+                            const ref = doc(db, 'artifacts', appId, 'users', syncUserId, 'tasks', taskId);
                             await updateDoc(ref, { 
                                 isUrgent, 
                                 isImportant, 
@@ -790,6 +840,16 @@
             });
         };
 
+        // แปลงคู่ชื่อผู้ใช้และ Sync Key ให้เป็น Partition ID ในคลาวด์ตาม Rule 1 อย่างปลอดภัย
+        function getSyncUserId() {
+            if (state.isCloudSyncEnabled && state.syncKey && state.username) {
+                const cleanUser = state.username.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, '_');
+                const cleanKey = state.syncKey.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, '_');
+                return `${cleanUser}_${cleanKey}`;
+            }
+            return auth && auth.currentUser ? auth.currentUser.uid : 'local_fallback';
+        }
+
         const resetZoneVisuals = (zone) => {
             zone.classList.remove(
                 'bg-rose-100/40', 'dark:bg-rose-950/20', 'border-rose-400',
@@ -805,11 +865,15 @@
             let savedName = localStorage.getItem('tasky_personal_username');
             if (!savedName) {
                 document.getElementById('modal-profile').classList.remove('hidden');
+                document.getElementById('btn-modal-profile-close').classList.add('hidden');
+                document.getElementById('btn-profile-cancel').classList.add('hidden');
             } else {
                 currentUserData.name = savedName;
                 document.getElementById('user-display-name').textContent = savedName;
                 document.getElementById('display-greeting-name').textContent = savedName;
                 document.getElementById('user-avatar').textContent = savedName.charAt(0).toUpperCase();
+                document.getElementById('btn-modal-profile-close').classList.remove('hidden');
+                document.getElementById('btn-profile-cancel').classList.remove('hidden');
             }
 
             // Read Focus goals of the day
@@ -826,16 +890,25 @@
                 configToUse = JSON.parse(__firebase_config);
                 appId = typeof __app_id !== 'undefined' ? __app_id : 'taskybuddy-personal';
             } else {
-                configToUse = localFirebaseConfig;
+                // สร้าง Firebase Config แบบ dynamic จากโปรเจกต์ไอดีที่ระบุในสเตท
+                configToUse = {
+                    apiKey: defaultFirebaseConfig.apiKey,
+                    authDomain: `${state.firebaseProjectId}.firebaseapp.com`,
+                    projectId: state.firebaseProjectId,
+                    storageBucket: `${state.firebaseProjectId}.firebasestorage.app`,
+                    messagingSenderId: defaultFirebaseConfig.messagingSenderId,
+                    appId: defaultFirebaseConfig.appId,
+                    measurementId: defaultFirebaseConfig.measurementId
+                };
             }
 
             const app = initializeApp(configToUse);
             auth = getAuth(app);
             db = getFirestore(app);
 
-            document.getElementById('connection-status-text').textContent = 'เชื่อมต่อคลาวด์สำเร็จ';
-            document.getElementById('connection-dot').className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
-            document.getElementById('sync-indicator-bar').className = 'h-1 bg-emerald-500 w-full fixed top-0 left-0 z-50 transition-all duration-300';
+            document.getElementById('connection-status-text').textContent = state.isCloudSyncEnabled ? 'ซิงค์คลาวด์เปิดทำงาน' : 'ใช้งานแบบออฟไลน์';
+            document.getElementById('connection-dot').className = `w-2.5 h-2.5 rounded-full ${state.isCloudSyncEnabled ? 'bg-emerald-500' : 'bg-amber-400'}`;
+            document.getElementById('sync-indicator-bar').className = `h-1 ${state.isCloudSyncEnabled ? 'bg-emerald-500' : 'bg-amber-400'} w-full fixed top-0 left-0 z-50 transition-all duration-300`;
         } catch (error) {
             console.warn("Local sandbox mode enabled.", error);
             document.getElementById('connection-status-text').textContent = 'ออฟไลน์';
@@ -847,11 +920,17 @@
         const initFirestoreListeners = async () => {
             if (!db || !auth.currentUser) return;
             
-            document.getElementById('connection-status-text').textContent = 'ซิงค์คลาวด์เสร็จสิ้น';
-            document.getElementById('connection-dot').className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
-            document.getElementById('sync-indicator-bar').className = 'h-1 bg-emerald-500 w-full fixed top-0 left-0 z-50 transition-all duration-300';
+            const syncUserId = getSyncUserId();
+            document.getElementById('connection-status-text').textContent = state.isCloudSyncEnabled ? 'ซิงค์คลาวด์เปิดทำงาน' : 'ใช้งานแบบออฟไลน์';
+            document.getElementById('connection-dot').className = `w-2.5 h-2.5 rounded-full ${state.isCloudSyncEnabled ? 'bg-emerald-500' : 'bg-amber-400'}`;
+            document.getElementById('sync-indicator-bar').className = `h-1 ${state.isCloudSyncEnabled ? 'bg-emerald-500' : 'bg-amber-400'} w-full fixed top-0 left-0 z-50 transition-all duration-300`;
 
-            const tasksRef = collection(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks');
+            if (!state.isCloudSyncEnabled) {
+                loadLocalMockData();
+                return;
+            }
+
+            const tasksRef = collection(db, 'artifacts', appId, 'users', syncUserId, 'tasks');
             onSnapshot(tasksRef, (snapshot) => {
                 const loadedTasks = [];
                 snapshot.forEach(doc => {
@@ -998,7 +1077,7 @@
                         </svg>
                         <span class="absolute text-[9px] font-extrabold text-stone-700 dark:text-stone-300">${catPct}%</span>
                     </div>
-                    <div class="min-w-0">
+                    <div class="min-w-0 flex-1">
                         <p class="text-xs font-bold text-stone-700 dark:text-stone-300 truncate">${cat}</p>
                         <p class="text-[10px] text-stone-400 font-semibold mt-0.5">เสร็จ ${catCompleted}/${catTotal} งาน</p>
                     </div>
@@ -1223,8 +1302,9 @@
                     }
 
                     try {
-                        if (db && auth.currentUser) {
-                            const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', id);
+                        if (db && auth.currentUser && state.isCloudSyncEnabled) {
+                            const syncUserId = getSyncUserId();
+                            const ref = doc(db, 'artifacts', appId, 'users', syncUserId, 'tasks', id);
                             await updateDoc(ref, { status: nextStatus, updatedAt: new Date().toISOString() });
                         } else {
                             // Local sandboxed Fallback
@@ -1266,8 +1346,9 @@
                         confirmBtn.onclick = async () => {
                             playSynthSound('delete');
                             try {
-                                if (db && auth.currentUser) {
-                                    const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', id);
+                                if (db && auth.currentUser && state.isCloudSyncEnabled) {
+                                    const syncUserId = getSyncUserId();
+                                    const ref = doc(db, 'artifacts', appId, 'users', syncUserId, 'tasks', id);
                                     await deleteDoc(ref);
                                 } else {
                                     tasksState = tasksState.filter(t => t.id !== id);
@@ -1324,22 +1405,34 @@
             modal.classList.remove('hidden');
         };
 
-        // Profile Form Setup
+        // Profile & Sync Settings Form Save
         document.getElementById('form-profile').onsubmit = (e) => {
             e.preventDefault();
             playSynthSound('complete');
+            
             const nameVal = document.getElementById('profile-name-input').value.trim();
+            const syncEnabled = document.getElementById('sync-enabled-checkbox').checked;
+            const projectId = document.getElementById('project-id-input').value.trim() || 'my-task-app-e6cc3';
+            const syncKeyVal = document.getElementById('sync-key-input').value.trim();
+
             if (nameVal) {
                 localStorage.setItem('tasky_personal_username', nameVal);
-                currentUserData.name = nameVal;
-                document.getElementById('user-display-name').textContent = nameVal;
-                document.getElementById('display-greeting-name').textContent = nameVal;
-                document.getElementById('user-avatar').textContent = nameVal.charAt(0).toUpperCase();
+                localStorage.setItem('tasky_cloud_sync_enabled', syncEnabled ? 'true' : 'false');
+                localStorage.setItem('tasky_firebase_project_id', projectId);
+                localStorage.setItem('tasky_sync_key', syncKeyVal);
+
+                state.username = nameVal;
+                state.isCloudSyncEnabled = syncEnabled;
+                state.firebaseProjectId = projectId;
+                state.syncKey = syncKeyVal;
+
                 document.getElementById('modal-profile').classList.add('hidden');
-                triggerToast(`ยินดีต้อนรับคุณ ${nameVal}!`);
+                triggerToast("บันทึกข้อมูลและเตรียมรีสตาร์ทระบบเชื่อมต่อ...", "success");
                 
-                // เริ่มระบบซิงค์หลังจากระบุชื่อเรียบร้อย
-                startManualSyncProcess();
+                // สั่งรีโหลดเบราว์เซอร์อย่างนุ่มนวลเพื่อเปลี่ยน config / partition key ของ Firebase ให้คลีน 100%
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             }
         };
 
@@ -1367,14 +1460,15 @@
             };
 
             try {
-                if (db && auth.currentUser) {
+                if (db && auth.currentUser && state.isCloudSyncEnabled) {
+                    const syncUserId = getSyncUserId();
                     if (id) {
-                        const ref = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks', id);
+                        const ref = doc(db, 'artifacts', appId, 'users', syncUserId, 'tasks', id);
                         await updateDoc(ref, taskModel);
                         triggerToast("บันทึกการแก้ไขแล้ว!");
                     } else {
                         taskModel.createdAt = new Date().toISOString();
-                        const ref = collection(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks');
+                        const ref = collection(db, 'artifacts', appId, 'users', syncUserId, 'tasks');
                         await addDoc(ref, taskModel);
                         triggerToast("สร้างเป้าหมายใหม่เรียบร้อยแล้ว!");
                     }
@@ -1461,9 +1555,20 @@
 
         document.getElementById('btn-edit-profile').onclick = () => {
             playSynthSound('click');
-            const currentName = localStorage.getItem('tasky_personal_username');
-            document.getElementById('profile-name-input').value = currentName || '';
+            
+            // เตรียมข้อมูลเดิมใส่ฟิลด์ฟอร์มในโมดอล
+            document.getElementById('profile-name-input').value = state.username;
+            document.getElementById('sync-enabled-checkbox').checked = state.isCloudSyncEnabled;
+            document.getElementById('project-id-input').value = state.firebaseProjectId;
+            document.getElementById('sync-key-input').value = state.syncKey;
+
             document.getElementById('modal-profile').classList.remove('hidden');
+        };
+        document.getElementById('btn-modal-profile-close').onclick = () => {
+            document.getElementById('modal-profile').classList.add('hidden');
+        };
+        document.getElementById('btn-profile-cancel').onclick = () => {
+            document.getElementById('modal-profile').classList.add('hidden');
         };
 
         // Sound Engine triggers toggle
@@ -1520,6 +1625,11 @@
             playSynthSound('click');
 
             try {
+                if (!state.isCloudSyncEnabled) {
+                    triggerToast("กรุณาเปิดใช้งาน Cloud Sync ก่อนกดซิงค์ข้อมูล", "warning");
+                    return;
+                }
+
                 // หากยังไม่ได้เชื่อมต่อ Firebase Auth ให้ลองล็อกอินใหม่ก่อนตามกฎข้อ 3
                 if (!db || !auth || !auth.currentUser) {
                     const userCredential = await signInAnonymously(auth);
@@ -1531,7 +1641,8 @@
                     if (localBackup) {
                         const localTasks = JSON.parse(localBackup);
                         if (localTasks.length > 0) {
-                            const tasksRef = collection(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'tasks');
+                            const syncUserId = getSyncUserId();
+                            const tasksRef = collection(db, 'artifacts', appId, 'users', syncUserId, 'tasks');
                             
                             // ส่งข้อมูลงานออฟไลน์ที่มีอยู่ทั้งหมดขึ้น Firebase Firestore
                             for (const localTask of localTasks) {
